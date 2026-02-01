@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
   listContent: {
     padding: 20,
   },
+  emptyList: {
+    flex: 1,
+    paddingTop: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   treinoCard: {
     backgroundColor: '#fff',
     borderRadius: 15,

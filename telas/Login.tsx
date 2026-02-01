@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './styles/Login';
+import styles from '../styles/Login';
+import { loginWithEmail } from '../src/services/auth';
 
-export default function Login({ navigation }: any) {
+export default function Login({ navigation, route }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // Recebe userType da tela Inicio ('personal' ou 'aluno')
+  const userType = route?.params?.userType || 'aluno';
 
   const handleLogin = () => {
-    // Navega para TelaAluno passando os dados do login
-    navigation.navigate('TelaAluno', { 
-      userData: { email, nome: 'Usuário' } 
-    });
+    if (!email || !password) {
+      Alert.alert('Erro', 'Preencha email e senha');
+      return;
+    }
+
+    setLoading(true);
+    loginWithEmail(email, password)
+      .then(({ user }) => {
+        const destino = userType === 'personal' ? 'AreaTreinador' : 'TelaAluno';
+        navigation.navigate(destino, { userData: { email: user.email, uid: user.uid, userType } });
+      })
+      .catch((err) => {
+        const message = err?.message || 'Erro ao fazer login';
+        Alert.alert('Login falhou', message);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleForgotPassword = () => {
@@ -19,7 +36,7 @@ export default function Login({ navigation }: any) {
   };
 
   const handleSignUp = () => {
-    navigation.navigate('Cadastro');
+    navigation.navigate('Cadastro', { userType });
   };
 
   const handleTrainerAccess = () => {
@@ -36,9 +53,9 @@ export default function Login({ navigation }: any) {
         {/* Logo */}
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-            <Ionicons name="fitness" size={60} color="#007AFF" />
-            <Text style={styles.title}>FitSync</Text>
-          </View>
+              <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
+              {/* Removed FitSync text; logo already contains the name */}
+            </View>
           <Text style={styles.subtitle}>Faça login para continuar</Text>
         </View>
 
@@ -81,14 +98,17 @@ export default function Login({ navigation }: any) {
             <Text style={styles.forgotPassword}>Esqueci minha senha</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Ionicons name="person" size={20} color="#fff" style={styles.buttonIcon} />
-            <Text style={styles.loginButtonText}>Entrar como Cliente</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.trainerButton} onPress={handleTrainerAccess}>
-            <Ionicons name="barbell" size={20} color="#007AFF" style={styles.buttonIcon} />
-            <Text style={styles.trainerButtonText}>Área do Treinador</Text>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <>
+                <Ionicons name={userType === 'personal' ? 'barbell' : 'person'} size={20} color="#fff" style={styles.buttonIcon} />
+                <Text style={styles.loginButtonText}>
+                  {userType === 'personal' ? 'Entrar como Personal' : 'Entrar como Aluno'}
+                </Text>
+              </>
+            )}
           </TouchableOpacity>
         </View>
 

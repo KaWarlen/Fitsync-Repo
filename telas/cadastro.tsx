@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from './styles/Cadastro1';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import styles from '../styles/Cadastro1';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
-  onSkip?: () => void;
 }
 
-export default function CadastroEtapa1({ onNext, onSkip }: CadastroEtapa1Props) {
-  const [nome, setNome] = useState('');
+export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
+  const [primeiroNome, setPrimeiroNome] = useState('');
+  const [nomeDoMeio, setNomeDoMeio] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [idade, setIdade] = useState('');
   const [sexo, setSexo] = useState('');
 
   const handleNext = () => {
-    if (onNext) {
-      onNext({ nome, email, senha, idade, sexo });
-    } else {
-      console.log('Etapa 1:', { nome, email, senha, idade, sexo });
+    // Validar campos obrigatórios
+    if (!primeiroNome.trim()) {
+      Alert.alert('Campo obrigatório', 'Por favor, preencha seu primeiro nome');
+      return;
     }
-  };
+    if (!email.trim()) {
+      Alert.alert('Campo obrigatório', 'Por favor, preencha seu email');
+      return;
+    }
+    if (!senha.trim() || senha.length < 6) {
+      Alert.alert('Senha inválida', 'A senha deve ter pelo menos 6 caracteres');
+      return;
+    }
+    if (!idade.trim()) {
+      Alert.alert('Campo obrigatório', 'Por favor, preencha sua idade');
+      return;
+    }
+    if (!sexo) {
+      Alert.alert('Campo obrigatório', 'Por favor, selecione seu sexo');
+      return;
+    }
 
-  const handleSkip = () => {
-    if (onSkip) {
-      onSkip();
+    if (onNext) {
+      onNext({ primeiroNome, nomeDoMeio, email, senha, idade, sexo });
     } else {
-      console.log('Pulou Etapa 1');
+      console.log('Etapa 1:', { primeiroNome, nomeDoMeio, email, senha, idade, sexo });
     }
   };
 
@@ -36,15 +50,8 @@ export default function CadastroEtapa1({ onNext, onSkip }: CadastroEtapa1Props) 
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Botão Pular */}
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipButtonText}>Pular</Text>
-        </TouchableOpacity>
-
         <View style={styles.content}>
-          {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>FitSync</Text>
             <Text style={styles.stepIndicator}>Etapa 1 de 3</Text>
             <Text style={styles.subtitle}>Vamos conhecer você</Text>
           </View>
@@ -52,13 +59,25 @@ export default function CadastroEtapa1({ onNext, onSkip }: CadastroEtapa1Props) 
           {/* Formulário */}
           <View style={styles.form}>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Qual é o seu nome?</Text>
+              <Text style={styles.label}>Qual é seu primeiro nome?</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Digite seu nome completo"
+                placeholder="Digite seu primeiro nome"
                 placeholderTextColor="#999"
-                value={nome}
-                onChangeText={setNome}
+                value={primeiroNome}
+                onChangeText={setPrimeiroNome}
+                autoCapitalize="words"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Qual é seu nome do meio?</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu nome do meio (opcional)"
+                placeholderTextColor="#999"
+                value={nomeDoMeio}
+                onChangeText={setNomeDoMeio}
                 autoCapitalize="words"
               />
             </View>

@@ -7,18 +7,23 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
     paddingHorizontal: 30,
+    paddingTop: 20,
+    paddingBottom: 0,
   },
   header: {
-    marginBottom: 50,
+    marginBottom: 30,
     alignItems: 'center',
+    marginTop: 10,
   },
   logoContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    gap: 10,
+    marginBottom: 0,
+  },
+  logoImage: {
+    width: 250,
+    height: 250,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 40,

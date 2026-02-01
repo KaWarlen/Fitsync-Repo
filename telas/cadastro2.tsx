@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from './styles/cadastro2';
+import styles from '../styles/cadastro2';
 
 interface CadastroEtapa2Props {
   onNext?: (data: any) => void;
-  onSkip?: () => void;
   onBack?: () => void;
 }
 
-export default function CadastroEtapa2({ onNext, onSkip, onBack }: CadastroEtapa2Props) {
+export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) {
   const [doenca, setDoenca] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
@@ -21,29 +20,15 @@ export default function CadastroEtapa2({ onNext, onSkip, onBack }: CadastroEtapa
     }
   };
 
-  const handleSkip = () => {
-    if (onSkip) {
-      onSkip();
-    } else {
-      console.log('Pulou Etapa 2');
-    }
-  };
-
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Botão Pular */}
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipButtonText}>Pular</Text>
-        </TouchableOpacity>
-
         <View style={styles.content}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>FitSync</Text>
             <Text style={styles.stepIndicator}>Etapa 2 de 3</Text>
             <Text style={styles.subtitle}>Informações de saúde</Text>
           </View>

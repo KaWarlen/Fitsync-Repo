@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './styles/Perfil';
+import styles from '../styles/Perfil';
+import { getUserData, UserData } from '../src/services/storage';
 
 export default function Perfil({ route, navigation }: any) {
-  const { userData } = route.params || { userData: {} };
+  const [userData, setUserData] = useState<UserData>({});
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    const data = await getUserData();
+    if (data) {
+      setUserData(data);
+    } else if (route.params?.userData) {
+      setUserData(route.params.userData);
+    }
+  };
 
   const handleLogout = () => {
     navigation.navigate('Login');
@@ -13,25 +27,28 @@ export default function Perfil({ route, navigation }: any) {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerTitleContainer}>
-          <Ionicons name="fitness" size={40} color="#fff" />
-          <Text style={styles.title}>FitSync</Text>
+          <Ionicons name="person-circle" size={50} color="#fff" />
         </View>
-        <Text style={styles.subtitle}>Seu Perfil</Text>
+        <Text style={styles.title}>
+          Olá {userData.primeiroNome && userData.nomeDoMeio 
+            ? `${userData.primeiroNome} ${userData.nomeDoMeio}` 
+            : userData.primeiroNome || userData.nome || 'Usuário'}!
+        </Text>
+        <Text style={styles.subtitle}>Aqui é seu perfil</Text>
       </View>
 
       <View style={styles.content}>
-        {/* Informações Pessoais */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Informações Pessoais</Text>
           
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Nome:</Text>
-            <Text style={styles.infoValue}>{userData.nome || 'Não informado'}</Text>
+            <Text style={styles.infoLabel}>Email:</Text>
+            <Text style={styles.infoValue}>{userData.email || 'Não informado'}</Text>
           </View>
 
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Email:</Text>
-            <Text style={styles.infoValue}>{userData.email || 'Não informado'}</Text>
+            <Text style={styles.infoLabel}>ID do Cliente:</Text>
+            <Text style={styles.infoValue}>{userData.uid || 'Não disponível'}</Text>
           </View>
 
           <View style={styles.infoRow}>
@@ -78,7 +95,11 @@ export default function Perfil({ route, navigation }: any) {
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Foco:</Text>
-            <Text style={styles.infoValue}>{userData.foco || 'Não informado'}</Text>
+            <Text style={[styles.infoValue, { flexWrap: 'wrap', flex: 1 }]}>
+              {userData.focos && Array.isArray(userData.focos) 
+                ? userData.focos.join(', ') 
+                : (userData.foco || 'Não informado')}
+            </Text>
           </View>
         </View>
 
