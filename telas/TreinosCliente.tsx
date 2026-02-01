@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './styles/TreinosCliente';
+import styles from '../styles/TreinosCliente';
 
 interface Exercicio {
   nomeTreino: string;

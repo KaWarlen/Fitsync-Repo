@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './styles/DetalheTreino';
+import styles from '../styles/DetalheTreino';
 
 interface Exercicio {
   id: string;

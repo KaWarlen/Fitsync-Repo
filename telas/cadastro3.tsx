@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from './styles/cadastro3';
+import styles from '../styles/cadastro3';
 
 interface CadastroEtapa3Props {
   onFinish?: (data: any) => void;
-  onSkip?: () => void;
   onBack?: () => void;
 }
 
-export default function CadastroEtapa3({ onFinish, onSkip, onBack }: CadastroEtapa3Props) {
+export default function CadastroEtapa3({ onFinish, onBack }: CadastroEtapa3Props) {
   const [horario, setHorario] = useState('');
   const [focos, setFocos] = useState<string[]>([]);
 
@@ -30,14 +29,6 @@ export default function CadastroEtapa3({ onFinish, onSkip, onBack }: CadastroEta
     }
   };
 
-  const handleSkip = () => {
-    if (onSkip) {
-      onSkip();
-    } else {
-      console.log('Pulou Etapa 3');
-    }
-  };
-
   const horarios = ['Manhã (6h-12h)', 'Tarde (12h-18h)', 'Noite (18h-22h)', 'Flexível'];
   const focos_opcoes = [
     'Perda de peso',
@@ -54,15 +45,9 @@ export default function CadastroEtapa3({ onFinish, onSkip, onBack }: CadastroEta
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Botão Pular */}
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipButtonText}>Pular</Text>
-        </TouchableOpacity>
-
         <View style={styles.content}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>FitSync</Text>
             <Text style={styles.stepIndicator}>Etapa 3 de 3</Text>
             <Text style={styles.subtitle}>Preferências de treino</Text>
           </View>

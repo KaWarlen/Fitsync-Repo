@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './styles/AreaTreinador';
+import styles from '../styles/AreaTreinador';
 
 interface Cliente {
   nome: string;
