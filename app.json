@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "FitSync",
-    "slug": "my-app",
+    "slug": "Fit-sync",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/FitSync.png",
@@ -32,7 +32,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e7d53563-8745-4efd-a3d8-3d421e52c6fe"
+        "projectId": "0c4b48db-cc2f-4f55-bba7-13927e6044b1"
       }
     }
   }

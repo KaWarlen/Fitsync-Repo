@@ -32,7 +32,7 @@ export default function Perfil({ route, navigation }: any) {
         <Text style={styles.title}>
           Olá {userData.primeiroNome && userData.nomeDoMeio 
             ? `${userData.primeiroNome} ${userData.nomeDoMeio}` 
-            : userData.primeiroNome || userData.nome || 'Usuário'}!
+            : userData.primeiroNome || 'Usuário'}!
         </Text>
         <Text style={styles.subtitle}>Aqui é seu perfil</Text>
       </View>
@@ -98,7 +98,7 @@ export default function Perfil({ route, navigation }: any) {
             <Text style={[styles.infoValue, { flexWrap: 'wrap', flex: 1 }]}>
               {userData.focos && Array.isArray(userData.focos) 
                 ? userData.focos.join(', ') 
-                : (userData.foco || 'Não informado')}
+                : ('Não informado')}
             </Text>
           </View>
         </View>
