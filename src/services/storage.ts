@@ -5,7 +5,6 @@ const USER_DATA_KEY = '@fitsync_user_data';
 export interface UserData {
   primeiroNome?: string;
   nomeDoMeio?: string;
-  nome?: string;
   email?: string;
   idade?: string;
   sexo?: string;
@@ -19,9 +18,9 @@ export interface UserData {
   userType?: string;
   horario?: string;
   focos?: string[];
-  foco?: string;
 }
 
+//Create
 export const saveUserData = async (data: UserData): Promise<void> => {
   try {
     await AsyncStorage.setItem(USER_DATA_KEY, JSON.stringify(data));
@@ -30,7 +29,7 @@ export const saveUserData = async (data: UserData): Promise<void> => {
     throw error;
   }
 };
-
+//Read
 export const getUserData = async (): Promise<UserData | null> => {
   try {
     const data = await AsyncStorage.getItem(USER_DATA_KEY);
@@ -41,11 +40,3 @@ export const getUserData = async (): Promise<UserData | null> => {
   }
 };
 
-export const clearUserData = async (): Promise<void> => {
-  try {
-    await AsyncStorage.removeItem(USER_DATA_KEY);
-  } catch (error) {
-    console.error('Erro ao limpar dados do usuário:', error);
-    throw error;
-  }
-};

@@ -54,7 +54,6 @@ export default function Login({ navigation, route }: any) {
         <View style={styles.header}>
           <View style={styles.logoContainer}>
               <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
-              {/* Removed FitSync text; logo already contains the name */}
             </View>
           <Text style={styles.subtitle}>Faça login para continuar</Text>
         </View>

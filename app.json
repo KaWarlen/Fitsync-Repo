@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "FitSync",
-    "slug": "my-app",
+    "slug": "Fit-sync",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/FitSync.png",
@@ -12,7 +12,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kayronw.fitsync",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -20,10 +24,16 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.kayronw.fitsync"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c4b48db-cc2f-4f55-bba7-13927e6044b1"
+      }
     }
   }
 }

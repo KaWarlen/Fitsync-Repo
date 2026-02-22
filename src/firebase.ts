@@ -3,7 +3,6 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// Substitua os valores abaixo pelos dados do seu projeto Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCCqVwnfHyE0D0Tc9aG76G_QkKTZO-T2fk",
   authDomain: "fitsync-beta00.firebaseapp.com",
