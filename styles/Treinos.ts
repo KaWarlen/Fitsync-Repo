@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingTop: 50,
     paddingBottom: 30,
     paddingHorizontal: 20,
@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     opacity: 0.9,
   },
   listContent: {
@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   treinoCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   treinoHeader: {
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: isDarkMode ? '#333' : '#f0f0f0',
     paddingBottom: 10,
   },
   treinoHeaderRow: {
@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
   treinoNome: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     flex: 1,
   },
   treinoDia: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
   },
   treinoFooter: {
     flexDirection: 'row',
@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
   },
   treinoInfo: {
     fontSize: 14,
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     fontWeight: '600',
   },
 });
 
-export default styles;
+export default getStyles;

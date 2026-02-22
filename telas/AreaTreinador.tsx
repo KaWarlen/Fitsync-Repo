@@ -1,7 +1,8 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/AreaTreinador';
+import getStyles from '../styles/AreaTreinador';
 
 interface Cliente {
   nome: string;
@@ -33,6 +34,9 @@ interface TreinoPadrao {
 }
 
 export default function AreaTreinador({ navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const [activeTab, setActiveTab] = useState('clientes');
   const [showForm, setShowForm] = useState(false);
   const [showTreinoForm, setShowTreinoForm] = useState(false);

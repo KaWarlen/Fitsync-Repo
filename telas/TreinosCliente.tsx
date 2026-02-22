@@ -1,7 +1,8 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/TreinosCliente';
+import getStyles from '../styles/TreinosCliente';
 
 interface Exercicio {
   nomeTreino: string;
@@ -20,6 +21,9 @@ interface Treino {
 }
 
 export default function TreinosCliente({ route, navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const { cliente, treinos } = route.params;
   const treinosCliente = treinos.filter((t: Treino) => t.clienteId === cliente.id);
   const [exerciciosConcluidos, setExerciciosConcluidos] = useState<Set<string>>(new Set());

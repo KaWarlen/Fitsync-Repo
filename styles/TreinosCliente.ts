@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+export default (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: isDarkMode ? '#121212' : '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingTop: 50,
     paddingBottom: 15,
     paddingHorizontal: 20,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
   headerTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     flex: 1,
   },
   content: {
@@ -34,13 +34,13 @@ export default StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 18,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginTop: 20,
     fontWeight: '600',
   },
   emptyStateSubtext: {
     fontSize: 16,
-    color: '#999',
+    color: isDarkMode ? '#777' : '#999',
     marginTop: 5,
   },
   diaContainer: {
@@ -49,7 +49,7 @@ export default StyleSheet.create({
   diaHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: isDarkMode ? '#1a365d' : '#E3F2FD',
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
@@ -57,15 +57,15 @@ export default StyleSheet.create({
   diaTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     marginLeft: 10,
   },
   exercicioCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     borderColor: 'transparent',
   },
   exercicioCardConcluido: {
-    borderColor: '#00C853',
+    borderColor: isDarkMode ? '#81c784' : '#00C853',
     backgroundColor: '#F1F8F4',
   },
   exercicioHeader: {
@@ -92,17 +92,17 @@ export default StyleSheet.create({
   exercicioNome: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     flex: 1,
   },
   treinoBadge: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
   },
   treinoBadgeText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -118,6 +118,6 @@ export default StyleSheet.create({
   },
   detalheText: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
   },
 });

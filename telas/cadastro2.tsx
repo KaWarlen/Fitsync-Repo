@@ -1,6 +1,7 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from '../styles/cadastro2';
+import getStyles from '../styles/cadastro2';
 
 interface CadastroEtapa2Props {
   onNext?: (data: any) => void;
@@ -8,6 +9,9 @@ interface CadastroEtapa2Props {
 }
 
 export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const [doenca, setDoenca] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');

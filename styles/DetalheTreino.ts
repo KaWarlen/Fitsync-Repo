@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
@@ -23,33 +23,33 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     marginBottom: 5,
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     opacity: 0.9,
   },
   progressContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: isDarkMode ? '#333' : '#f0f0f0',
   },
   progressInfo: {
     marginBottom: 10,
   },
   progressText: {
     fontSize: 16,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
     marginBottom: 8,
   },
   completedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E8F5E9',
+    backgroundColor: isDarkMode ? '#1b5e20' : '#E8F5E9',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -57,19 +57,19 @@ const styles = StyleSheet.create({
   },
   completedText: {
     fontSize: 14,
-    color: '#00C853',
+    color: isDarkMode ? '#81c784' : '#00C853',
     fontWeight: '600',
     marginLeft: 6,
   },
   progressBarContainer: {
     height: 8,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: isDarkMode ? '#333' : '#e0e0e0',
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#00C853',
+    backgroundColor: isDarkMode ? '#81c784' : '#00C853',
     borderRadius: 4,
   },
   content: {
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   exercicioCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
-    shadowColor: '#000',
+    borderColor: isDarkMode ? '#333' : '#e0e0e0',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   exercicioCardConcluido: {
-    borderColor: '#00C853',
+    borderColor: isDarkMode ? '#81c784' : '#00C853',
     backgroundColor: '#F1F8F4',
   },
   exercicioHeader: {
@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
   exercicioNome: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     flex: 1,
   },
   exercicioNomeConcluido: {
-    color: '#00C853',
+    color: isDarkMode ? '#81c784' : '#00C853',
     textDecorationLine: 'line-through',
   },
   exercicioDetalhes: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: isDarkMode ? '#333' : '#f0f0f0',
   },
   detalheItem: {
     flexDirection: 'row',
@@ -130,24 +130,24 @@ const styles = StyleSheet.create({
   },
   detalheText: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     fontWeight: '500',
   },
   footer: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: isDarkMode ? '#333' : '#f0f0f0',
   },
   finalizarButton: {
-    backgroundColor: '#00C853',
+    backgroundColor: isDarkMode ? '#81c784' : '#00C853',
     borderRadius: 12,
     paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    shadowColor: '#00C853',
+    shadowColor: isDarkMode ? '#81c784' : '#00C853',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   finalizarButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
 });
 
-export default styles;
+export default getStyles;

@@ -1,12 +1,16 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import styles from '../styles/Cadastro1';
+import getStyles from '../styles/Cadastro1';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
 }
 
 export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const [primeiroNome, setPrimeiroNome] = useState('');
   const [nomeDoMeio, setNomeDoMeio] = useState('');
   const [email, setEmail] = useState('');

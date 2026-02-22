@@ -1,3 +1,4 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +8,8 @@ import Perfil from './Perfil';
 const Tab = createBottomTabNavigator();
 
 export default function TelaPrincipal({ navigation }: any) {
+  const { isDarkMode } = useTheme();
+
   const handleLogout = () => {
     navigation.navigate('Login');
   };
@@ -15,14 +18,14 @@ export default function TelaPrincipal({ navigation }: any) {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#999',
+        tabBarActiveTintColor: isDarkMode ? '#64b5f6' : '#007AFF',
+        tabBarInactiveTintColor: isDarkMode ? '#777' : '#999',
         tabBarStyle: {
           height: 95,
           paddingBottom: 30,
-          backgroundColor: '#fff',
+          backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
           borderTopWidth: 1,
-          borderTopColor: '#f0f0f0',
+          borderTopColor: isDarkMode ? '#333' : '#f0f0f0',
         },
         tabBarLabelStyle: {
           fontSize: 12,

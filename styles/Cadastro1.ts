@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
   },
   scrollContent: {
     flexGrow: 1,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   skipButtonText: {
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -36,17 +36,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     marginBottom: 5,
   },
   stepIndicator: {
     fontSize: 14,
-    color: '#999',
+    color: isDarkMode ? '#777' : '#999',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 20,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   form: {
@@ -58,18 +58,18 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     marginBottom: 12,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 15,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-    color: '#333',
+    borderColor: isDarkMode ? '#333' : '#e0e0e0',
+    color: isDarkMode ? '#e0e0e0' : '#333',
   },
   sexButtonContainer: {
     flexDirection: 'row',
@@ -78,32 +78,32 @@ const styles = StyleSheet.create({
   },
   sexButton: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e0e0e0',
+    borderColor: isDarkMode ? '#333' : '#e0e0e0',
   },
   sexButtonSelected: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
+    borderColor: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   sexButtonText: {
     fontSize: 16,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   sexButtonTextSelected: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
   },
   nextButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 20,
-    shadowColor: '#007AFF',
+    shadowColor: isDarkMode ? '#64b5f6' : '#007AFF',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   nextButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
 });
 
-export default styles;
+export default getStyles;

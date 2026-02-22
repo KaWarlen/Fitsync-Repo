@@ -1,7 +1,8 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/DetalheTreino';
+import getStyles from '../styles/DetalheTreino';
 
 interface Exercicio {
   id: string;
@@ -13,6 +14,9 @@ interface Exercicio {
 }
 
 export default function DetalheTreino({ route, navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const { treino } = route.params;
   
   const [exercicios, setExercicios] = useState<Exercicio[]>([

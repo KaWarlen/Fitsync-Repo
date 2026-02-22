@@ -1,9 +1,13 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Treinos';
+import getStyles from '../styles/Treinos';
 
 export default function Treinos({ navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   // Lista começa vazia — treinos aparecem apenas quando vinculados por um Personal Trainer
   const [treinos, setTreinos] = React.useState<any[]>([]);
 

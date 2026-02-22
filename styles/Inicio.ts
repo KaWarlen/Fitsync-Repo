@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+export default (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
     alignItems: 'center',
     paddingHorizontal: 24,
     paddingTop: 40,
@@ -20,18 +20,18 @@ export default StyleSheet.create({
   title: {
     fontSize: 42,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     marginTop: 0,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginTop: 8,
   },
   question: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     textAlign: 'center',
     marginBottom: 24,
     marginTop: 'auto',
@@ -47,23 +47,23 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingVertical: 18,
     paddingHorizontal: 24,
     borderRadius: 12,
   },
   buttonSecondary: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderWidth: 2,
-    borderColor: '#007AFF',
+    borderColor: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   buttonText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     marginLeft: 10,
   },
   buttonTextSecondary: {
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
   },
 });

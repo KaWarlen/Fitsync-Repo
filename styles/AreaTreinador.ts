@@ -1,19 +1,19 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingTop: 50,
     paddingBottom: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
   },
   headerTitle: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   emptyState: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: isDarkMode ? '#2c2c2c' : '#D3D3D3',
     marginHorizontal: 30,
     marginTop: 20,
     padding: 40,
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateText: {
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontSize: 16,
     textAlign: 'center',
     lineHeight: 24,
   },
   addButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     marginHorizontal: 50,
     marginBottom: 30,
     paddingVertical: 15,
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
   formContainer: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: isDarkMode ? '#2c2c2c' : '#D3D3D3',
     marginHorizontal: 20,
     marginTop: 20,
     padding: 25,
@@ -62,14 +62,14 @@ const styles = StyleSheet.create({
   formTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     marginBottom: 20,
     textAlign: 'center',
   },
   clienteSelectedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: isDarkMode ? '#1a365d' : '#E3F2FD',
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
@@ -77,28 +77,28 @@ const styles = StyleSheet.create({
   },
   clienteSelectedText: {
     fontSize: 15,
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     fontWeight: '600',
   },
   exerciciosListContainer: {
     marginBottom: 15,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: isDarkMode ? '#1b5e20' : '#E8F5E9',
     borderRadius: 10,
     padding: 15,
   },
   exerciciosListTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#00C853',
+    color: isDarkMode ? '#81c784' : '#00C853',
     marginBottom: 10,
   },
   exercicioAddedCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
     borderLeftWidth: 4,
-    borderLeftColor: '#00C853',
+    borderLeftColor: isDarkMode ? '#81c784' : '#00C853',
   },
   exercicioAddedContent: {
     flexDirection: 'row',
@@ -111,18 +111,18 @@ const styles = StyleSheet.create({
   exercicioAddedNome: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     marginBottom: 4,
   },
   exercicioAddedDetalhes: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginBottom: 6,
   },
   diaBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: isDarkMode ? '#1a365d' : '#E3F2FD',
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   diaBadgeText: {
     fontSize: 11,
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     fontWeight: '600',
   },
   exercicioActions: {
@@ -139,14 +139,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   editExercicioButton: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: isDarkMode ? '#4e342e' : '#FFF3E0',
     padding: 8,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   deleteExercicioButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: isDarkMode ? '#b71c1c' : '#FFEBEE',
     padding: 8,
     borderRadius: 8,
     justifyContent: 'center',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   addExercicioButton: {
     flex: 1,
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     borderRadius: 10,
     paddingVertical: 12,
     flexDirection: 'row',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   addExercicioButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -177,27 +177,27 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     marginBottom: 5,
     fontWeight: '500',
   },
   input: {
-    backgroundColor: '#e9e9e9ff',
+    backgroundColor: isDarkMode ? '#2a2a2a' : '#e9e9e9ff',
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 15,
     fontSize: 16,
-    color: '#000',
+    color: isDarkMode ? '#fff' : '#000',
   },
   concludeButton: {
-    backgroundColor: '#00C853',
+    backgroundColor: isDarkMode ? '#81c784' : '#00C853',
     borderRadius: 25,
     paddingVertical: 15,
     marginTop: 20,
     alignItems: 'center',
   },
   concludeButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -206,11 +206,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   clientCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -229,20 +229,20 @@ const styles = StyleSheet.create({
   },
   clientLabel: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginBottom: 5,
   },
   clientValue: {
     fontSize: 16,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   treinoClientCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -261,16 +261,16 @@ const styles = StyleSheet.create({
   },
   treinoClientLabel: {
     fontSize: 14,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginBottom: 5,
   },
   treinoClientValue: {
     fontSize: 16,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   montarTreinoButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   montarTreinoButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -297,11 +297,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   treinoCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 10,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   treinoCardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     flex: 1,
   },
   treinoCardHeader: {
@@ -327,22 +327,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   editTreinoCardButton: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: isDarkMode ? '#4e342e' : '#FFF3E0',
     padding: 8,
     borderRadius: 8,
   },
   deleteTreinoCardButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: isDarkMode ? '#b71c1c' : '#FFEBEE',
     padding: 8,
     borderRadius: 8,
   },
   exercicioCount: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginBottom: 12,
   },
   exercicioItem: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: isDarkMode ? '#121212' : '#F5F5F5',
     padding: 12,
     borderRadius: 8,
     marginBottom: 8,
@@ -352,20 +352,20 @@ const styles = StyleSheet.create({
   },
   exercicioText: {
     fontSize: 15,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   exercicioDetails: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
     paddingTop: 15,
     paddingBottom: 45,
     borderTopWidth: 1,
-    borderTopColor: '#0066CC',
+    borderTopColor: isDarkMode ? '#42a5f5' : '#0066CC',
   },
   navButton: {
     flex: 1,
@@ -376,12 +376,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   navButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
   navButtonTextActive: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontWeight: '600',
   },
   modalOverlay: {
@@ -393,10 +393,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: '90%',
     maxHeight: '85%',
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: isDarkMode ? '#fff' : '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   closeButton: {
     padding: 5,
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   },
   editarTreinoButton: {
     flex: 1,
-    backgroundColor: '#FF9800',
+    backgroundColor: isDarkMode ? '#ffb74d' : '#FF9800',
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -442,13 +442,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   editarTreinoButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 14,
     fontWeight: '600',
   },
   mostrarTreinoButton: {
     flex: 1,
-    backgroundColor: '#00C853',
+    backgroundColor: isDarkMode ? '#81c784' : '#00C853',
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   mostrarTreinoButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 14,
     fontWeight: '600',
   },
@@ -469,28 +469,28 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   diaButton: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: isDarkMode ? '#333' : '#E0E0E0',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: isDarkMode ? '#444' : '#ccc',
   },
   diaButtonActive: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
+    borderColor: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   diaButtonText: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     fontWeight: '500',
   },
   diaButtonTextActive: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontWeight: '600',
   },
   treinosAtuaisContainer: {
-    backgroundColor: '#FFF9E6',
+    backgroundColor: isDarkMode ? '#423214' : '#FFF9E6',
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,
@@ -498,16 +498,16 @@ const styles = StyleSheet.create({
   treinosAtuaisTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FF9800',
+    color: isDarkMode ? '#ffb74d' : '#FF9800',
     marginBottom: 12,
   },
   treinoAtualCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
     borderLeftWidth: 3,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: isDarkMode ? '#ffb74d' : '#FF9800',
   },
   treinoAtualHeader: {
     flexDirection: 'row',
@@ -518,41 +518,41 @@ const styles = StyleSheet.create({
   treinoAtualNome: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     flex: 1,
   },
   deleteTreinoAtualButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: isDarkMode ? '#b71c1c' : '#FFEBEE',
     padding: 6,
     borderRadius: 6,
   },
   treinoAtualExercicios: {
     fontSize: 12,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
   },
   selecaoTreinosTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     marginBottom: 15,
     marginTop: 10,
   },
   emptyBiblioteca: {
     alignItems: 'center',
     padding: 40,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: isDarkMode ? '#121212' : '#F5F5F5',
     borderRadius: 12,
     marginBottom: 20,
   },
   emptyBibliotecaText: {
     fontSize: 16,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginTop: 15,
     fontWeight: '600',
   },
   emptyBibliotecaSubtext: {
     fontSize: 14,
-    color: '#999',
+    color: isDarkMode ? '#777' : '#999',
     marginTop: 5,
   },
   treinosPadraoList: {
@@ -560,15 +560,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   treinoPadraoCard: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: isDarkMode ? '#1c1c1c' : '#F8F8F8',
     borderRadius: 12,
     padding: 15,
     borderWidth: 2,
-    borderColor: '#E0E0E0',
+    borderColor: isDarkMode ? '#333' : '#E0E0E0',
   },
   treinoPadraoCardSelected: {
-    backgroundColor: '#E3F2FD',
-    borderColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#1a365d' : '#E3F2FD',
+    borderColor: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   treinoPadraoHeader: {
     flexDirection: 'row',
@@ -579,14 +579,14 @@ const styles = StyleSheet.create({
   treinoPadraoNome: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     flex: 1,
   },
   treinoPadraoExercicios: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginLeft: 36,
   },
 });
 
-export default styles;
+export default getStyles;

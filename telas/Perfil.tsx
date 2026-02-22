@@ -1,10 +1,14 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Perfil';
+import getStyles from '../styles/Perfil';
 import { getUserData, UserData } from '../src/services/storage';
 
 export default function Perfil({ route, navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const [userData, setUserData] = useState<UserData>({});
 
   useEffect(() => {

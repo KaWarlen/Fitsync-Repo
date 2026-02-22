@@ -1,3 +1,4 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import CadastroEtapa1 from './cadastro';
 import CadastroEtapa2 from './cadastro2';
@@ -7,6 +8,8 @@ import { registerWithEmail } from '../src/services/auth';
 import { saveUserData } from '../src/services/storage';
 
 export default function CadastroFluxo({ navigation, route }: any) {
+  const { isDarkMode } = useTheme();
+
   const [etapaAtual, setEtapaAtual] = useState(1);
   const [dadosCadastro, setDadosCadastro] = useState({});
 

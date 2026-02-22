@@ -1,10 +1,14 @@
+import { useTheme } from '../src/contexts/ThemeContext';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Inicio';
+import getStyles from '../styles/Inicio';
 import { Image } from 'react-native';
 
 export default function Inicio({ navigation }: any) {
+  const { isDarkMode } = useTheme();
+  const styles = getStyles(isDarkMode);
+
   const handlePersonal = () => {
     navigation.navigate('Login', { userType: 'personal' });
   };

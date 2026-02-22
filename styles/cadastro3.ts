@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
   },
   scrollContent: {
     flexGrow: 1,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   skipButtonText: {
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -36,17 +36,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: isDarkMode ? '#64b5f6' : '#007AFF',
     marginBottom: 5,
   },
   stepIndicator: {
     fontSize: 14,
-    color: '#999',
+    color: isDarkMode ? '#777' : '#999',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 20,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '600',
   },
   form: {
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     marginBottom: 12,
   },
   labelSubtext: {
     fontSize: 13,
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     marginBottom: 10,
     fontStyle: 'italic',
   },
@@ -71,25 +71,25 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   optionButton: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
+    borderColor: isDarkMode ? '#333' : '#e0e0e0',
   },
   optionButtonSelected: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: isDarkMode ? '#64b5f6' : '#007AFF',
+    borderColor: isDarkMode ? '#64b5f6' : '#007AFF',
   },
   optionButtonText: {
     fontSize: 16,
-    color: '#333',
+    color: isDarkMode ? '#e0e0e0' : '#333',
     fontWeight: '500',
     textAlign: 'center',
   },
   optionButtonTextSelected: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
   },
   buttonRow: {
     flexDirection: 'row',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: isDarkMode ? '#333' : '#f0f0f0',
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: 'center',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     borderColor: '#d0d0d0',
   },
   backButtonText: {
-    color: '#666',
+    color: isDarkMode ? '#aaa' : '#666',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   finishButtonText: {
-    color: '#fff',
+    color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
 });
 
-export default styles;
+export default getStyles;
