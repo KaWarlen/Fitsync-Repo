@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/AreaTreinador';
 
 interface Cliente {
@@ -399,7 +399,7 @@ export default function AreaTreinador({ navigation }: any) {
                           style={styles.montarTreinoButton}
                           onPress={() => handleMontarTreinoCliente(cliente)}
                         >
-                          <Ionicons name="barbell" size={20} color="#fff" />
+                          <MaterialIcons name="fitness-center" size={20} color="#fff" />
                           <Text style={styles.montarTreinoButtonText}>Montar Treino</Text>
                         </TouchableOpacity>
                       ) : (
@@ -408,14 +408,14 @@ export default function AreaTreinador({ navigation }: any) {
                             style={styles.editarTreinoButton}
                             onPress={() => handleEditarTreino(cliente)}
                           >
-                            <Ionicons name="create-outline" size={20} color="#fff" />
+                            <MaterialIcons name="edit" size={20} color="#fff" />
                             <Text style={styles.editarTreinoButtonText}>Editar</Text>
                           </TouchableOpacity>
                           <TouchableOpacity 
                             style={styles.mostrarTreinoButton}
                             onPress={() => handleMostrarTreino(cliente)}
                           >
-                            <Ionicons name="eye-outline" size={20} color="#fff" />
+                            <MaterialIcons name="visibility" size={20} color="#fff" />
                             <Text style={styles.mostrarTreinoButtonText}>Ver Treino</Text>
                           </TouchableOpacity>
                         </View>
@@ -455,13 +455,13 @@ export default function AreaTreinador({ navigation }: any) {
                           style={styles.editTreinoCardButton}
                           onPress={() => handleEditarTreinoPadrao(treinoIndex)}
                         >
-                          <Ionicons name="create-outline" size={20} color="#FF9800" />
+                          <MaterialIcons name="edit" size={20} color="#FF9800" />
                         </TouchableOpacity>
                         <TouchableOpacity 
                           style={styles.deleteTreinoCardButton}
                           onPress={() => handleExcluirTreinoPadrao(treinoIndex)}
                         >
-                          <Ionicons name="trash-outline" size={20} color="#FF3B30" />
+                          <MaterialIcons name="delete" size={20} color="#FF3B30" />
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -496,33 +496,39 @@ export default function AreaTreinador({ navigation }: any) {
           style={[styles.navButton, activeTab === 'clientes' && styles.navButtonActive]}
           onPress={() => setActiveTab('clientes')}
         >
-          <Ionicons 
-            name="people" 
-            size={28} 
-            color={activeTab === 'clientes' ? '#fff' : '#B8B7E8'} 
-          />
+          <View style={[styles.navIconContainer, activeTab === 'clientes' && styles.navIconContainerActive]}>
+            <MaterialIcons 
+              name="people" 
+              size={28} 
+              color={activeTab === 'clientes' ? '#fff' : '#B8B7E8'} 
+            />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.navButton, activeTab === 'biblioteca' && styles.navButtonActive]}
           onPress={() => setActiveTab('biblioteca')}
         >
-          <Ionicons 
-            name="barbell" 
-            size={28} 
-            color={activeTab === 'biblioteca' ? '#fff' : '#B8B7E8'} 
-          />
+          <View style={[styles.navIconContainer, activeTab === 'biblioteca' && styles.navIconContainerActive]}>
+            <MaterialIcons 
+              name="fitness-center" 
+              size={28} 
+              color={activeTab === 'biblioteca' ? '#fff' : '#B8B7E8'} 
+            />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.navButton, activeTab === 'sair' && styles.navButtonActive]}
           onPress={handleLogout}
         >
-          <Ionicons 
-            name="log-out" 
-            size={28} 
-            color={'#B8B7E8'} 
-          />
+          <View style={styles.navIconContainer}>
+            <MaterialIcons 
+              name="logout" 
+              size={28} 
+              color={'#B8B7E8'} 
+            />
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -545,7 +551,7 @@ export default function AreaTreinador({ navigation }: any) {
                   {editingBibliotecaIndex !== null ? 'Editar Treino Padrão' : 'Novo Treino Padrão'}
                 </Text>
                 <TouchableOpacity onPress={handleCancelarTreino} style={styles.closeButton}>
-                  <Ionicons name="close" size={28} color="#666" />
+                  <MaterialIcons name="close" size={28} color="#666" />
                 </TouchableOpacity>
               </View>
               
@@ -655,7 +661,7 @@ export default function AreaTreinador({ navigation }: any) {
                             {ex.series}x{ex.repeticao} - {ex.peso}kg - {ex.area}
                           </Text>
                           <View style={styles.diaBadge}>
-                            <Ionicons name="calendar-outline" size={12} color="#007AFF" />
+                            <MaterialIcons name="event" size={12} color="#007AFF" />
                             <Text style={styles.diaBadgeText}>{ex.diaSemana}</Text>
                           </View>
                         </View>
@@ -664,13 +670,13 @@ export default function AreaTreinador({ navigation }: any) {
                             style={styles.editExercicioButton}
                             onPress={() => handleEditarExercicio(index)}
                           >
-                            <Ionicons name="create-outline" size={20} color="#FF9800" />
+                            <MaterialIcons name="edit" size={20} color="#FF9800" />
                           </TouchableOpacity>
                           <TouchableOpacity 
                             style={styles.deleteExercicioButton}
                             onPress={() => handleExcluirExercicio(index)}
                           >
-                            <Ionicons name="trash-outline" size={20} color="#FF3B30" />
+                            <MaterialIcons name="delete" size={20} color="#FF3B30" />
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -681,7 +687,7 @@ export default function AreaTreinador({ navigation }: any) {
 
               <View style={styles.modalButtonsContainer}>
                 <TouchableOpacity style={styles.addExercicioButton} onPress={handleAdicionarExercicio}>
-                  <Ionicons name={editingExercicioIndex !== null ? "checkmark-circle" : "add-circle"} size={20} color="#fff" />
+                  <MaterialIcons name={editingExercicioIndex !== null ? "check-circle" : "add-circle"} size={20} color="#fff" />
                   <Text style={styles.addExercicioButtonText}>
                     {editingExercicioIndex !== null ? "Atualizar Exercício" : "Adicionar Exercício"}
                   </Text>
@@ -717,13 +723,13 @@ export default function AreaTreinador({ navigation }: any) {
                   {isEditMode ? 'Editar Treinos do Cliente' : 'Atribuir Treinos'}
                 </Text>
                 <TouchableOpacity onPress={handleCancelarTreino} style={styles.closeButton}>
-                  <Ionicons name="close" size={28} color="#666" />
+                  <MaterialIcons name="close" size={28} color="#666" />
                 </TouchableOpacity>
               </View>
 
               {selectedCliente && (
                 <View style={styles.clienteSelectedBadge}>
-                  <Ionicons name="person" size={18} color="#007AFF" />
+                  <MaterialIcons name="person" size={18} color="#007AFF" />
                   <Text style={styles.clienteSelectedText}>Cliente: {selectedCliente.nome}</Text>
                 </View>
               )}
@@ -750,7 +756,7 @@ export default function AreaTreinador({ navigation }: any) {
                             style={styles.deleteTreinoAtualButton}
                             onPress={() => handleExcluirTreinoCliente(selectedCliente!.id, nomeTreino)}
                           >
-                            <Ionicons name="trash-outline" size={18} color="#FF3B30" />
+                            <MaterialIcons name="delete" size={18} color="#FF3B30" />
                           </TouchableOpacity>
                         </View>
                         <Text style={styles.treinoAtualExercicios}>
@@ -768,7 +774,7 @@ export default function AreaTreinador({ navigation }: any) {
 
               {treinosPadrao.length === 0 ? (
                 <View style={styles.emptyBiblioteca}>
-                  <Ionicons name="barbell-outline" size={60} color="#ccc" />
+                  <MaterialIcons name="fitness-center" size={60} color="#ccc" />
                   <Text style={styles.emptyBibliotecaText}>Nenhum treino na biblioteca</Text>
                   <Text style={styles.emptyBibliotecaSubtext}>Crie treinos na aba Biblioteca</Text>
                 </View>
@@ -790,8 +796,8 @@ export default function AreaTreinador({ navigation }: any) {
                       }}
                     >
                       <View style={styles.treinoPadraoHeader}>
-                        <Ionicons 
-                          name={selectedTreinosPadrao.includes(treino.id) ? "checkbox" : "square-outline"} 
+                        <MaterialIcons 
+                          name={selectedTreinosPadrao.includes(treino.id) ? "check-box" : "check-box-outline-blank"} 
                           size={24} 
                           color={selectedTreinosPadrao.includes(treino.id) ? "#007AFF" : "#ccc"} 
                         />

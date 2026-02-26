@@ -13,8 +13,9 @@ import TreinosCliente from './TreinosCliente';
 import { ThemeProvider } from '../src/contexts/ThemeContext';
 import CustomDrawerContent from '../src/components/CustomDrawerContent';
 import { TouchableOpacity, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../src/contexts/ThemeContext';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,9 +23,11 @@ const Drawer = createDrawerNavigator();
 // Create a simple drawer button hook component so it uses generic useNavigation
 const DrawerToggleButton = () => {
   const navigation = useNavigation<any>();
+  const { isDarkMode } = useTheme();
+
   return (
     <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={{ marginLeft: 15 }}>
-      <Ionicons name="menu" size={28} color="#007AFF" />
+      <MaterialIcons name="menu" size={28} color={isDarkMode ? '#e0e0e0' : '#000000'} />
     </TouchableOpacity>
   );
 };

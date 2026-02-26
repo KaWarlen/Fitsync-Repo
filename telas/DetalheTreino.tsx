@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/DetalheTreino';
 
 interface Exercicio {
@@ -41,7 +41,7 @@ export default function DetalheTreino({ route, navigation }: any) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
+          <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <Text style={styles.title}>{treino.nome}</Text>
@@ -57,7 +57,7 @@ export default function DetalheTreino({ route, navigation }: any) {
           </Text>
           {todosConcluidos && (
             <View style={styles.completedBadge}>
-              <Ionicons name="checkmark-circle" size={20} color="#00C853" />
+              <MaterialIcons name="check-circle" size={20} color="#00C853" />
               <Text style={styles.completedText}>Dia Registrado!</Text>
             </View>
           )}
@@ -85,8 +85,8 @@ export default function DetalheTreino({ route, navigation }: any) {
           >
             <View style={styles.exercicioHeader}>
               <View style={styles.exercicioTitleContainer}>
-                <Ionicons 
-                  name={exercicio.concluido ? "checkmark-circle" : "ellipse-outline"} 
+                <MaterialIcons 
+                  name={exercicio.concluido ? "check-circle" : "radio-button-unchecked"} 
                   size={28} 
                   color={exercicio.concluido ? "#00C853" : "#999"} 
                 />
@@ -101,15 +101,15 @@ export default function DetalheTreino({ route, navigation }: any) {
             
             <View style={styles.exercicioDetalhes}>
               <View style={styles.detalheItem}>
-                <Ionicons name="repeat" size={16} color="#666" />
+                <MaterialIcons name="repeat" size={16} color={isDarkMode ? '#999' : '#666'} />
                 <Text style={styles.detalheText}>{exercicio.series} séries</Text>
               </View>
               <View style={styles.detalheItem}>
-                <Ionicons name="fitness" size={16} color="#666" />
+                <MaterialIcons name="fitness-center" size={16} color={isDarkMode ? '#999' : '#666'} />
                 <Text style={styles.detalheText}>{exercicio.repeticoes} reps</Text>
               </View>
               <View style={styles.detalheItem}>
-                <Ionicons name="barbell" size={16} color="#666" />
+                <MaterialIcons name="fitness-center" size={16} color={isDarkMode ? '#999' : '#666'} />
                 <Text style={styles.detalheText}>{exercicio.peso}</Text>
               </View>
             </View>
@@ -124,7 +124,7 @@ export default function DetalheTreino({ route, navigation }: any) {
             style={styles.finalizarButton}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="checkmark-circle" size={24} color="#fff" />
+            <MaterialIcons name="check-circle" size={24} color="#fff" />
             <Text style={styles.finalizarButtonText}>Treino Completo!</Text>
           </TouchableOpacity>
         </View>

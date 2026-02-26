@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/Inicio';
 import { Image } from 'react-native';
 
@@ -20,7 +20,10 @@ export default function Inicio({ navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
+        <Image
+          source={isDarkMode ? require('../assets/Fitsync-dark.png') : require('../assets/FitSync.png')}
+          style={styles.logoImage}
+        />
       </View>
 
       {/* Pergunta */}
@@ -29,12 +32,12 @@ export default function Inicio({ navigation }: any) {
       {/* Botões */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={handlePersonal}>
-          <Ionicons name="barbell" size={24} color="#fff" />
+          <MaterialIcons name="fitness-center" size={24} color={isDarkMode ? '#333' : '#ffffff'} />
           <Text style={styles.buttonText}>Sou Personal Trainer</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={handleAluno}>
-          <Ionicons name="person" size={24} color="#007AFF" />
+          <MaterialIcons name="person" size={24} color={isDarkMode ? '#64b5f6' : '#007AFF'} />
           <Text style={[styles.buttonText, styles.buttonTextSecondary]}>Sou Aluno</Text>
         </TouchableOpacity>
       </View>

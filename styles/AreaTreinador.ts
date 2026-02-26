@@ -375,6 +375,22 @@ const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   navButtonActive: {
     backgroundColor: 'transparent',
   },
+  navIconContainer: {
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  navIconContainerActive: {
+    backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.35)' : 'rgba(0, 0, 0, 0.25)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 6,
+  },
   navButtonText: {
     color: isDarkMode ? '#1e1e1e' : '#fff',
     fontSize: 16,

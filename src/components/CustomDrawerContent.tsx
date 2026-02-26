@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   switchLabel: {
     fontSize: 16,
-    color: '#333',
+    color: '#ffffff',
     fontWeight: '600',
   },
 });

@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/TreinosCliente';
 
 interface Exercicio {
@@ -58,7 +58,7 @@ export default function TreinosCliente({ route, navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={28} color="#fff" />
+          <MaterialIcons name="arrow-back" size={28} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Treinos de {cliente.nome}</Text>
       </View>
@@ -66,7 +66,7 @@ export default function TreinosCliente({ route, navigation }: any) {
       <ScrollView style={styles.content}>
         {treinosCliente.length === 0 ? (
           <View style={styles.emptyState}>
-            <Ionicons name="barbell-outline" size={80} color="#ccc" />
+            <MaterialIcons name="fitness-center" size={80} color="#ccc" />
             <Text style={styles.emptyStateText}>Nenhum treino cadastrado</Text>
             <Text style={styles.emptyStateSubtext}>para este cliente</Text>
           </View>
@@ -74,7 +74,7 @@ export default function TreinosCliente({ route, navigation }: any) {
           diasFiltrados.map((dia, diaIndex) => (
             <View key={dia} style={styles.diaContainer}>
               <View style={styles.diaHeader}>
-                <Ionicons name="calendar" size={20} color="#007AFF" />
+                <MaterialIcons name="event" size={20} color="#007AFF" />
                 <Text style={styles.diaTitle}>{dia}</Text>
               </View>
               
@@ -96,7 +96,7 @@ export default function TreinosCliente({ route, navigation }: any) {
                       <View style={styles.exercicioNomeContainer}>
                         <Text style={styles.exercicioNome}>{exercicio.nomeExercicio}</Text>
                         {isConcluido && (
-                          <Ionicons name="checkmark-circle" size={24} color="#00C853" />
+                          <MaterialIcons name="check-circle" size={24} color="#00C853" />
                         )}
                       </View>
                       {exercicio.nomeTreino && (
@@ -107,11 +107,11 @@ export default function TreinosCliente({ route, navigation }: any) {
                     </View>
                     <View style={styles.exercicioDetalhes}>
                       <View style={styles.detalheItem}>
-                        <Ionicons name="fitness" size={16} color="#666" />
+                        <MaterialIcons name="fitness-center" size={16} color="#666" />
                         <Text style={styles.detalheText}>{exercicio.area}</Text>
                       </View>
                       <View style={styles.detalheItem}>
-                        <Ionicons name="barbell" size={16} color="#666" />
+                        <MaterialIcons name="fitness-center" size={16} color="#666" />
                         <Text style={styles.detalheText}>{exercicio.peso}kg</Text>
                       </View>
                       <View style={styles.detalheItem}>

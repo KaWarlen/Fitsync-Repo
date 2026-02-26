@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/Perfil';
 import { getUserData, UserData } from '../src/services/storage';
 
@@ -31,7 +31,7 @@ export default function Perfil({ route, navigation }: any) {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerTitleContainer}>
-          <Ionicons name="person-circle" size={50} color="#fff" />
+          <MaterialIcons name="account-circle" size={50} color={isDarkMode ? '#333' : '#fff'} />
         </View>
         <Text style={styles.title}>
           Olá {userData.primeiroNome && userData.nomeDoMeio 

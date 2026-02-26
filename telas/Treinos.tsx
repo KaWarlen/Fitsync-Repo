@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/Treinos';
 
 export default function Treinos({ navigation }: any) {
@@ -17,7 +17,7 @@ export default function Treinos({ navigation }: any) {
         <View style={styles.treinoHeaderRow}>
           <Text style={styles.treinoNome}>{item.nome}</Text>
           {item.concluido && (
-            <Ionicons name="checkmark-circle" size={24} color="#00C853" />
+            <MaterialIcons name="check-circle" size={24} color="#00C853" />
           )}
         </View>
         <Text style={styles.treinoDia}>{item.dia}</Text>
@@ -33,7 +33,7 @@ export default function Treinos({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerTitleContainer}>
-          <Ionicons name="barbell" size={36} color="#fff" />
+          <MaterialIcons name="fitness-center" size={36} color={isDarkMode ? '#333' : '#fff'} />
           <Text style={styles.title}>Seus Treinos</Text>
         </View>
       </View>
@@ -46,8 +46,8 @@ export default function Treinos({ navigation }: any) {
         scrollEnabled={true}
         ListEmptyComponent={
           <View style={{ alignItems: 'center', marginTop: 60 }}>
-            <Ionicons name="calendar-outline" size={64} color="#bbb" />
-            <Text style={{ color: '#888', fontSize: 16, marginTop: 16, textAlign: 'center' }}>
+            <MaterialIcons name="event" size={64} color={isDarkMode ? '#777' : '#bbb'} />
+            <Text style={{ color: isDarkMode ? '#999' : '#888', fontSize: 16, marginTop: 16, textAlign: 'center' }}>
               Nenhum treino vinculado ainda.{'\n'}Aguarde seu Personal Trainer adicionar treinos para você.
             </Text>
           </View>

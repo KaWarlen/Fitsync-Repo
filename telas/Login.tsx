@@ -1,7 +1,7 @@
 import { useTheme } from '../src/contexts/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import getStyles from '../styles/Login';
 import { loginWithEmail } from '../src/services/auth';
 
@@ -55,9 +55,12 @@ export default function Login({ navigation, route }: any) {
     >
       <View style={styles.content}>
         {/* Logo */}
-        <View style={styles.header}>
+          <View style={styles.header}>
           <View style={styles.logoContainer}>
-              <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
+              <Image
+                source={isDarkMode ? require('../assets/Fitsync-dark.png') : require('../assets/FitSync.png')}
+                style={styles.logoImage}
+              />
               {/* Removed FitSync text; logo already contains the name */}
             </View>
           <Text style={styles.subtitle}>Faça login para continuar</Text>
@@ -68,7 +71,7 @@ export default function Login({ navigation, route }: any) {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Email</Text>
             <View style={styles.inputWrapper}>
-              <Ionicons name="mail-outline" size={20} color="#999" style={styles.inputIcon} />
+              <MaterialIcons name="mail-outline" size={20} color={isDarkMode ? '#aaa' : '#999'} style={styles.inputIcon} />
               <TextInput
                 style={styles.inputWithIcon}
                 placeholder="seu@email.com"
@@ -85,7 +88,7 @@ export default function Login({ navigation, route }: any) {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Senha</Text>
             <View style={styles.inputWrapper}>
-              <Ionicons name="lock-closed-outline" size={20} color="#999" style={styles.inputIcon} />
+              <MaterialIcons name="lock-outline" size={20} color={isDarkMode ? '#aaa' : '#999'} style={styles.inputIcon} />
               <TextInput
                 style={styles.inputWithIcon}
                 placeholder="••••••••"
@@ -107,7 +110,7 @@ export default function Login({ navigation, route }: any) {
               <ActivityIndicator color="#fff" />
             ) : (
               <>
-                <Ionicons name={userType === 'personal' ? 'barbell' : 'person'} size={20} color="#fff" style={styles.buttonIcon} />
+                <MaterialIcons name={userType === 'personal' ? 'fitness-center' : 'person'} size={20} color={isDarkMode ? '#333' : '#999'} style={styles.buttonIcon} />
                 <Text style={styles.loginButtonText}>
                   {userType === 'personal' ? 'Entrar como Personal' : 'Entrar como Aluno'}
                 </Text>
