@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Treinos';
+import styles from './TreinosStyles';
 
 export default function Treinos({ navigation }: any) {
   // Lista começa vazia — treinos aparecem apenas quando vinculados por um Personal Trainer

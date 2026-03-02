@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Login';
-import { loginWithEmail } from '../src/services/auth';
+import { loginWithEmail } from '../services/auth';
 
 export default function Login({ navigation, route }: any) {
   const [email, setEmail] = useState('');
@@ -53,7 +53,7 @@ export default function Login({ navigation, route }: any) {
         {/* Logo */}
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-              <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
+              <Image source={require('../../../../assets/FitSync.png')} style={styles.logoImage} />
             </View>
           <Text style={styles.subtitle}>Faça login para continuar</Text>
         </View>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import styles from '../styles/Cadastro1';
+import styles from '../styles/cadastro1';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;

@@ -3,8 +3,8 @@ import CadastroEtapa1 from './cadastro';
 import CadastroEtapa2 from './cadastro2';
 import CadastroEtapa3 from './cadastro3';
 import { Alert } from 'react-native';
-import { registerWithEmail } from '../src/services/auth';
-import { saveUserData } from '../src/services/storage';
+import { registerWithEmail } from '../services/auth';
+import { saveUserData } from '../../../shared/services/storage';
 
 export default function CadastroFluxo({ navigation, route }: any) {
   const [etapaAtual, setEtapaAtual] = useState(1);
@@ -25,7 +25,7 @@ export default function CadastroFluxo({ navigation, route }: any) {
 
   const handleFinish = (data: any) => {
     const dadosCompletos = { ...dadosCadastro, ...data };
-    // Tenta registrar no Firebase com email e senha
+    // Registra usuário no sistema local (AsyncStorage)
     const { email, senha } = dadosCompletos as any;
     if (email && senha) {
       registerWithEmail(email, senha)

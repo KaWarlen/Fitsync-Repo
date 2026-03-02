@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Perfil';
-import { getUserData, UserData } from '../src/services/storage';
+import { getUserData } from '../../../shared/services/storage';
+import { UserData } from '../../../shared/types';
 
 export default function Perfil({ route, navigation }: any) {
   const [userData, setUserData] = useState<UserData>({});

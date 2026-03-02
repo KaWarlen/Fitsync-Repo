@@ -1,24 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserData } from '../types';
 
 const USER_DATA_KEY = '@fitsync_user_data';
-
-export interface UserData {
-  primeiroNome?: string;
-  nomeDoMeio?: string;
-  email?: string;
-  idade?: string;
-  sexo?: string;
-  peso?: string;
-  altura?: string;
-  doenca?: string;
-  objetivo?: string;
-  nivelAtividade?: string;
-  restricoes?: string;
-  uid?: string;
-  userType?: string;
-  horario?: string;
-  focos?: string[];
-}
 
 //Create
 export const saveUserData = async (data: UserData): Promise<void> => {

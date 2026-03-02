@@ -16,7 +16,7 @@ export default function Inicio({ navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('../assets/FitSync.png')} style={styles.logoImage} />
+        <Image source={require('../../../../assets/FitSync.png')} style={styles.logoImage} />
       </View>
 
       {/* Pergunta */}

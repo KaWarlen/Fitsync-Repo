@@ -787,9 +787,9 @@ export default function AreaTreinador({ navigation }: any) {
                     >
                       <View style={styles.treinoPadraoHeader}>
                         <Ionicons 
-                          name={selectedTreinosPadrao.includes(treino.id) ? "checkbox" : "square-outline"} 
+                          name={selectedTreinosPadrao.includes(treino.id) ? "checkbox" : "square-outline"}
                           size={24} 
-                          color={selectedTreinosPadrao.includes(treino.id) ? "#007AFF" : "#ccc"} 
+                          color={selectedTreinosPadrao.includes(treino.id) ? "#007AFF" : "#ccc"}
                         />
                         <Text style={styles.treinoPadraoNome}>{treino.nomeTreino}</Text>
                       </View>
