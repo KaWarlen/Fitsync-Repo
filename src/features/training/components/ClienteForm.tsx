@@ -10,7 +10,7 @@ interface ClienteFormProps {
   styles: any;
 }
 
-export default function ClienteForm({ formData, onChangeFormData, onConcluir }: ClienteFormProps) {
+export default function ClienteForm({ formData, onChangeFormData, onConcluirCadastro, styles }: ClienteFormProps) {
   return (
     <View style={styles.formContainer}>
       <Text style={styles.formTitle}>Cadastrar Cliente</Text>
@@ -57,7 +57,7 @@ export default function ClienteForm({ formData, onChangeFormData, onConcluir }: 
         />
       </View>
 
-      <TouchableOpacity style={styles.concludeButton} onPress={onConcluir}>
+      <TouchableOpacity style={styles.concludeButton} onPress={onConcluirCadastro}>
         <Text style={styles.concludeButtonText}>Concluir cadastro</Text>
       </TouchableOpacity>
     </View>
