@@ -2,30 +2,45 @@
 export interface Treino {
   id: string;
   nome: string;
-  descricao: string;
+  descricao?: string;
   exercicios: Exercicio[];
   clienteId?: string;
-  treinadorId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  clienteNome?: string;
+  treinadorId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface TreinoPadrao {
+  id: string;
+  nomeTreino: string;
+  exercicios: Exercicio[];
 }
 
 export interface Exercicio {
-  id: string;
-  nome: string;
-  series: number;
-  repeticoes: number;
-  peso?: number;
+  id?: string;
+  nomeTreino?: string;
+  nomeExercicio: string;
+  nome?: string; // alternativo para nomeExercicio
+  area?: string;
+  peso: string | number;
+  series: string | number;
+  repeticoes?: string | number;
+  repeticao?: string | number; // alternativo para repeticoes
+  diaSemana?: string;
   descanso?: number; // segundos
   observacoes?: string;
+  concluido?: boolean;
 }
 
 export interface Cliente {
-  uid: string;
+  uid?: string;
+  id: string;
   nome: string;
   email: string;
-  objective: string;
-  level: 'iniciante' | 'intermediario' | 'avancado';
+  telefone?: string;
+  objective?: string;
+  level?: 'iniciante' | 'intermediario' | 'avancado';
 }
 
 export interface TrainingSession {
@@ -45,4 +60,23 @@ export interface SerieExecutada {
   repeticoes: number;
   peso?: number;
   completed: boolean;
+}
+
+// Form Data Types
+export interface ClienteFormData {
+  nome: string;
+  email: string;
+  telefone: string;
+  id: string;
+}
+
+export interface TreinoFormData {
+  clienteId: string;
+  nomeTreino: string;
+  nomeExercicio: string;
+  area: string;
+  peso: string;
+  series: string;
+  repeticao: string;
+  diaSemana: string;
 }

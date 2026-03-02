@@ -1,36 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
+import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/AreaTreinador';
-
-interface Cliente {
-  nome: string;
-  email: string;
-  telefone: string;
-  id: string;
-}
-
-interface Exercicio {
-  nomeTreino: string;
-  nomeExercicio: string;
-  area: string;
-  peso: string;
-  series: string;
-  repeticao: string;
-  diaSemana: string;
-}
-
-interface Treino {
-  clienteNome: string;
-  clienteId: string;
-  exercicios: Exercicio[];
-}
-
-interface TreinoPadrao {
-  id: string;
-  nomeTreino: string;
-  exercicios: Exercicio[];
-}
+import { Cliente, Exercicio, Treino, TreinoPadrao, ClienteFormData, TreinoFormData } from '../types';
+import { TrainingService } from '../services';
+import { DIAS_SEMANA } from '../constants';
+import ClientesTab from './ClientesTab';
+import BibliotecaTab from './BibliotecaTab';
+import BottomNavigation from './BottomNavigation';
 
 export default function AreaTreinador({ navigation }: any) {
   const [activeTab, setActiveTab] = useState('clientes');
@@ -47,13 +24,13 @@ export default function AreaTreinador({ navigation }: any) {
   const [treinos, setTreinos] = useState<Treino[]>([]);
   const [treinosPadrao, setTreinosPadrao] = useState<TreinoPadrao[]>([]);
   const [exerciciosAtuais, setExerciciosAtuais] = useState<Exercicio[]>([]);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ClienteFormData>({
     nome: '',
     email: '',
     telefone: '',
     id: ''
   });
-  const [treinoFormData, setTreinoFormData] = useState({
+  const [treinoFormData, setTreinoFormData] = useState<TreinoFormData>({
     clienteId: '',
     nomeTreino: '',
     nomeExercicio: '',
@@ -73,7 +50,7 @@ export default function AreaTreinador({ navigation }: any) {
   };
 
   const handleConcluirCadastro = () => {
-    if (formData.nome && formData.email && formData.telefone && formData.id) {
+    if (TrainingService.validateCliente(formData)) {
       setClientes([...clientes, { ...formData }]);
       setFormData({ nome: '', email: '', telefone: '', id: '' });
       setShowForm(false);
@@ -133,6 +110,7 @@ export default function AreaTreinador({ navigation }: any) {
         // Modo edição: atualizar treino existente
         const treinosAtualizados = [...treinos];
         treinosAtualizados[editingTreinoIndex] = {
+          ...treinos[editingTreinoIndex],
           clienteNome: selectedCliente.nome,
           clienteId: selectedCliente.id,
           exercicios: exerciciosAtribuidos
@@ -141,6 +119,8 @@ export default function AreaTreinador({ navigation }: any) {
       } else {
         // Modo criação: adicionar novo treino
         const novoTreino: Treino = {
+          id: Date.now().toString(),
+          nome: `Treino de ${selectedCliente.nome}`,
           clienteNome: selectedCliente.nome,
           clienteId: selectedCliente.id,
           exercicios: exerciciosAtribuidos
@@ -184,8 +164,7 @@ export default function AreaTreinador({ navigation }: any) {
   };
 
   const handleAdicionarExercicio = () => {
-    if (treinoFormData.nomeExercicio && treinoFormData.area && 
-        treinoFormData.peso && treinoFormData.series && treinoFormData.repeticao && treinoFormData.diaSemana) {
+    if (TrainingService.validateExercicio(treinoFormData)) {
       
       if (editingExercicioIndex !== null) {
         // Modo edição de exercício
@@ -231,12 +210,12 @@ export default function AreaTreinador({ navigation }: any) {
     const exercicio = exerciciosAtuais[index];
     setTreinoFormData({
       ...treinoFormData,
-      nomeExercicio: exercicio.nomeExercicio,
-      area: exercicio.area,
-      peso: exercicio.peso,
-      series: exercicio.series,
-      repeticao: exercicio.repeticao,
-      diaSemana: exercicio.diaSemana
+      nomeExercicio: exercicio.nomeExercicio || '',
+      area: exercicio.area || '',
+      peso: exercicio.peso?.toString() || '',
+      series: exercicio.series?.toString() || '',
+      repeticao: exercicio.repeticao?.toString() || exercicio.repeticoes?.toString() || '',
+      diaSemana: exercicio.diaSemana || ''
     });
     setEditingExercicioIndex(index);
   };
@@ -271,11 +250,10 @@ export default function AreaTreinador({ navigation }: any) {
         setTreinosPadrao(treinosAtualizados);
       } else {
         // Modo criação de treino padrão
-        const novoTreinoPadrao: TreinoPadrao = {
-          id: Date.now().toString(),
-          nomeTreino: treinoFormData.nomeTreino,
-          exercicios: exerciciosAtuais
-        };
+        const novoTreinoPadrao = TrainingService.createTreinoPadrao(
+          treinoFormData.nomeTreino,
+          exerciciosAtuais
+        );
         setTreinosPadrao([...treinosPadrao, novoTreinoPadrao]);
       }
       
@@ -312,216 +290,38 @@ export default function AreaTreinador({ navigation }: any) {
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {/* Aba Clientes */}
         {activeTab === 'clientes' && (
-          <>
-            {clientes.length === 0 && !showForm && (
-              <View style={styles.emptyState}>
-                <Text style={styles.emptyStateText}>Nenhum Cliente encontrado</Text>
-                <Text style={styles.emptyStateText}>e/ou cadastrado</Text>
-              </View>
-            )}
-
-            {showForm && (
-              <View style={styles.formContainer}>
-                <Text style={styles.formTitle}>Cadastrar Cliente</Text>
-                
-                <View style={styles.inputGroup}>
-                  <Text style={styles.inputLabel}>Nome</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData.nome}
-                    onChangeText={(text) => setFormData({ ...formData, nome: text })}
-                    placeholder="Digite o nome"
-                  />
-                </View>
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.inputLabel}>E-mail</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData.email}
-                    onChangeText={(text) => setFormData({ ...formData, email: text })}
-                    placeholder="Digite o e-mail"
-                    keyboardType="email-address"
-                  />
-                </View>
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.inputLabel}>Telefone</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData.telefone}
-                    onChangeText={(text) => setFormData({ ...formData, telefone: text })}
-                    placeholder="Digite o telefone"
-                    keyboardType="phone-pad"
-                  />
-                </View>
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.inputLabel}>ID do Cliente</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData.id}
-                    onChangeText={(text) => setFormData({ ...formData, id: text })}
-                    placeholder="Digite o ID"
-                  />
-                </View>
-
-                <TouchableOpacity style={styles.concludeButton} onPress={handleConcluirCadastro}>
-                  <Text style={styles.concludeButtonText}>Concluir cadastro</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-            {!showForm && clientes.length > 0 && (
-              <View style={styles.clientsListContainer}>
-                {clientes.map((cliente, index) => {
-                  const clienteTemTreino = treinos.some(t => t.clienteId === cliente.id);
-                  
-                  return (
-                    <View key={index} style={styles.clientCard}>
-                      <View style={styles.clientInfoContainer}>
-                        <View style={styles.clientInfo}>
-                          <Text style={styles.clientLabel}>Cliente:</Text>
-                          <Text style={styles.clientValue}>{cliente.nome}</Text>
-                        </View>
-                        <View style={styles.clientInfo}>
-                          <Text style={styles.clientLabel}>ID:</Text>
-                          <Text style={styles.clientValue}>{cliente.id}</Text>
-                        </View>
-                      </View>
-                      
-                      {!clienteTemTreino ? (
-                        <TouchableOpacity 
-                          style={styles.montarTreinoButton}
-                          onPress={() => handleMontarTreinoCliente(cliente)}
-                        >
-                          <Ionicons name="barbell" size={20} color="#fff" />
-                          <Text style={styles.montarTreinoButtonText}>Montar Treino</Text>
-                        </TouchableOpacity>
-                      ) : (
-                        <View style={styles.treinoActionsContainer}>
-                          <TouchableOpacity 
-                            style={styles.editarTreinoButton}
-                            onPress={() => handleEditarTreino(cliente)}
-                          >
-                            <Ionicons name="create-outline" size={20} color="#fff" />
-                            <Text style={styles.editarTreinoButtonText}>Editar</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity 
-                            style={styles.mostrarTreinoButton}
-                            onPress={() => handleMostrarTreino(cliente)}
-                          >
-                            <Ionicons name="eye-outline" size={20} color="#fff" />
-                            <Text style={styles.mostrarTreinoButtonText}>Ver Treino</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                    </View>
-                  );
-                })}
-              </View>
-            )}
-
-            {!showForm && (
-              <TouchableOpacity style={styles.addButton} onPress={handleAddClient}>
-                <Text style={styles.addButtonText}>Adicionar Cliente</Text>
-              </TouchableOpacity>
-            )}
-          </>
+          <ClientesTab
+            clientes={clientes}
+            treinos={treinos}
+            showForm={showForm}
+            formData={formData}
+            onChangeFormData={setFormData}
+            onAddClient={handleAddClient}
+            onConcluirCadastro={handleConcluirCadastro}
+            onMontarTreino={handleMontarTreinoCliente}
+            onEditarTreino={handleEditarTreino}
+            onMostrarTreino={handleMostrarTreino}
+          />
         )}
 
         {/* Aba Biblioteca de Treinos */}
         {activeTab === 'biblioteca' && (
-          <>
-            {treinosPadrao.length === 0 && !showBibliotecaForm && (
-              <View style={styles.emptyState}>
-                <Text style={styles.emptyStateText}>Nenhum treino encontrado</Text>
-                <Text style={styles.emptyStateText}>e/ou cadastrado</Text>
-              </View>
-            )}
-
-            {!showBibliotecaForm && treinosPadrao.length > 0 && (
-              <View style={styles.treinosListContainer}>
-                {treinosPadrao.map((treino, treinoIndex) => (
-                  <View key={treinoIndex} style={styles.treinoCard}>
-                    <View style={styles.treinoCardHeader}>
-                      <Text style={styles.treinoCardTitle}>{treino.nomeTreino}</Text>
-                      <View style={styles.treinoCardActions}>
-                        <TouchableOpacity 
-                          style={styles.editTreinoCardButton}
-                          onPress={() => handleEditarTreinoPadrao(treinoIndex)}
-                        >
-                          <Ionicons name="create-outline" size={20} color="#FF9800" />
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                          style={styles.deleteTreinoCardButton}
-                          onPress={() => handleExcluirTreinoPadrao(treinoIndex)}
-                        >
-                          <Ionicons name="trash-outline" size={20} color="#FF3B30" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <Text style={styles.exercicioCount}>{treino.exercicios.length} exercícios</Text>
-                    {treino.exercicios.map((exercicio, exIndex) => (
-                      <View key={exIndex} style={styles.exercicioItem}>
-                        <View style={styles.exercicioItemContent}>
-                          <Text style={styles.exercicioText}>{exercicio.nomeExercicio}</Text>
-                          <Text style={styles.exercicioDetails}>
-                            {exercicio.series}x{exercicio.repeticao} - {exercicio.peso}kg - {exercicio.diaSemana}
-                          </Text>
-                        </View>
-                      </View>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            )}
-
-            {!showBibliotecaForm && (
-              <TouchableOpacity style={styles.addButton} onPress={handleAddTreino}>
-                <Text style={styles.addButtonText}>Adicionar treino</Text>
-              </TouchableOpacity>
-            )}
-          </>
+          <BibliotecaTab
+            treinosPadrao={treinosPadrao}
+            showBibliotecaForm={showBibliotecaForm}
+            onAddTreino={handleAddTreino}
+            onEditarTreino={handleEditarTreinoPadrao}
+            onExcluirTreino={handleExcluirTreinoPadrao}
+          />
         )}
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity 
-          style={[styles.navButton, activeTab === 'clientes' && styles.navButtonActive]}
-          onPress={() => setActiveTab('clientes')}
-        >
-          <Ionicons 
-            name="people" 
-            size={28} 
-            color={activeTab === 'clientes' ? '#fff' : '#B8B7E8'} 
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={[styles.navButton, activeTab === 'biblioteca' && styles.navButtonActive]}
-          onPress={() => setActiveTab('biblioteca')}
-        >
-          <Ionicons 
-            name="barbell" 
-            size={28} 
-            color={activeTab === 'biblioteca' ? '#fff' : '#B8B7E8'} 
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={[styles.navButton, activeTab === 'sair' && styles.navButtonActive]}
-          onPress={handleLogout}
-        >
-          <Ionicons 
-            name="log-out" 
-            size={28} 
-            color={'#B8B7E8'} 
-          />
-        </TouchableOpacity>
-      </View>
-
+      <BottomNavigation
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onLogout={handleLogout}
+      />
       {/* Modal de Cadastro de Treino na Biblioteca */}
       <Modal
         visible={showBibliotecaForm}
@@ -581,7 +381,7 @@ export default function AreaTreinador({ navigation }: any) {
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Dia da Semana</Text>
                 <View style={styles.diasSemanaContainer}>
-                  {['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'].map((dia) => (
+                  {DIAS_SEMANA.map((dia) => (
                     <TouchableOpacity
                       key={dia}
                       style={[
@@ -732,10 +532,11 @@ export default function AreaTreinador({ navigation }: any) {
                     const treinosAgrupados: { [key: string]: Exercicio[] } = {};
                     
                     treino.exercicios.forEach(ex => {
-                      if (!treinosAgrupados[ex.nomeTreino]) {
-                        treinosAgrupados[ex.nomeTreino] = [];
+                      const nomeTreino = ex.nomeTreino || 'Treino Sem Nome';
+                      if (!treinosAgrupados[nomeTreino]) {
+                        treinosAgrupados[nomeTreino] = [];
                       }
-                      treinosAgrupados[ex.nomeTreino].push(ex);
+                      treinosAgrupados[nomeTreino].push(ex);
                     });
 
                     return Object.keys(treinosAgrupados).map((nomeTreino, index) => (

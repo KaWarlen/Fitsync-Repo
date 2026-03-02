@@ -4,14 +4,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const AUTH_USER_KEY = '@fitsync_auth_user';
 const USERS_DATABASE_KEY = '@fitsync_users_db';
 
-// Interface local do usuário (substitui Firebase User)
+// Interface do usuário autenticado
 export interface LocalUser {
   uid: string;
   email: string;
   userType?: 'personal' | 'aluno';
 }
 
-// Simulação de resposta do Firebase
+// Resposta de autenticação
 interface AuthResult {
   user: LocalUser;
 }
@@ -49,7 +49,7 @@ const saveUserDatabase = async (users: UserCredentials[]): Promise<void> => {
   }
 };
 
-// **REGISTRO** - Substitui createUserWithEmailAndPassword
+// Registro de novo usuário
 export const registerWithEmail = async (email: string, password: string): Promise<AuthResult> => {
   try {
     const users = await getUserDatabase();
@@ -74,7 +74,7 @@ export const registerWithEmail = async (email: string, password: string): Promis
     
     return { user: localUser };
   } catch (error: any) {
-    // Simula erros do Firebase
+    // Tratamento de erros
     if (error.message === 'auth/email-already-in-use') {
       throw { code: 'auth/email-already-in-use', message: 'E-mail já cadastrado' };
     }
@@ -82,7 +82,7 @@ export const registerWithEmail = async (email: string, password: string): Promis
   }
 };
 
-// **LOGIN** - Substitui signInWithEmailAndPassword  
+// Login de usuário existente
 export const loginWithEmail = async (email: string, password: string): Promise<AuthResult> => {
   try {
     const users = await getUserDatabase();
@@ -105,7 +105,7 @@ export const loginWithEmail = async (email: string, password: string): Promise<A
     
     return { user: localUser };
   } catch (error: any) {
-    // Simula erros do Firebase
+    // Tratamento de erros
     if (error.message === 'auth/user-not-found') {
       throw { code: 'auth/user-not-found', message: 'E-mail ou senha incorretos' };
     }
@@ -113,7 +113,7 @@ export const loginWithEmail = async (email: string, password: string): Promise<A
   }
 };
 
-// **LOGOUT** - Substitui signOut
+// Logout do usuário
 export const logout = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(AUTH_USER_KEY);
@@ -122,7 +122,7 @@ export const logout = async (): Promise<void> => {
   }
 };
 
-// **OBSERVER** - Substitui onAuthStateChanged  
+// Observa estado de autenticação
 export const observeAuth = async (callback: (user: LocalUser | null) => void): Promise<void> => {
   try {
     const userData = await AsyncStorage.getItem(AUTH_USER_KEY);
@@ -134,7 +134,7 @@ export const observeAuth = async (callback: (user: LocalUser | null) => void): P
   }
 };
 
-// **USUÁRIO ATUAL** - Nova função para pegar usuário logado
+// Retorna usuário atualmente logado
 export const getCurrentUser = async (): Promise<LocalUser | null> => {
   try {
     const userData = await AsyncStorage.getItem(AUTH_USER_KEY);
@@ -145,7 +145,7 @@ export const getCurrentUser = async (): Promise<LocalUser | null> => {
   }
 };
 
-// **UTILITÁRIO** - Limpa toda base de dados (para desenvolvimento)
+// Limpa toda base de dados local (útil para desenvolvimento)
 export const clearAllData = async (): Promise<void> => {
   try {
     await AsyncStorage.multiRemove([AUTH_USER_KEY, USERS_DATABASE_KEY]);

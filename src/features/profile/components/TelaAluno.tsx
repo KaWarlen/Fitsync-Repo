@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { Treinos } from '../../../shared';
+import Treinos from '../../../shared/components/Treinos';
 import Perfil from './Perfil';
 
 const Tab = createBottomTabNavigator();

@@ -2,22 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/TreinosCliente';
-
-interface Exercicio {
-  nomeTreino: string;
-  nomeExercicio: string;
-  area: string;
-  peso: string;
-  series: string;
-  repeticao: string;
-  diaSemana?: string;
-}
-
-interface Treino {
-  clienteNome: string;
-  clienteId: string;
-  exercicios: Exercicio[];
-}
+import { Exercicio, Treino } from '../types';
+import { TrainingService } from '../services';
+import { DIAS_SEMANA } from '../constants';
 
 export default function TreinosCliente({ route, navigation }: any) {
   const { cliente, treinos } = route.params;
@@ -36,18 +23,13 @@ export default function TreinosCliente({ route, navigation }: any) {
   };
 
   // Agrupar exercícios por dia da semana
-  const treinosPorDia: { [key: string]: Exercicio[] } = {};
+  const todosExercicios: Exercicio[] = [];
   treinosCliente.forEach((treino: Treino) => {
-    treino.exercicios.forEach((ex: Exercicio) => {
-      const dia = ex.diaSemana || 'Sem dia definido';
-      if (!treinosPorDia[dia]) {
-        treinosPorDia[dia] = [];
-      }
-      treinosPorDia[dia].push(ex);
-    });
+    todosExercicios.push(...treino.exercicios);
   });
-
-  const diasOrdenados = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo', 'Sem dia definido'];
+  
+  const treinosPorDia = TrainingService.groupExerciciosByDia(todosExercicios);
+  const diasOrdenados = [...DIAS_SEMANA, 'Sem dia definido'];
   const diasFiltrados = diasOrdenados.filter(dia => treinosPorDia[dia]);
 
   return (
