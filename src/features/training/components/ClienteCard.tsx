@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/AreaTreinador';
 import { Cliente } from '../types';
 
 interface ClienteCardProps {
@@ -10,6 +9,7 @@ interface ClienteCardProps {
   onMontarTreino: (cliente: Cliente) => void;
   onEditarTreino: (cliente: Cliente) => void;
   onMostrarTreino: (cliente: Cliente) => void;
+  styles: any;
 }
 
 export default function ClienteCard({
@@ -17,7 +17,8 @@ export default function ClienteCard({
   temTreino,
   onMontarTreino,
   onEditarTreino,
-  onMostrarTreino
+  onMostrarTreino,
+  styles
 }: ClienteCardProps) {
   return (
     <View style={styles.clientCard}>

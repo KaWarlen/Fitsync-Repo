@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import styles from '../styles/cadastro1';
+import { getStyles } from '../styles/cadastro1';
 import { validateEmail, validatePassword, getEmailErrorMessage, getPasswordErrorMessage } from '../../../shared/utils/validation';
 import { logger } from '../../../shared/services/logger';
+import { useTheme } from '../../../shared/theme';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
 }
 
 export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const [primeiroNome, setPrimeiroNome] = useState('');
   const [nomeDoMeio, setNomeDoMeio] = useState('');
   const [email, setEmail] = useState('');
@@ -80,7 +83,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               <TextInput
                 style={styles.input}
                 placeholder="Digite seu primeiro nome"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={primeiroNome}
                 onChangeText={setPrimeiroNome}
                 autoCapitalize="words"
@@ -92,7 +95,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               <TextInput
                 style={styles.input}
                 placeholder="Digite seu nome do meio (opcional)"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={nomeDoMeio}
                 onChangeText={setNomeDoMeio}
                 autoCapitalize="words"
@@ -104,7 +107,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               <TextInput
                 style={styles.input}
                 placeholder="seu@email.com"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -118,7 +121,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               <TextInput
                 style={styles.input}
                 placeholder="••••••••"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={senha}
                 onChangeText={setSenha}
                 secureTextEntry
@@ -131,7 +134,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               <TextInput
                 style={styles.input}
                 placeholder="Ex: 25"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={idade}
                 onChangeText={setIdade}
                 keyboardType="numeric"

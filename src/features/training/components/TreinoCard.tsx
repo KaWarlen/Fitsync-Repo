@@ -1,16 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/AreaTreinador';
 import { TreinoPadrao } from '../types';
+import { useTheme } from '../../../shared/theme';
 
 interface TreinoCardProps {
   treino: TreinoPadrao;
   onEditar: () => void;
   onExcluir: () => void;
+  styles: any;
 }
 
-export default function TreinoCard({ treino, onEditar, onExcluir }: TreinoCardProps) {
+export default function TreinoCard({ treino, onEditar, onExcluir, styles }: TreinoCardProps) {
+  const { theme } = useTheme();
   return (
     <View style={styles.treinoCard}>
       <View style={styles.treinoCardHeader}>
@@ -20,13 +22,13 @@ export default function TreinoCard({ treino, onEditar, onExcluir }: TreinoCardPr
             style={styles.editTreinoCardButton}
             onPress={onEditar}
           >
-            <Ionicons name="create-outline" size={20} color="#FF9800" />
+            <Ionicons name="create-outline" size={20} color={theme.warning} />
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.deleteTreinoCardButton}
             onPress={onExcluir}
           >
-            <Ionicons name="trash-outline" size={20} color="#FF3B30" />
+            <Ionicons name="trash-outline" size={20} color={theme.error} />
           </TouchableOpacity>
         </View>
       </View>

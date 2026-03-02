@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import styles from '../styles/AreaTreinador';
 import { Cliente, Treino, ClienteFormData } from '../types';
 import { TrainingService } from '../services';
 import ClienteCard from './ClienteCard';
@@ -17,6 +16,7 @@ interface ClientesTabProps {
   onMontarTreino: (cliente: Cliente) => void;
   onEditarTreino: (cliente: Cliente) => void;
   onMostrarTreino: (cliente: Cliente) => void;
+  styles: any;
 }
 
 export default function ClientesTab({
@@ -29,7 +29,8 @@ export default function ClientesTab({
   onConcluirCadastro,
   onMontarTreino,
   onEditarTreino,
-  onMostrarTreino
+  onMostrarTreino,
+  styles
 }: ClientesTabProps) {
   return (
     <>
@@ -44,7 +45,8 @@ export default function ClientesTab({
         <ClienteForm
           formData={formData}
           onChangeFormData={onChangeFormData}
-          onConcluir={onConcluirCadastro}
+          onConcluirCadastro={onConcluirCadastro}
+          styles={styles}
         />
       )}
 
@@ -61,6 +63,7 @@ export default function ClientesTab({
                 onMontarTreino={onMontarTreino}
                 onEditarTreino={onEditarTreino}
                 onMostrarTreino={onMostrarTreino}
+                styles={styles}
               />
             );
           })}

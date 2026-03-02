@@ -13,13 +13,14 @@ export type RootStackParamList = {
   TelaAluno: { userData?: LocalUser };
   DetalheTreino: { treino: Treino };
   TreinosCliente: { cliente: Cliente; treinos: Treino[] };
+  Settings: { userData?: LocalUser };
 };
 
 // Tipos de parâmetros para as abas do aluno (Bottom Tab Navigator)
 export type AlunoTabParamList = {
   TreinosTab: undefined;
   PerfilTab: undefined;
-  SairTab: undefined;
+  SettingsTab: undefined;
 };
 
 // Props tipadas para cada tela (Stack)
@@ -30,11 +31,12 @@ export type AreaTreinadorProps = NativeStackScreenProps<RootStackParamList, 'Are
 export type TelaAlunoProps = NativeStackScreenProps<RootStackParamList, 'TelaAluno'>;
 export type DetalheTreinoProps = NativeStackScreenProps<RootStackParamList, 'DetalheTreino'>;
 export type TreinosClienteProps = NativeStackScreenProps<RootStackParamList, 'TreinosCliente'>;
+export type SettingsProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 // Props tipadas para as abas (Bottom Tab)
 export type TreinosTabProps = BottomTabScreenProps<AlunoTabParamList, 'TreinosTab'>;
 export type PerfilTabProps = BottomTabScreenProps<AlunoTabParamList, 'PerfilTab'>;
-export type SairTabProps = BottomTabScreenProps<AlunoTabParamList, 'SairTab'>;
+export type SettingsTabProps = BottomTabScreenProps<AlunoTabParamList, 'SettingsTab'>;
 
 // Tipo genérico para componentes com navegação
 export type NavigationProps = NativeStackScreenProps<RootStackParamList, keyof RootStackParamList>;

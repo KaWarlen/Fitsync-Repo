@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/DetalheTreino';
 import { Exercicio } from '../types';
+import { useTheme } from '../../../shared/theme';
 
 interface ExercicioCardProps {
   exercicio: Exercicio;
   onToggle: () => void;
+  styles: any;
 }
 
-export default function ExercicioCard({ exercicio, onToggle }: ExercicioCardProps) {
+export default function ExercicioCard({ exercicio, onToggle, styles }: ExercicioCardProps) {
+  const { theme } = useTheme();
   return (
     <TouchableOpacity
       style={[
@@ -23,7 +25,7 @@ export default function ExercicioCard({ exercicio, onToggle }: ExercicioCardProp
           <Ionicons 
             name={exercicio.concluido ? "checkmark-circle" : "ellipse-outline"} 
             size={28} 
-            color={exercicio.concluido ? "#00C853" : "#999"} 
+            color={exercicio.concluido ? theme.success : theme.iconInactive} 
           />
           <Text style={[
             styles.exercicioNome,
@@ -36,15 +38,15 @@ export default function ExercicioCard({ exercicio, onToggle }: ExercicioCardProp
       
       <View style={styles.exercicioDetalhes}>
         <View style={styles.detalheItem}>
-          <Ionicons name="repeat" size={16} color="#666" />
+          <Ionicons name="repeat" size={16} color={theme.icon} />
           <Text style={styles.detalheText}>{exercicio.series} séries</Text>
         </View>
         <View style={styles.detalheItem}>
-          <Ionicons name="fitness" size={16} color="#666" />
+          <Ionicons name="fitness" size={16} color={theme.icon} />
           <Text style={styles.detalheText}>{exercicio.repeticoes} reps</Text>
         </View>
         <View style={styles.detalheItem}>
-          <Ionicons name="barbell" size={16} color="#666" />
+          <Ionicons name="barbell" size={16} color={theme.icon} />
           <Text style={styles.detalheText}>{exercicio.peso}</Text>
         </View>
       </View>

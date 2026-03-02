@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../theme";
 
-const styles = StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 50,
     paddingBottom: 30,
     paddingHorizontal: 20,
@@ -37,11 +38,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   treinoCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   treinoHeader: {
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: theme.divider,
     paddingBottom: 10,
   },
   treinoHeaderRow: {
@@ -65,12 +66,12 @@ const styles = StyleSheet.create({
   treinoNome: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: theme.text,
     flex: 1,
   },
   treinoDia: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
   },
   treinoFooter: {
     flexDirection: 'row',
@@ -79,9 +80,9 @@ const styles = StyleSheet.create({
   },
   treinoInfo: {
     fontSize: 14,
-    color: '#007AFF',
+    color: theme.primary,
     fontWeight: '600',
   },
 });
 
-export default styles;
+export default getStyles;

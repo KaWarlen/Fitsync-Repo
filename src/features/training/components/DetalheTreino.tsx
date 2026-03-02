@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/DetalheTreino';
+import { getStyles } from '../styles/DetalheTreino';
 import { Exercicio } from '../types';
 import { TrainingService } from '../services';
 import ExercicioCard from './ExercicioCard';
 import ProgressHeader from './ProgressHeader';
 import { DetalheTreinoProps } from '../../../shared/types/navigation';
+import { useTheme } from '../../../shared/theme';
 
 export default function DetalheTreino({ route, navigation }: DetalheTreinoProps) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const { treino } = route.params;
   
   const [exercicios, setExercicios] = useState<Exercicio[]>([
@@ -47,6 +50,7 @@ export default function DetalheTreino({ route, navigation }: DetalheTreinoProps)
         total={total}
         percentual={percentual}
         todosConcluidos={todosConcluidos}
+        styles={styles}
       />
 
       {/* Exercícios */}
@@ -56,6 +60,7 @@ export default function DetalheTreino({ route, navigation }: DetalheTreinoProps)
             key={exercicio.id}
             exercicio={exercicio}
             onToggle={() => toggleExercicio(exercicio.id || '')}
+            styles={styles}
           />
         ))}
       </ScrollView>

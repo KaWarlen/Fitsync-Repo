@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Perfil';
+import { getStyles } from '../styles/Perfil';
 import { getUserData } from '../../../shared/services/storage';
 import { UserData } from '../../../shared/types';
 import { SharedComponentProps } from '../../../shared/types/navigation';
+import { useTheme } from '../../../shared/theme';
 
 export default function Perfil({ route, navigation }: SharedComponentProps) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const [userData, setUserData] = useState<UserData>({});
 
   useEffect(() => {

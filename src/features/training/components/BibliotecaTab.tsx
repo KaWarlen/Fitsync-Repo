@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from '../styles/AreaTreinador';
 import { TreinoPadrao } from '../types';
 import TreinoCard from './TreinoCard';
 
@@ -10,6 +9,7 @@ interface BibliotecaTabProps {
   onAddTreino: () => void;
   onEditarTreino: (index: number) => void;
   onExcluirTreino: (index: number) => void;
+  styles: any;
 }
 
 export default function BibliotecaTab({
@@ -17,7 +17,8 @@ export default function BibliotecaTab({
   showBibliotecaForm,
   onAddTreino,
   onEditarTreino,
-  onExcluirTreino
+  onExcluirTreino,
+  styles
 }: BibliotecaTabProps) {
   return (
     <>
@@ -36,6 +37,7 @@ export default function BibliotecaTab({
               treino={treino}
               onEditar={() => onEditarTreino(treinoIndex)}
               onExcluir={() => onExcluirTreino(treinoIndex)}
+              styles={styles}
             />
           ))}
         </View>

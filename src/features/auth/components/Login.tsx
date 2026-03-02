@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Login';
+import { getStyles } from '../styles/Login';
 import { loginWithEmail } from '../services/auth';
 import { LoginProps } from '../../../shared/types/navigation';
 import { validateEmail } from '../../../shared/utils/validation';
 import { logger } from '../../../shared/services/logger';
+import { useTheme } from '../../../shared/theme';
 
 export default function Login({ navigation, route }: LoginProps) {
+  const { theme, isDark } = useTheme();
+  const styles = getStyles(theme);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Recebe userType da tela Inicio ('personal' ou 'aluno')
   const userType = route?.params?.userType || 'aluno';
+
+  // Seleciona a imagem baseada no tema
+  const logoSource = isDark 
+    ? require('../../../../assets/Fitsync-dark.png')
+    : require('../../../../assets/FitSync.png');
 
   const handleLogin = () => {
     // Validar campos
@@ -64,7 +72,7 @@ export default function Login({ navigation, route }: LoginProps) {
         {/* Logo */}
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-              <Image source={require('../../../../assets/FitSync.png')} style={styles.logoImage} />
+              <Image source={logoSource} style={styles.logoImage} />
             </View>
           <Text style={styles.subtitle}>Faça login para continuar</Text>
         </View>
@@ -74,11 +82,11 @@ export default function Login({ navigation, route }: LoginProps) {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Email</Text>
             <View style={styles.inputWrapper}>
-              <Ionicons name="mail-outline" size={20} color="#999" style={styles.inputIcon} />
+              <Ionicons name="mail-outline" size={20} color={theme.iconInactive} style={styles.inputIcon} />
               <TextInput
                 style={styles.inputWithIcon}
                 placeholder="seu@email.com"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -91,11 +99,11 @@ export default function Login({ navigation, route }: LoginProps) {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Senha</Text>
             <View style={styles.inputWrapper}>
-              <Ionicons name="lock-closed-outline" size={20} color="#999" style={styles.inputIcon} />
+              <Ionicons name="lock-closed-outline" size={20} color={theme.iconInactive} style={styles.inputIcon} />
               <TextInput
                 style={styles.inputWithIcon}
                 placeholder="••••••••"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry

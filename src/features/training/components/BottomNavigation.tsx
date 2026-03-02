@@ -1,15 +1,18 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/AreaTreinador';
+import { useTheme } from '../../../shared/theme';
 
 interface BottomNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onLogout: () => void;
+  onSettings?: () => void;
+  styles: any;
 }
 
-export default function BottomNavigation({ activeTab, onTabChange, onLogout }: BottomNavigationProps) {
+export default function BottomNavigation({ activeTab, onTabChange, onLogout, onSettings, styles }: BottomNavigationProps) {
+  const { theme } = useTheme();
   return (
     <View style={styles.bottomNav}>
       <TouchableOpacity 
@@ -19,7 +22,7 @@ export default function BottomNavigation({ activeTab, onTabChange, onLogout }: B
         <Ionicons 
           name="people" 
           size={28} 
-          color={activeTab === 'clientes' ? '#fff' : '#B8B7E8'} 
+          color={activeTab === 'clientes' ? theme.buttonText : theme.iconInactive} 
         />
       </TouchableOpacity>
 
@@ -30,18 +33,18 @@ export default function BottomNavigation({ activeTab, onTabChange, onLogout }: B
         <Ionicons 
           name="barbell" 
           size={28} 
-          color={activeTab === 'biblioteca' ? '#fff' : '#B8B7E8'} 
+          color={activeTab === 'biblioteca' ? theme.buttonText : theme.iconInactive} 
         />
       </TouchableOpacity>
 
       <TouchableOpacity 
-        style={[styles.navButton, activeTab === 'sair' && styles.navButtonActive]}
-        onPress={onLogout}
+        style={[styles.navButton, activeTab === 'settings' && styles.navButtonActive]}
+        onPress={onSettings || onLogout}
       >
         <Ionicons 
-          name="log-out" 
+          name="settings" 
           size={28} 
-          color={'#B8B7E8'} 
+          color={activeTab === 'settings' ? theme.buttonText : theme.iconInactive} 
         />
       </TouchableOpacity>
     </View>

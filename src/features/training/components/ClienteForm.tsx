@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import styles from '../styles/AreaTreinador';
 import { ClienteFormData } from '../types';
+import { useTheme } from '../../../shared/theme';
 
 interface ClienteFormProps {
   formData: ClienteFormData;
   onChangeFormData: (data: ClienteFormData) => void;
-  onConcluir: () => void;
+  onConcluirCadastro: () => void;
+  styles: any;
 }
 
 export default function ClienteForm({ formData, onChangeFormData, onConcluir }: ClienteFormProps) {

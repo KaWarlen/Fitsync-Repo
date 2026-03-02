@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/AreaTreinador';
+import { getStyles } from '../styles/AreaTreinador';
 import { Cliente, Exercicio, Treino, TreinoPadrao, ClienteFormData, TreinoFormData } from '../types';
 import { TrainingService } from '../services';
 import { DIAS_SEMANA } from '../constants';
@@ -9,8 +9,11 @@ import ClientesTab from './ClientesTab';
 import BibliotecaTab from './BibliotecaTab';
 import BottomNavigation from './BottomNavigation';
 import { AreaTreinadorProps } from '../../../shared/types/navigation';
+import { useTheme } from '../../../shared/theme';
 
 export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const [activeTab, setActiveTab] = useState('clientes');
   const [showForm, setShowForm] = useState(false);
   const [showTreinoForm, setShowTreinoForm] = useState(false);
@@ -44,6 +47,10 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
 
   const handleLogout = () => {
     navigation.navigate('Login', {});
+  };
+
+  const handleSettings = () => {
+    navigation.navigate('Settings', {});
   };
 
   const handleAddClient = () => {
@@ -302,6 +309,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
             onMontarTreino={handleMontarTreinoCliente}
             onEditarTreino={handleEditarTreino}
             onMostrarTreino={handleMostrarTreino}
+            styles={styles}
           />
         )}
 
@@ -313,6 +321,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
             onAddTreino={handleAddTreino}
             onEditarTreino={handleEditarTreinoPadrao}
             onExcluirTreino={handleExcluirTreinoPadrao}
+            styles={styles}
           />
         )}
       </ScrollView>
@@ -322,6 +331,8 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onLogout={handleLogout}
+        onSettings={handleSettings}
+        styles={styles}
       />
       {/* Modal de Cadastro de Treino na Biblioteca */}
       <Modal

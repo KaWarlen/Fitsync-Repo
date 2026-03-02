@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { ThemeColors } from '../../../shared/theme';
 
-export default StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
     alignItems: 'center',
     paddingHorizontal: 24,
     paddingTop: 40,
@@ -20,18 +21,18 @@ export default StyleSheet.create({
   title: {
     fontSize: 42,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
     marginTop: 0,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: theme.textSecondary,
     marginTop: 8,
   },
   question: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     textAlign: 'center',
     marginBottom: 24,
     marginTop: 'auto',
@@ -47,15 +48,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingVertical: 18,
     paddingHorizontal: 24,
     borderRadius: 12,
   },
   buttonSecondary: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderWidth: 2,
-    borderColor: '#007AFF',
+    borderColor: theme.primary,
   },
   buttonText: {
     fontSize: 18,
@@ -64,6 +65,8 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
   buttonTextSecondary: {
-    color: '#007AFF',
+    color: theme.primary,
   },
 });
+
+export default getStyles;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from '../styles/cadastro3';
+import { getStyles } from '../styles/cadastro3';
 import { logger } from '../../../shared/services/logger';
+import { useTheme } from '../../../shared/theme';
 
 interface CadastroEtapa3Props {
   onFinish?: (data: any) => void;
@@ -9,6 +10,8 @@ interface CadastroEtapa3Props {
 }
 
 export default function CadastroEtapa3({ onFinish, onBack }: CadastroEtapa3Props) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const [horario, setHorario] = useState('');
   const [focos, setFocos] = useState<string[]>([]);
 

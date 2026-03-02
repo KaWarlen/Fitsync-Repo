@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../../shared/theme";
 
-const styles = StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
   },
   content: {
     flex: 1,
@@ -28,11 +29,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: theme.textSecondary,
   },
   form: {
     width: '100%',
@@ -43,17 +44,17 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     marginBottom: 8,
   },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: theme.inputBackground,
     borderRadius: 10,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: theme.inputBorder,
   },
   inputIcon: {
     marginRight: 10,
@@ -62,33 +63,33 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 15,
     fontSize: 16,
-    color: '#333',
+    color: theme.text,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.inputBackground,
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 15,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-    color: '#333',
+    borderColor: theme.inputBorder,
+    color: theme.text,
   },
   forgotPassword: {
-    color: '#007AFF',
+    color: theme.primary,
     fontSize: 14,
     textAlign: 'right',
     marginTop: 10,
     marginBottom: 30,
   },
   loginButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     borderRadius: 10,
     paddingVertical: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#007AFF',
+    shadowColor: theme.primary,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   trainerButton: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 10,
     paddingVertical: 15,
     flexDirection: 'row',
@@ -114,10 +115,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 15,
     borderWidth: 2,
-    borderColor: '#007AFF',
+    borderColor: theme.primary,
   },
   trainerButtonText: {
-    color: '#007AFF',
+    color: theme.primary,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -129,13 +130,13 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
   },
   signUpText: {
     fontSize: 14,
-    color: '#007AFF',
+    color: theme.primary,
     fontWeight: '600',
   },
 });
 
-export default styles;
+export default getStyles;

@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/Treinos';
+import { getStyles } from '../styles/Treinos';
 import { Treino } from '../../features/training/types';
 import { SharedComponentProps } from '../types/navigation';
+import { useTheme } from '../theme';
 
 export default function Treinos({ navigation }: SharedComponentProps) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   // Lista começa vazia — treinos aparecem apenas quando vinculados por um Personal Trainer
   const [treinos, setTreinos] = React.useState<Treino[]>([]);
 

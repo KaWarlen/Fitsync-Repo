@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
+import { ThemeColors } from '../../../shared/theme';
 
-export default StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: theme.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 50,
     paddingBottom: 15,
     paddingHorizontal: 20,
@@ -34,13 +35,13 @@ export default StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 18,
-    color: '#666',
+    color: theme.textSecondary,
     marginTop: 20,
     fontWeight: '600',
   },
   emptyStateSubtext: {
     fontSize: 16,
-    color: '#999',
+    color: theme.textTertiary,
     marginTop: 5,
   },
   diaContainer: {
@@ -49,7 +50,7 @@ export default StyleSheet.create({
   diaHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: theme.primaryLight,
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
@@ -57,15 +58,15 @@ export default StyleSheet.create({
   diaTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
     marginLeft: 10,
   },
   exercicioCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -74,8 +75,8 @@ export default StyleSheet.create({
     borderColor: 'transparent',
   },
   exercicioCardConcluido: {
-    borderColor: '#00C853',
-    backgroundColor: '#F1F8F4',
+    borderColor: theme.success,
+    backgroundColor: theme.primaryLight,
   },
   exercicioHeader: {
     flexDirection: 'row',
@@ -92,11 +93,11 @@ export default StyleSheet.create({
   exercicioNome: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: theme.text,
     flex: 1,
   },
   treinoBadge: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
@@ -118,6 +119,8 @@ export default StyleSheet.create({
   },
   detalheText: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
   },
 });
+
+export default getStyles;

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../styles/TreinosCliente';
+import { getStyles } from '../styles/TreinosCliente';
 import { Exercicio, Treino } from '../types';
 import { TrainingService } from '../services';
 import { DIAS_SEMANA } from '../constants';
 import { TreinosClienteProps } from '../../../shared/types/navigation';
+import { useTheme } from '../../../shared/theme';
 
 export default function TreinosCliente({ route, navigation }: TreinosClienteProps) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const { cliente, treinos } = route.params;
   const treinosCliente = treinos.filter((t: Treino) => t.clienteId === cliente.id);
   const [exerciciosConcluidos, setExerciciosConcluidos] = useState<Set<string>>(new Set());

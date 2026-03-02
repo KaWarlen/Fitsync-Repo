@@ -4,26 +4,29 @@ import { Ionicons } from '@expo/vector-icons';
 import Treinos from '../../../shared/components/Treinos';
 import Perfil from './Perfil';
 import { TelaAlunoProps, AlunoTabParamList } from '../../../shared/types/navigation';
+import { useTheme } from '../../../shared/theme';
 
 const Tab = createBottomTabNavigator<AlunoTabParamList>();
 
 export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
-  const handleLogout = () => {
-    navigation.navigate('Login', {});
+  const { theme } = useTheme();
+  
+  const handleSettings = () => {
+    navigation.navigate('Settings', {});
   };
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#999',
+        tabBarActiveTintColor: theme.tabActive,
+        tabBarInactiveTintColor: theme.tabInactive,
         tabBarStyle: {
           height: 95,
           paddingBottom: 30,
-          backgroundColor: '#fff',
+          backgroundColor: theme.tabBackground,
           borderTopWidth: 1,
-          borderTopColor: '#f0f0f0',
+          borderTopColor: theme.divider,
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -53,18 +56,18 @@ export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
         }}
       />
       <Tab.Screen
-        name="SairTab"
+        name="SettingsTab"
         component={Perfil}
         listeners={{
           tabPress: (e) => {
             e.preventDefault();
-            handleLogout();
+            handleSettings();
           },
         }}
         options={{
-          tabBarLabel: 'Sair',
+          tabBarLabel: 'Configurações',
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-            <Ionicons name="log-out" size={size} color={color} />
+            <Ionicons name="settings" size={size} color={color} />
           ),
         }}
       />

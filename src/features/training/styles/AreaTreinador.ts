@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../../shared/theme";
 
-const styles = StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 50,
     paddingBottom: 15,
     paddingHorizontal: 20,
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   emptyState: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: theme.tabBackground,
     marginHorizontal: 30,
     marginTop: 20,
     padding: 40,
@@ -34,13 +35,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateText: {
-    color: '#333',
+    color: theme.text,
     fontSize: 16,
     textAlign: 'center',
     lineHeight: 24,
   },
   addButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     marginHorizontal: 50,
     marginBottom: 30,
     paddingVertical: 15,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   formContainer: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: theme.tabBackground,
     marginHorizontal: 20,
     marginTop: 20,
     padding: 25,
@@ -62,14 +63,14 @@ const styles = StyleSheet.create({
   formTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     marginBottom: 20,
     textAlign: 'center',
   },
   clienteSelectedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: theme.primaryLight,
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
@@ -77,28 +78,28 @@ const styles = StyleSheet.create({
   },
   clienteSelectedText: {
     fontSize: 15,
-    color: '#007AFF',
+    color: theme.primary,
     fontWeight: '600',
   },
   exerciciosListContainer: {
     marginBottom: 15,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: theme.primaryLight,
     borderRadius: 10,
     padding: 15,
   },
   exerciciosListTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#00C853',
+    color: theme.success,
     marginBottom: 10,
   },
   exercicioAddedCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
     borderLeftWidth: 4,
-    borderLeftColor: '#00C853',
+    borderLeftColor: theme.success,
   },
   exercicioAddedContent: {
     flexDirection: 'row',
@@ -111,18 +112,18 @@ const styles = StyleSheet.create({
   exercicioAddedNome: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     marginBottom: 4,
   },
   exercicioAddedDetalhes: {
     fontSize: 13,
-    color: '#666',
+    color: theme.textSecondary,
     marginBottom: 6,
   },
   diaBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: theme.primaryLight,
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   },
   diaBadgeText: {
     fontSize: 11,
-    color: '#007AFF',
+    color: theme.primary,
     fontWeight: '600',
   },
   exercicioActions: {
@@ -139,14 +140,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   editExercicioButton: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: theme.primaryLight,
     padding: 8,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   deleteExercicioButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: theme.primaryLight,
     padding: 8,
     borderRadius: 8,
     justifyContent: 'center',
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
   },
   addExercicioButton: {
     flex: 1,
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     borderRadius: 10,
     paddingVertical: 12,
     flexDirection: 'row',
@@ -177,20 +178,22 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    color: '#007AFF',
+    color: theme.primary,
     marginBottom: 5,
     fontWeight: '500',
   },
   input: {
-    backgroundColor: '#e9e9e9ff',
+    backgroundColor: theme.inputBackground,
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 15,
     fontSize: 16,
-    color: '#000',
+    color: theme.text,
+    borderWidth: 1,
+    borderColor: theme.inputBorder,
   },
   concludeButton: {
-    backgroundColor: '#00C853',
+    backgroundColor: theme.success,
     borderRadius: 25,
     paddingVertical: 15,
     marginTop: 20,
@@ -206,11 +209,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   clientCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -229,20 +232,20 @@ const styles = StyleSheet.create({
   },
   clientLabel: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
     marginBottom: 5,
   },
   clientValue: {
     fontSize: 16,
-    color: '#333',
+    color: theme.text,
     fontWeight: '600',
   },
   treinoClientCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 15,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -261,16 +264,16 @@ const styles = StyleSheet.create({
   },
   treinoClientLabel: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
     marginBottom: 5,
   },
   treinoClientValue: {
     fontSize: 16,
-    color: '#333',
+    color: theme.text,
     fontWeight: '600',
   },
   montarTreinoButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -297,11 +300,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   treinoCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 10,
     padding: 20,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -313,7 +316,7 @@ const styles = StyleSheet.create({
   treinoCardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
     flex: 1,
   },
   treinoCardHeader: {
@@ -327,22 +330,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   editTreinoCardButton: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: theme.primaryLight,
     padding: 8,
     borderRadius: 8,
   },
   deleteTreinoCardButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: theme.primaryLight,
     padding: 8,
     borderRadius: 8,
   },
   exercicioCount: {
     fontSize: 13,
-    color: '#666',
+    color: theme.textSecondary,
     marginBottom: 12,
   },
   exercicioItem: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: theme.backgroundSecondary,
     padding: 12,
     borderRadius: 8,
     marginBottom: 8,
@@ -352,20 +355,20 @@ const styles = StyleSheet.create({
   },
   exercicioText: {
     fontSize: 15,
-    color: '#333',
+    color: theme.text,
     fontWeight: '600',
   },
   exercicioDetails: {
     fontSize: 13,
-    color: '#666',
+    color: theme.textSecondary,
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 15,
     paddingBottom: 45,
     borderTopWidth: 1,
-    borderTopColor: '#0066CC',
+    borderTopColor: theme.primaryDark,
   },
   navButton: {
     flex: 1,
@@ -393,10 +396,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: '90%',
     maxHeight: '85%',
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -417,7 +420,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
   },
   closeButton: {
     padding: 5,
@@ -432,7 +435,7 @@ const styles = StyleSheet.create({
   },
   editarTreinoButton: {
     flex: 1,
-    backgroundColor: '#FF9800',
+    backgroundColor: theme.warning,
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -448,7 +451,7 @@ const styles = StyleSheet.create({
   },
   mostrarTreinoButton: {
     flex: 1,
-    backgroundColor: '#00C853',
+    backgroundColor: theme.success,
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -469,20 +472,20 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   diaButton: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: theme.backgroundSecondary,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: theme.border,
   },
   diaButtonActive: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: theme.primary,
+    borderColor: theme.primary,
   },
   diaButtonText: {
     fontSize: 13,
-    color: '#666',
+    color: theme.textSecondary,
     fontWeight: '500',
   },
   diaButtonTextActive: {
@@ -490,7 +493,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   treinosAtuaisContainer: {
-    backgroundColor: '#FFF9E6',
+    backgroundColor: theme.primaryLight,
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,
@@ -498,16 +501,16 @@ const styles = StyleSheet.create({
   treinosAtuaisTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FF9800',
+    color: theme.warning,
     marginBottom: 12,
   },
   treinoAtualCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
     borderLeftWidth: 3,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: theme.warning,
   },
   treinoAtualHeader: {
     flexDirection: 'row',
@@ -518,41 +521,41 @@ const styles = StyleSheet.create({
   treinoAtualNome: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     flex: 1,
   },
   deleteTreinoAtualButton: {
-    backgroundColor: '#FFEBEE',
+    backgroundColor: theme.primaryLight,
     padding: 6,
     borderRadius: 6,
   },
   treinoAtualExercicios: {
     fontSize: 12,
-    color: '#666',
+    color: theme.textSecondary,
   },
   selecaoTreinosTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     marginBottom: 15,
     marginTop: 10,
   },
   emptyBiblioteca: {
     alignItems: 'center',
     padding: 40,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: theme.backgroundSecondary,
     borderRadius: 12,
     marginBottom: 20,
   },
   emptyBibliotecaText: {
     fontSize: 16,
-    color: '#666',
+    color: theme.textSecondary,
     marginTop: 15,
     fontWeight: '600',
   },
   emptyBibliotecaSubtext: {
     fontSize: 14,
-    color: '#999',
+    color: theme.textTertiary,
     marginTop: 5,
   },
   treinosPadraoList: {
@@ -560,15 +563,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   treinoPadraoCard: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: theme.backgroundSecondary,
     borderRadius: 12,
     padding: 15,
     borderWidth: 2,
-    borderColor: '#E0E0E0',
+    borderColor: theme.border,
   },
   treinoPadraoCardSelected: {
-    backgroundColor: '#E3F2FD',
-    borderColor: '#007AFF',
+    backgroundColor: theme.primaryLight,
+    borderColor: theme.primary,
   },
   treinoPadraoHeader: {
     flexDirection: 'row',
@@ -579,14 +582,14 @@ const styles = StyleSheet.create({
   treinoPadraoNome: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: theme.text,
     flex: 1,
   },
   treinoPadraoExercicios: {
     fontSize: 13,
-    color: '#666',
+    color: theme.textSecondary,
     marginLeft: 36,
   },
 });
 
-export default styles;
+export default getStyles;

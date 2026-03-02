@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../../shared/theme";
 
-const styles = StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
@@ -32,24 +33,24 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   progressContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: theme.divider,
   },
   progressInfo: {
     marginBottom: 10,
   },
   progressText: {
     fontSize: 16,
-    color: '#333',
+    color: theme.text,
     fontWeight: '600',
     marginBottom: 8,
   },
   completedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E8F5E9',
+    backgroundColor: theme.primaryLight,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -57,19 +58,19 @@ const styles = StyleSheet.create({
   },
   completedText: {
     fontSize: 14,
-    color: '#00C853',
+    color: theme.success,
     fontWeight: '600',
     marginLeft: 6,
   },
   progressBarContainer: {
     height: 8,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: theme.border,
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#00C853',
+    backgroundColor: theme.success,
     borderRadius: 4,
   },
   content: {
@@ -79,13 +80,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   exercicioCard: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
-    shadowColor: '#000',
+    borderColor: theme.border,
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   exercicioCardConcluido: {
-    borderColor: '#00C853',
-    backgroundColor: '#F1F8F4',
+    borderColor: theme.success,
+    backgroundColor: theme.primaryLight,
   },
   exercicioHeader: {
     marginBottom: 12,
@@ -109,11 +110,11 @@ const styles = StyleSheet.create({
   exercicioNome: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: theme.text,
     flex: 1,
   },
   exercicioNomeConcluido: {
-    color: '#00C853',
+    color: theme.success,
     textDecorationLine: 'line-through',
   },
   exercicioDetalhes: {
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: theme.divider,
   },
   detalheItem: {
     flexDirection: 'row',
@@ -130,24 +131,24 @@ const styles = StyleSheet.create({
   },
   detalheText: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSecondary,
     fontWeight: '500',
   },
   footer: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: theme.divider,
   },
   finalizarButton: {
-    backgroundColor: '#00C853',
+    backgroundColor: theme.success,
     borderRadius: 12,
     paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    shadowColor: '#00C853',
+    shadowColor: theme.success,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -163,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default getStyles;

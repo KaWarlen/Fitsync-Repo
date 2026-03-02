@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../../shared/theme";
 
-const styles = StyleSheet.create({
+export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.background,
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.primary,
     paddingTop: 60,
     paddingBottom: 30,
     paddingHorizontal: 30,
@@ -32,11 +33,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   section: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 15,
     padding: 20,
     marginBottom: 20,
-    shadowColor: '#000',
+    shadowColor: theme.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: theme.primary,
     marginBottom: 15,
   },
   infoRow: {
@@ -56,27 +57,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: theme.divider,
   },
   infoLabel: {
     fontSize: 16,
-    color: '#666',
+    color: theme.textSecondary,
     fontWeight: '600',
   },
   infoValue: {
     fontSize: 16,
-    color: '#333',
+    color: theme.text,
     fontWeight: '500',
     flex: 1,
     textAlign: 'right',
   },
   logoutButton: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: theme.error,
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 10,
-    shadowColor: '#FF3B30',
+    shadowColor: theme.error,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -92,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default getStyles;

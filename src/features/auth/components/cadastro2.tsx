@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from '../styles/cadastro2';
+import { getStyles } from '../styles/cadastro2';
 import { logger } from '../../../shared/services/logger';
+import { useTheme } from '../../../shared/theme';
 
 interface CadastroEtapa2Props {
   onNext?: (data: any) => void;
@@ -9,6 +10,8 @@ interface CadastroEtapa2Props {
 }
 
 export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) {
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
   const [doenca, setDoenca] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
@@ -41,7 +44,7 @@ export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) 
               <TextInput
                 style={[styles.input, { minHeight: 80, textAlignVertical: 'top' }]}
                 placeholder="Ex: Diabetes, Hipertensão, ou deixe vazio se não tiver"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={doenca}
                 onChangeText={setDoenca}
                 autoCapitalize="sentences"
@@ -55,7 +58,7 @@ export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) 
               <TextInput
                 style={styles.input}
                 placeholder="Ex: 70"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={peso}
                 onChangeText={setPeso}
                 keyboardType="numeric"
@@ -67,7 +70,7 @@ export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) 
               <TextInput
                 style={styles.input}
                 placeholder="Ex: 175"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.inputPlaceholder}
                 value={altura}
                 onChangeText={setAltura}
                 keyboardType="numeric"
