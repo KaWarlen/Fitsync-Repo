@@ -4,8 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Perfil';
 import { getUserData } from '../../../shared/services/storage';
 import { UserData } from '../../../shared/types';
+import { SharedComponentProps } from '../../../shared/types/navigation';
 
-export default function Perfil({ route, navigation }: any) {
+export default function Perfil({ route, navigation }: SharedComponentProps) {
   const [userData, setUserData] = useState<UserData>({});
 
   useEffect(() => {
@@ -16,13 +17,13 @@ export default function Perfil({ route, navigation }: any) {
     const data = await getUserData();
     if (data) {
       setUserData(data);
-    } else if (route.params?.userData) {
+    } else if (route?.params && 'userData' in route.params && route.params.userData) {
       setUserData(route.params.userData);
     }
   };
 
   const handleLogout = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Login', {});
   };
   return (
     <ScrollView style={styles.container}>

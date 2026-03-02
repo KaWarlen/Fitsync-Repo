@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logger } from '../../../shared/services/logger';
 
 // Chaves para AsyncStorage
 const AUTH_USER_KEY = '@fitsync_auth_user';
@@ -35,7 +36,7 @@ const getUserDatabase = async (): Promise<UserCredentials[]> => {
     const data = await AsyncStorage.getItem(USERS_DATABASE_KEY);
     return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error('Erro ao carregar base de usuários:', error);
+    logger.error('Erro ao carregar base de usuários:', error);
     return [];
   }
 };
@@ -45,7 +46,7 @@ const saveUserDatabase = async (users: UserCredentials[]): Promise<void> => {
   try {
     await AsyncStorage.setItem(USERS_DATABASE_KEY, JSON.stringify(users));
   } catch (error) {
-    console.error('Erro ao salvar base de usuários:', error);
+    logger.error('Erro ao salvar base de usuários:', error);
   }
 };
 
@@ -118,7 +119,7 @@ export const logout = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(AUTH_USER_KEY);
   } catch (error) {
-    console.error('Erro ao fazer logout:', error);
+    logger.error('Erro ao fazer logout:', error);
   }
 };
 
@@ -129,7 +130,7 @@ export const observeAuth = async (callback: (user: LocalUser | null) => void): P
     const user = userData ? JSON.parse(userData) : null;
     callback(user);
   } catch (error) {
-    console.error('Erro ao observar auth:', error);
+    logger.error('Erro ao observar auth:', error);
     callback(null);
   }
 };
@@ -140,7 +141,7 @@ export const getCurrentUser = async (): Promise<LocalUser | null> => {
     const userData = await AsyncStorage.getItem(AUTH_USER_KEY);
     return userData ? JSON.parse(userData) : null;
   } catch (error) {
-    console.error('Erro ao obter usuário atual:', error);
+    logger.error('Erro ao obter usuário atual:', error);
     return null;
   }
 };
@@ -149,8 +150,8 @@ export const getCurrentUser = async (): Promise<LocalUser | null> => {
 export const clearAllData = async (): Promise<void> => {
   try {
     await AsyncStorage.multiRemove([AUTH_USER_KEY, USERS_DATABASE_KEY]);
-    console.log('Base de dados local limpa');
+    logger.log('Base de dados local limpa');
   } catch (error) {
-    console.error('Erro ao limpar dados:', error);
+    logger.error('Erro ao limpar dados:', error);
   }
 };

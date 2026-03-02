@@ -2,12 +2,14 @@ import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Treinos';
+import { Treino } from '../../features/training/types';
+import { SharedComponentProps } from '../types/navigation';
 
-export default function Treinos({ navigation }: any) {
+export default function Treinos({ navigation }: SharedComponentProps) {
   // Lista começa vazia — treinos aparecem apenas quando vinculados por um Personal Trainer
-  const [treinos, setTreinos] = React.useState<any[]>([]);
+  const [treinos, setTreinos] = React.useState<Treino[]>([]);
 
-  const renderTreino = ({ item }: any) => (
+  const renderTreino = ({ item }: { item: Treino }) => (
     <TouchableOpacity style={styles.treinoCard} onPress={() => navigation.navigate('DetalheTreino', { treino: item })}>
       <View style={styles.treinoHeader}>
         <View style={styles.treinoHeaderRow}>
@@ -19,8 +21,8 @@ export default function Treinos({ navigation }: any) {
         <Text style={styles.treinoDia}>{item.dia}</Text>
       </View>
       <View style={styles.treinoFooter}>
-        <Text style={styles.treinoInfo}>⏱ {item.duracao}</Text>
-        <Text style={styles.treinoInfo}> {item.exercicios} exercícios</Text>
+        <Text style={styles.treinoInfo}>⏱ {item.duracao || 'N/A'}</Text>
+        <Text style={styles.treinoInfo}> {item.exercicios?.length || 0} exercícios</Text>
       </View>
     </TouchableOpacity>
   );

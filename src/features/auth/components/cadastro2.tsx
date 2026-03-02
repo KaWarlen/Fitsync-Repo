@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from '../styles/cadastro2';
+import { logger } from '../../../shared/services/logger';
 
 interface CadastroEtapa2Props {
   onNext?: (data: any) => void;
@@ -16,7 +17,7 @@ export default function CadastroEtapa2({ onNext, onBack }: CadastroEtapa2Props) 
     if (onNext) {
       onNext({ doenca, peso, altura });
     } else {
-      console.log('Etapa 2:', { doenca, peso, altura });
+      logger.debug('Etapa 2:', { doenca, peso, altura });
     }
   };
 

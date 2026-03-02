@@ -5,8 +5,9 @@ import CadastroEtapa3 from './cadastro3';
 import { Alert } from 'react-native';
 import { registerWithEmail } from '../services/auth';
 import { saveUserData } from '../../../shared/services/storage';
+import { CadastroProps } from '../../../shared/types/navigation';
 
-export default function CadastroFluxo({ navigation, route }: any) {
+export default function CadastroFluxo({ navigation, route }: CadastroProps) {
   const [etapaAtual, setEtapaAtual] = useState(1);
   const [dadosCadastro, setDadosCadastro] = useState({});
 

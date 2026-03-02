@@ -5,8 +5,9 @@ import styles from '../styles/TreinosCliente';
 import { Exercicio, Treino } from '../types';
 import { TrainingService } from '../services';
 import { DIAS_SEMANA } from '../constants';
+import { TreinosClienteProps } from '../../../shared/types/navigation';
 
-export default function TreinosCliente({ route, navigation }: any) {
+export default function TreinosCliente({ route, navigation }: TreinosClienteProps) {
   const { cliente, treinos } = route.params;
   const treinosCliente = treinos.filter((t: Treino) => t.clienteId === cliente.id);
   const [exerciciosConcluidos, setExerciciosConcluidos] = useState<Set<string>>(new Set());

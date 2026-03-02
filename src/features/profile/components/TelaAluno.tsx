@@ -3,12 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Treinos from '../../../shared/components/Treinos';
 import Perfil from './Perfil';
+import { TelaAlunoProps, AlunoTabParamList } from '../../../shared/types/navigation';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<AlunoTabParamList>();
 
-export default function TelaPrincipal({ navigation }: any) {
+export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
   const handleLogout = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Login', {});
   };
 
   return (

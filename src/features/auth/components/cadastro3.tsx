@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from '../styles/cadastro3';
+import { logger } from '../../../shared/services/logger';
 
 interface CadastroEtapa3Props {
   onFinish?: (data: any) => void;
@@ -25,7 +26,7 @@ export default function CadastroEtapa3({ onFinish, onBack }: CadastroEtapa3Props
     if (onFinish) {
       onFinish({ horario, focos });
     } else {
-      console.log('Cadastro Completo:', { horario, focos });
+      logger.debug('Cadastro Completo:', { horario, focos });
     }
   };
 

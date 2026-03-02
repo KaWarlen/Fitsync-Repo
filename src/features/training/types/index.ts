@@ -9,6 +9,10 @@ export interface Treino {
   treinadorId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  // Propriedades opcionais para compatibilidade com componentes mockados
+  dia?: string;
+  duracao?: string;
+  concluido?: boolean;
 }
 
 export interface TreinoPadrao {

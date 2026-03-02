@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
 import styles from '../styles/cadastro1';
+import { validateEmail, validatePassword, getEmailErrorMessage, getPasswordErrorMessage } from '../../../shared/utils/validation';
+import { logger } from '../../../shared/services/logger';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
@@ -20,14 +22,29 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
       Alert.alert('Campo obrigatório', 'Por favor, preencha seu primeiro nome');
       return;
     }
+    
+    // Validar email
     if (!email.trim()) {
       Alert.alert('Campo obrigatório', 'Por favor, preencha seu email');
       return;
     }
-    if (!senha.trim() || senha.length < 6) {
-      Alert.alert('Senha inválida', 'A senha deve ter pelo menos 6 caracteres');
+    if (!validateEmail(email)) {
+      const errorMsg = getEmailErrorMessage(email);
+      Alert.alert('Email inválido', errorMsg);
       return;
     }
+    
+    // Validar senha
+    if (!senha.trim()) {
+      Alert.alert('Campo obrigatório', 'Por favor, preencha sua senha');
+      return;
+    }
+    if (!validatePassword(senha)) {
+      const errorMsg = getPasswordErrorMessage(senha);
+      Alert.alert('Senha inválida', errorMsg);
+      return;
+    }
+    
     if (!idade.trim()) {
       Alert.alert('Campo obrigatório', 'Por favor, preencha sua idade');
       return;
@@ -40,7 +57,7 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
     if (onNext) {
       onNext({ primeiroNome, nomeDoMeio, email, senha, idade, sexo });
     } else {
-      console.log('Etapa 1:', { primeiroNome, nomeDoMeio, email, senha, idade, sexo });
+      logger.debug('Etapa 1:', { primeiroNome, nomeDoMeio, email: email.substring(0, 3) + '***', idade, sexo });
     }
   };
 

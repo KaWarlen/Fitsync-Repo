@@ -16,3 +16,6 @@ export interface UserData {
   horario?: string;
   focos?: string[];
 }
+
+// Navigation Types
+export * from './navigation';

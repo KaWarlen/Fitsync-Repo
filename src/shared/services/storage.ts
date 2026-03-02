@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserData } from '../types';
+import { logger } from './logger';
 
 const USER_DATA_KEY = '@fitsync_user_data';
 
@@ -8,7 +9,7 @@ export const saveUserData = async (data: UserData): Promise<void> => {
   try {
     await AsyncStorage.setItem(USER_DATA_KEY, JSON.stringify(data));
   } catch (error) {
-    console.error('Erro ao salvar dados do usuário:', error);
+    logger.error('Erro ao salvar dados do usuário:', error);
     throw error;
   }
 };
@@ -18,7 +19,7 @@ export const getUserData = async (): Promise<UserData | null> => {
     const data = await AsyncStorage.getItem(USER_DATA_KEY);
     return data ? JSON.parse(data) : null;
   } catch (error) {
-    console.error('Erro ao ler dados do usuário:', error);
+    logger.error('Erro ao ler dados do usuário:', error);
     return null;
   }
 };

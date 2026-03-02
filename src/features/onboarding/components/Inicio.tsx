@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Inicio';
 import { Image } from 'react-native';
+import { InicioProps } from '../../../shared/types/navigation';
 
-export default function Inicio({ navigation }: any) {
+export default function Inicio({ navigation }: InicioProps) {
   const handlePersonal = () => {
     navigation.navigate('Login', { userType: 'personal' });
   };

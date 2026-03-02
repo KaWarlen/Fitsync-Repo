@@ -6,8 +6,9 @@ import { Inicio } from '../features/onboarding';
 import { Login, CadastroFluxo } from '../features/auth';
 import { TelaAluno } from '../features/profile';
 import { AreaTreinador, DetalheTreino, TreinosCliente } from '../features/training';
+import { RootStackParamList } from './types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (

@@ -8,8 +8,9 @@ import { DIAS_SEMANA } from '../constants';
 import ClientesTab from './ClientesTab';
 import BibliotecaTab from './BibliotecaTab';
 import BottomNavigation from './BottomNavigation';
+import { AreaTreinadorProps } from '../../../shared/types/navigation';
 
-export default function AreaTreinador({ navigation }: any) {
+export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   const [activeTab, setActiveTab] = useState('clientes');
   const [showForm, setShowForm] = useState(false);
   const [showTreinoForm, setShowTreinoForm] = useState(false);
@@ -42,7 +43,7 @@ export default function AreaTreinador({ navigation }: any) {
   });
 
   const handleLogout = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Login', {});
   };
 
   const handleAddClient = () => {

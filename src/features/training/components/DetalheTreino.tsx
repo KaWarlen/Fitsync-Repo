@@ -6,8 +6,9 @@ import { Exercicio } from '../types';
 import { TrainingService } from '../services';
 import ExercicioCard from './ExercicioCard';
 import ProgressHeader from './ProgressHeader';
+import { DetalheTreinoProps } from '../../../shared/types/navigation';
 
-export default function DetalheTreino({ route, navigation }: any) {
+export default function DetalheTreino({ route, navigation }: DetalheTreinoProps) {
   const { treino } = route.params;
   
   const [exercicios, setExercicios] = useState<Exercicio[]>([
@@ -36,7 +37,7 @@ export default function DetalheTreino({ route, navigation }: any) {
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <Text style={styles.title}>{treino.nome}</Text>
-          <Text style={styles.subtitle}>{treino.dia}</Text>
+          <Text style={styles.subtitle}>{treino.descricao || 'Treino personalizado'}</Text>
         </View>
       </View>
 

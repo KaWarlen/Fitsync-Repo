@@ -3,8 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, P
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Login';
 import { loginWithEmail } from '../services/auth';
+import { LoginProps } from '../../../shared/types/navigation';
+import { validateEmail } from '../../../shared/utils/validation';
+import { logger } from '../../../shared/services/logger';
 
-export default function Login({ navigation, route }: any) {
+export default function Login({ navigation, route }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -13,8 +16,15 @@ export default function Login({ navigation, route }: any) {
   const userType = route?.params?.userType || 'aluno';
 
   const handleLogin = () => {
+    // Validar campos
     if (!email || !password) {
       Alert.alert('Erro', 'Preencha email e senha');
+      return;
+    }
+    
+    // Validar formato de email
+    if (!validateEmail(email)) {
+      Alert.alert('Email inválido', 'Digite um email válido (exemplo: usuario@email.com)');
       return;
     }
 
@@ -32,7 +42,8 @@ export default function Login({ navigation, route }: any) {
   };
 
   const handleForgotPassword = () => {
-    console.log('Esqueci minha senha');
+    logger.log('Função de recuperação de senha a ser implementada');
+    Alert.alert('Em desenvolvimento', 'Funcionalidade de recuperação de senha será implementada em breve');
   };
 
   const handleSignUp = () => {
@@ -41,7 +52,7 @@ export default function Login({ navigation, route }: any) {
 
   const handleTrainerAccess = () => {
     // Navega para área do treinador
-    navigation.navigate('AreaTreinador');
+    navigation.navigate('AreaTreinador', {});
   };
 
   return (
