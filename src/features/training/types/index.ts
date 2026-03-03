@@ -45,6 +45,7 @@ export interface Cliente {
   telefone?: string;
   objective?: string;
   level?: 'iniciante' | 'intermediario' | 'avancado';
+  linkStatus?: 'SEM_VINCULO' | 'PENDENTE' | 'ACEITO';
 }
 
 export interface TrainingSession {

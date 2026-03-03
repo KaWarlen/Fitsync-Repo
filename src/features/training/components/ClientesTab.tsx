@@ -13,9 +13,13 @@ interface ClientesTabProps {
   onChangeFormData: (data: ClienteFormData) => void;
   onAddClient: () => void;
   onConcluirCadastro: () => void;
+  onCancelCadastro: () => void;
   onMontarTreino: (cliente: Cliente) => void;
   onEditarTreino: (cliente: Cliente) => void;
   onMostrarTreino: (cliente: Cliente) => void;
+  onSolicitarVinculo: (cliente: Cliente) => void;
+  onRemoverVinculo: (cliente: Cliente) => void;
+  onVerDetalhes: (cliente: Cliente) => void;
   styles: any;
 }
 
@@ -27,9 +31,13 @@ export default function ClientesTab({
   onChangeFormData,
   onAddClient,
   onConcluirCadastro,
+  onCancelCadastro,
   onMontarTreino,
   onEditarTreino,
   onMostrarTreino,
+  onSolicitarVinculo,
+  onRemoverVinculo,
+  onVerDetalhes,
   styles
 }: ClientesTabProps) {
   return (
@@ -46,6 +54,7 @@ export default function ClientesTab({
           formData={formData}
           onChangeFormData={onChangeFormData}
           onConcluirCadastro={onConcluirCadastro}
+            onCancelForm={onCancelCadastro}
           styles={styles}
         />
       )}
@@ -63,6 +72,9 @@ export default function ClientesTab({
                 onMontarTreino={onMontarTreino}
                 onEditarTreino={onEditarTreino}
                 onMostrarTreino={onMostrarTreino}
+                onSolicitarVinculo={onSolicitarVinculo}
+                onRemoverVinculo={onRemoverVinculo}
+                onVerDetalhes={onVerDetalhes}
                 styles={styles}
               />
             );

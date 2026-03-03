@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/AreaTreinador';
 import { Cliente, Exercicio, Treino, TreinoPadrao, ClienteFormData, TreinoFormData } from '../types';
@@ -46,6 +46,12 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     repeticao: '',
     diaSemana: ''
   });
+  const [clienteDetalhe, setClienteDetalhe] = useState<Cliente | null>(null);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+
+  useEffect(() => {
+    loadClientesVinculados();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -62,15 +68,64 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     navigation.navigate('Settings', {});
   };
 
+  const mapClienteApi = (c: any): Cliente => ({
+    id: c.id || c.uid || '',
+    nome: c.name || c.nome || 'Aluno',
+    email: c.email || '',
+    telefone: c.telefone || c.phone,
+    linkStatus: c.linkStatus || 'ACEITO'
+  });
+
+  const loadClientesVinculados = async () => {
+    try {
+      const data = await TrainingService.getAlunosVinculados();
+      const lista = Array.isArray(data) ? data : (data as any)?.alunos || [];
+      const mapped = lista.map(mapClienteApi);
+      setClientes(mapped);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar seus alunos vinculados.');
+    }
+  };
+
   const handleAddClient = () => {
     setShowForm(true);
   };
 
-  const handleConcluirCadastro = () => {
-    if (TrainingService.validateCliente(formData)) {
-      setClientes([...clientes, { ...formData }]);
+  const handleConcluirCadastro = async () => {
+    if (!formData.id.trim()) {
+      Alert.alert('ID obrigatório', 'Informe apenas o ID do aluno para solicitar vínculo.');
+      return;
+    }
+
+    try {
+      const response = await TrainingService.requestVinculo(formData.id.trim());
+      const user = response?.user || response || {};
+      const novoCliente: Cliente = {
+        id: user.id || formData.id.trim(),
+        nome: user.name || formData.nome || 'Aluno',
+        email: user.email || formData.email || '',
+        telefone: formData.telefone,
+        linkStatus: user.linkStatus || 'PENDENTE'
+      };
+
+      const jaExiste = clientes.findIndex(c => c.id === novoCliente.id);
+      if (jaExiste >= 0) {
+        const copia = [...clientes];
+        copia[jaExiste] = novoCliente;
+        setClientes(copia);
+      } else {
+        setClientes([...clientes, novoCliente]);
+      }
+
+      Alert.alert('Solicitação enviada', 'Vínculo pendente de aprovação do aluno.');
       setFormData({ nome: '', email: '', telefone: '', id: '' });
       setShowForm(false);
+    } catch (error: any) {
+      const backendMsg = error?.response?.data?.error || error?.response?.data?.message;
+      const friendly = backendMsg?.includes('Já existe uma solicitação pendente')
+        ? 'Já existe uma solicitação pendente para este aluno. Aguarde a resposta ou remova a pendente antes de reenviar.'
+        : backendMsg || 'Tente novamente.';
+      Alert.alert('Não foi possível enviar', friendly);
     }
   };
 
@@ -95,13 +150,62 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     setTreinosPadrao(treinosAtualizados);
   };
 
+  const handleVerDetalhesCliente = (cliente: Cliente) => {
+    setClienteDetalhe(cliente);
+    setShowStatusModal(true);
+  };
+
+  const handleSolicitarVinculoCliente = async (cliente: Cliente) => {
+    try {
+      const response = await TrainingService.requestVinculo(cliente.id);
+      const user = response?.user || response || {};
+      const atualizado: Cliente = {
+        ...cliente,
+        nome: user.name || cliente.nome,
+        email: user.email || cliente.email,
+        linkStatus: user.linkStatus || 'PENDENTE'
+      };
+      setClientes(prev => prev.map(c => (c.id === cliente.id ? atualizado : c)));
+      Alert.alert('Solicitação enviada', 'Vínculo pendente de aprovação do aluno.');
+      setClienteDetalhe(atualizado);
+    } catch (error: any) {
+      const backendMsg = error?.response?.data?.error || error?.response?.data?.message;
+      const friendly = backendMsg?.includes('Já existe uma solicitação pendente')
+        ? 'Já existe uma solicitação pendente para este aluno. Aguarde a resposta ou remova a pendente antes de reenviar.'
+        : backendMsg || 'Tente novamente.';
+      Alert.alert('Não foi possível enviar', friendly);
+    }
+  };
+
+  const handleRemoverVinculoCliente = async (cliente: Cliente) => {
+    try {
+      await TrainingService.removeVinculo(cliente.id);
+      setClientes(prev => prev.filter(c => c.id !== cliente.id));
+      Alert.alert('Vínculo removido', 'O aluno foi desvinculado.');
+      if (clienteDetalhe?.id === cliente.id) {
+        setShowStatusModal(false);
+        setClienteDetalhe(null);
+      }
+    } catch (error: any) {
+      Alert.alert('Erro ao remover vínculo', error?.response?.data?.message || 'Tente novamente.');
+    }
+  };
+
   const handleMontarTreinoCliente = (cliente: Cliente) => {
+    if (cliente.linkStatus !== 'ACEITO') {
+      Alert.alert('Vínculo pendente', 'Só é possível montar treino após o aluno aceitar o vínculo.');
+      return;
+    }
     setSelectedCliente(cliente);
     setSelectedTreinosPadrao([]);
     setShowTreinoForm(true);
   };
 
   const handleEditarTreino = (cliente: Cliente) => {
+    if (cliente.linkStatus !== 'ACEITO') {
+      Alert.alert('Vínculo pendente', 'Só é possível editar treinos após o vínculo ser aceito.');
+      return;
+    }
     const treinoIndex = treinos.findIndex(t => t.clienteId === cliente.id);
     if (treinoIndex !== -1) {
       const treino = treinos[treinoIndex];
@@ -177,6 +281,10 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   };
 
   const handleMostrarTreino = (cliente: Cliente) => {
+    if (cliente.linkStatus !== 'ACEITO') {
+      Alert.alert('Vínculo pendente', 'Aguarde o aceite do aluno para visualizar treinos.');
+      return;
+    }
     navigation.navigate('TreinosCliente', { cliente, treinos });
   };
 
@@ -315,9 +423,16 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
             onChangeFormData={setFormData}
             onAddClient={handleAddClient}
             onConcluirCadastro={handleConcluirCadastro}
+            onCancelCadastro={() => {
+              setShowForm(false);
+              setFormData({ nome: '', email: '', telefone: '', id: '' });
+            }}
             onMontarTreino={handleMontarTreinoCliente}
             onEditarTreino={handleEditarTreino}
             onMostrarTreino={handleMostrarTreino}
+            onSolicitarVinculo={handleSolicitarVinculoCliente}
+            onRemoverVinculo={handleRemoverVinculoCliente}
+            onVerDetalhes={handleVerDetalhesCliente}
             styles={styles}
           />
         )}
@@ -629,6 +744,73 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
                 </TouchableOpacity>
               )}
             </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Status do Vínculo */}
+      <Modal
+        visible={showStatusModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowStatusModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Status do Vínculo</Text>
+              <TouchableOpacity onPress={() => setShowStatusModal(false)} style={styles.closeButton}>
+                <Ionicons name="close" size={28} color="#666" />
+              </TouchableOpacity>
+            </View>
+
+            {clienteDetalhe && (
+              <View style={{ gap: 12 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={styles.inputLabel}>Aluno</Text>
+                    <Text style={styles.modalTitle}>{clienteDetalhe.nome}</Text>
+                  </View>
+                  <View style={[styles.statusBadge, styles.statusPending]}> 
+                    <Ionicons name={clienteDetalhe.linkStatus === 'ACEITO' ? 'checkmark-circle' : clienteDetalhe.linkStatus === 'PENDENTE' ? 'time-outline' : 'unlink'} size={16} color={styles.statusBadgeText.color} />
+                    <Text style={styles.statusBadgeText}>{clienteDetalhe.linkStatus || 'SEM_VINCULO'}</Text>
+                  </View>
+                </View>
+
+                <View style={{ gap: 6 }}>
+                  <Text style={styles.inputLabel}>ID</Text>
+                  <Text style={styles.clientValue}>{clienteDetalhe.id}</Text>
+                  <Text style={styles.inputLabel}>Email</Text>
+                  <Text style={styles.clientValue}>{clienteDetalhe.email || 'Não informado'}</Text>
+                </View>
+
+                {clienteDetalhe.linkStatus === 'SEM_VINCULO' && (
+                  <TouchableOpacity style={styles.concludeButton} onPress={() => handleSolicitarVinculoCliente(clienteDetalhe)}>
+                    <Text style={styles.concludeButtonText}>Solicitar vínculo</Text>
+                  </TouchableOpacity>
+                )}
+
+                {clienteDetalhe.linkStatus === 'PENDENTE' && (
+                  <View style={{ gap: 10 }}>
+                    <View style={[styles.statusBadge, styles.statusPending, { alignSelf: 'flex-start' }]}> 
+                      <Ionicons name="time-outline" size={16} color={styles.statusBadgeText.color} />
+                      <Text style={styles.statusBadgeText}>Aguardando resposta do aluno</Text>
+                    </View>
+                    <TouchableOpacity style={styles.infoButton} onPress={() => handleRemoverVinculoCliente(clienteDetalhe)}>
+                      <Ionicons name="close-circle" size={18} color={styles.infoButtonText.color} />
+                      <Text style={styles.infoButtonText}>Cancelar pedido</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+
+                {clienteDetalhe.linkStatus === 'ACEITO' && (
+                  <TouchableOpacity style={styles.infoButton} onPress={() => handleRemoverVinculoCliente(clienteDetalhe)}>
+                    <Ionicons name="unlink" size={18} color={styles.infoButtonText.color} />
+                    <Text style={styles.infoButtonText}>Remover vínculo</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
           </View>
         </View>
       </Modal>

@@ -175,4 +175,48 @@ export class TrainingService {
     const response = await api.post('/treinos-padrao', treino);
     return response.data;
   }
+
+  // -----------------------------
+  // VÍNCULOS PERSONAL/ALUNO
+  // -----------------------------
+
+  /**
+   * Lista alunos vinculados ao personal autenticado (status ACEITO)
+   */
+  static async getAlunosVinculados(): Promise<Cliente[]> {
+    const response = await api.get('/users/alunos');
+    return response.data;
+  }
+
+  /**
+   * Solicita vínculo com um aluno (gera status PENDENTE no backend)
+   */
+  static async requestVinculo(alunoId: string): Promise<any> {
+    const response = await api.patch('/users/link/request', { alunoId });
+    return response.data;
+  }
+
+  /**
+   * Remove vínculo existente (status ACEITO) com um aluno
+   */
+  static async removeVinculo(alunoId: string): Promise<any> {
+    const response = await api.patch('/users/link/remove', { alunoId });
+    return response.data;
+  }
+
+  /**
+   * Para ALUNO: obtém solicitação pendente (se existir)
+   */
+  static async getPendingLink(): Promise<any> {
+    const response = await api.get('/users/link/pending');
+    return response.data;
+  }
+
+  /**
+   * Para ALUNO: responde à solicitação de vínculo
+   */
+  static async respondLink(accept: boolean): Promise<any> {
+    const response = await api.patch('/users/link/respond', { accept });
+    return response.data;
+  }
 }

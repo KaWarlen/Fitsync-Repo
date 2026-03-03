@@ -222,12 +222,14 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
-  clientInfoContainer: {
+  clientHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginBottom: 15,
+    gap: 12,
   },
-  clientInfo: {
+  clientInfoBlock: {
     flex: 1,
   },
   clientLabel: {
@@ -239,6 +241,28 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
     fontSize: 16,
     color: theme.text,
     fontWeight: '600',
+  },
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+  },
+  statusBadgeText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  statusNeutral: {
+    backgroundColor: theme.inputBorder,
+  },
+  statusPending: {
+    backgroundColor: '#FFC107',
+  },
+  statusAccepted: {
+    backgroundColor: theme.success,
   },
   treinoClientCard: {
     backgroundColor: theme.card,
@@ -286,6 +310,21 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
+  },
+  infoButton: {
+    backgroundColor: theme.primaryLight,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  infoButtonText: {
+    color: theme.primary,
+    fontSize: 14,
+    fontWeight: '700',
   },
   treinoInputRow: {
     flexDirection: 'row',
