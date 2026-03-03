@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, P
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/Login';
 import { AuthAPI } from '../services/auth'; // Nova API
+import { removeToken } from '../../../shared/services/api';
 import { LoginProps } from '../../../shared/types/navigation';
 import { validateEmail } from '../../../shared/utils/validation';
 import { logger } from '../../../shared/services/logger';
@@ -43,8 +44,23 @@ export default function Login({ navigation, route }: LoginProps) {
       
       logger.log('Login bem-sucedido:', response.user);
       
+      const role = response.user.role; // 'PERSONAL' | 'ALUNO'
+      const expected = userType === 'personal' ? 'PERSONAL' : 'ALUNO';
+
+      if (role !== expected) {
+        // Role não condiz com a escolha da tela inicial
+        await removeToken();
+        Alert.alert(
+          'Tipo de acesso incorreto',
+          role === 'PERSONAL'
+            ? 'Esta conta é de Personal. Use a opção "Sou Personal Trainer".'
+            : 'Esta conta é de Aluno. Use a opção "Sou Aluno".',
+        );
+        return;
+      }
+
       // Navegar baseado no tipo de usuário
-      if (response.user.role === 'PERSONAL') {
+      if (role === 'PERSONAL') {
         navigation.navigate('AreaTreinador', { 
           userData: { 
             email: response.user.email, 

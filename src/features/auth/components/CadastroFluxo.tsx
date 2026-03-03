@@ -5,6 +5,7 @@ import CadastroEtapa3 from './cadastro3';
 import { Alert } from 'react-native';
 import { AuthAPI } from '../services/auth'; // Nova API
 import { CadastroProps } from '../../../shared/types/navigation';
+import { removeToken } from '../../../shared/services/api';
 
 export default function CadastroFluxo({ navigation, route }: CadastroProps) {
   const [etapaAtual, setEtapaAtual] = useState(1);
@@ -78,6 +79,23 @@ export default function CadastroFluxo({ navigation, route }: CadastroProps) {
 
       // Registrar via API real
       const response = await AuthAPI.register(userData);
+
+      const role = response.user.role; // 'PERSONAL' | 'ALUNO'
+      const expected = userType === 'personal' ? 'PERSONAL' : 'ALUNO';
+
+      if (role !== expected) {
+        // Bloqueia avanço e volta para etapa inicial se o backend retornar outro role
+        await removeToken();
+        setEtapaAtual(1);
+        setDadosCadastro({});
+        Alert.alert(
+          'Tipo de acesso incorreto',
+          role === 'PERSONAL'
+            ? 'Esta conta é de Personal. Use a opção "Sou Personal Trainer".'
+            : 'Esta conta é de Aluno. Use a opção "Sou Aluno".',
+        );
+        return;
+      }
       
       console.log(' Usuário registrado:', response.user);
       
