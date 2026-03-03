@@ -5,11 +5,7 @@ export { default as App } from './App';
 export { default as Treinos } from './components/Treinos';
 
 // Shared Services
-export * from './services/storage';
-export * from './services/logger';
+export { api, setToken, removeToken, logger } from './services';
 
-// Shared Utils
-export * from './utils/validation';
-
-// Shared Types
-export * from './types/index';
+// Shared Types - apenas os essenciais
+export type { RootStackParamList } from './types/navigation';

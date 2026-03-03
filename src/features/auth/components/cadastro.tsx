@@ -7,15 +7,18 @@ import { useTheme } from '../../../shared/theme';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
+  userType?: string; // Adicionando userType para saber se é personal ou aluno
 }
 
-export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
+export default function CadastroEtapa1({ onNext, userType = 'aluno' }: CadastroEtapa1Props) {
   const { theme } = useTheme();
   const styles = getStyles(theme);
   const [primeiroNome, setPrimeiroNome] = useState('');
   const [nomeDoMeio, setNomeDoMeio] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [formacao, setFormacao] = useState(''); // Campo training para Personal
   const [idade, setIdade] = useState('');
   const [sexo, setSexo] = useState('');
 
@@ -48,19 +51,36 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
       return;
     }
     
-    if (!idade.trim()) {
-      Alert.alert('Campo obrigatório', 'Por favor, preencha sua idade');
+    // Validar telefone
+    if (!telefone.trim()) {
+      Alert.alert('Campo obrigatório', 'Por favor, preencha seu telefone');
       return;
     }
-    if (!sexo) {
-      Alert.alert('Campo obrigatório', 'Por favor, selecione seu sexo');
-      return;
+    
+    // Validações específicas para personal
+    if (userType === 'personal') {
+      if (!formacao.trim()) {
+        Alert.alert('Campo obrigatório', 'Por favor, preencha sua área de formação/especialização');
+        return;
+      }
+    }
+    
+    // Validações específicas para alunos
+    if (userType === 'aluno') {
+      if (!idade.trim()) {
+        Alert.alert('Campo obrigatório', 'Por favor, preencha sua idade');
+        return;
+      }
+      if (!sexo) {
+        Alert.alert('Campo obrigatório', 'Por favor, selecione seu sexo');
+        return;
+      }
     }
 
     if (onNext) {
-      onNext({ primeiroNome, nomeDoMeio, email, senha, idade, sexo });
+      onNext({ primeiroNome, nomeDoMeio, email, senha, telefone, formacao, idade, sexo });
     } else {
-      logger.debug('Etapa 1:', { primeiroNome, nomeDoMeio, email: email.substring(0, 3) + '***', idade, sexo });
+      logger.debug('Etapa 1:', { primeiroNome, nomeDoMeio, email: email.substring(0, 3) + '***', telefone, formacao, idade, sexo });
     }
   };
 
@@ -72,8 +92,12 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.content}>
           <View style={styles.header}>
-            <Text style={styles.stepIndicator}>Etapa 1 de 3</Text>
-            <Text style={styles.subtitle}>Vamos conhecer você</Text>
+            <Text style={styles.stepIndicator}>
+              {userType === 'personal' ? 'Cadastro Personal' : 'Etapa 1 de 3'}
+            </Text>
+            <Text style={styles.subtitle}>
+              {userType === 'personal' ? 'Dados profissionais' : 'Vamos conhecer você'}
+            </Text>
           </View>
 
           {/* Formulário */}
@@ -117,6 +141,34 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
             </View>
 
             <View style={styles.inputContainer}>
+              <Text style={styles.label}>Telefone</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="(11) 99999-9999"
+                placeholderTextColor={theme.inputPlaceholder}
+                value={telefone}
+                onChangeText={setTelefone}
+                keyboardType="phone-pad"
+                autoCorrect={false}
+              />
+            </View>
+
+            {/* Campo específico para Personal */}
+            {userType === 'personal' && (
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Área de Formação/Especialização</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ex: Musculação, Crossfit, Pilates..."
+                  placeholderTextColor={theme.inputPlaceholder}
+                  value={formacao}
+                  onChangeText={setFormacao}
+                  autoCapitalize="words"
+                />
+              </View>
+            )}
+
+            <View style={styles.inputContainer}>
               <Text style={styles.label}>Senha</Text>
               <TextInput
                 style={styles.input}
@@ -129,51 +181,58 @@ export default function CadastroEtapa1({ onNext }: CadastroEtapa1Props) {
               />
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Qual é a sua idade?</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ex: 25"
-                placeholderTextColor={theme.inputPlaceholder}
-                value={idade}
-                onChangeText={setIdade}
-                keyboardType="numeric"
-                maxLength={3}
-              />
-            </View>
+            {/* Campos específicos para Alunos */}
+            {userType === 'aluno' && (
+              <>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Qual é a sua idade?</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Ex: 25"
+                    placeholderTextColor={theme.inputPlaceholder}
+                    value={idade}
+                    onChangeText={setIdade}
+                    keyboardType="numeric"
+                    maxLength={3}
+                  />
+                </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Qual é o seu sexo?</Text>
-              <View style={styles.sexButtonContainer}>
-                <TouchableOpacity 
-                  style={[styles.sexButton, sexo === 'Masculino' && styles.sexButtonSelected]}
-                  onPress={() => setSexo('Masculino')}
-                >
-                  <Text style={[styles.sexButtonText, sexo === 'Masculino' && styles.sexButtonTextSelected]}>
-                    Masculino
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[styles.sexButton, sexo === 'Feminino' && styles.sexButtonSelected]}
-                  onPress={() => setSexo('Feminino')}
-                >
-                  <Text style={[styles.sexButtonText, sexo === 'Feminino' && styles.sexButtonTextSelected]}>
-                    Feminino
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[styles.sexButton, sexo === 'Outro' && styles.sexButtonSelected]}
-                  onPress={() => setSexo('Outro')}
-                >
-                  <Text style={[styles.sexButtonText, sexo === 'Outro' && styles.sexButtonTextSelected]}>
-                    Outro
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Qual é o seu sexo?</Text>
+                  <View style={styles.sexButtonContainer}>
+                    <TouchableOpacity 
+                      style={[styles.sexButton, sexo === 'Masculino' && styles.sexButtonSelected]}
+                      onPress={() => setSexo('Masculino')}
+                    >
+                      <Text style={[styles.sexButtonText, sexo === 'Masculino' && styles.sexButtonTextSelected]}>
+                        Masculino
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={[styles.sexButton, sexo === 'Feminino' && styles.sexButtonSelected]}
+                      onPress={() => setSexo('Feminino')}
+                    >
+                      <Text style={[styles.sexButtonText, sexo === 'Feminino' && styles.sexButtonTextSelected]}>
+                        Feminino
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={[styles.sexButton, sexo === 'Outro' && styles.sexButtonSelected]}
+                      onPress={() => setSexo('Outro')}
+                    >
+                      <Text style={[styles.sexButtonText, sexo === 'Outro' && styles.sexButtonTextSelected]}>
+                        Outro
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            )}
 
             <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-              <Text style={styles.nextButtonText}>Continuar</Text>
+              <Text style={styles.nextButtonText}>
+                {userType === 'personal' ? 'Finalizar Cadastro' : 'Continuar'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

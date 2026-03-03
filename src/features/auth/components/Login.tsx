@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/Login';
-import { loginWithEmail } from '../services/auth';
+import { AuthAPI } from '../services/auth'; // Nova API
 import { LoginProps } from '../../../shared/types/navigation';
 import { validateEmail } from '../../../shared/utils/validation';
 import { logger } from '../../../shared/services/logger';
@@ -23,7 +23,7 @@ export default function Login({ navigation, route }: LoginProps) {
     ? require('../../../../assets/Fitsync-dark.png')
     : require('../../../../assets/FitSync.png');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Validar campos
     if (!email || !password) {
       Alert.alert('Erro', 'Preencha email e senha');
@@ -37,16 +37,49 @@ export default function Login({ navigation, route }: LoginProps) {
     }
 
     setLoading(true);
-    loginWithEmail(email, password)
-      .then(({ user }) => {
-        const destino = userType === 'personal' ? 'AreaTreinador' : 'TelaAluno';
-        navigation.navigate(destino, { userData: { email: user.email, uid: user.uid, userType } });
-      })
-      .catch((err) => {
-        const message = err?.message || 'Erro ao fazer login';
-        Alert.alert('Login falhou', message);
-      })
-      .finally(() => setLoading(false));
+    
+    try {
+      const response = await AuthAPI.login({ email, password });
+      
+      logger.log('Login bem-sucedido:', response.user);
+      
+      // Navegar baseado no tipo de usuário
+      if (response.user.role === 'PERSONAL') {
+        navigation.navigate('AreaTreinador', { 
+          userData: { 
+            email: response.user.email, 
+            uid: response.user.id,
+            userType: 'personal'
+          } 
+        });
+      } else {
+        navigation.navigate('TelaAluno', { 
+          userData: { 
+            email: response.user.email, 
+            uid: response.user.id,
+            userType: 'aluno'
+          } 
+        });
+      }
+      
+    } catch (error: any) {
+      logger.error('Erro no login:', error);
+      
+      // Tratar diferentes tipos de erro
+      let message = 'Erro ao fazer login. Tente novamente.';
+      
+      if (error.response?.status === 401) {
+        message = 'Email ou senha incorretos';
+      } else if (error.response?.status === 404) {
+        message = 'Usuário não encontrado';
+      } else if (!error.response) {
+        message = 'Erro de conexão. Verifique sua internet e se a API está rodando.';
+      }
+      
+      Alert.alert('Login falhou', message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleForgotPassword = () => {

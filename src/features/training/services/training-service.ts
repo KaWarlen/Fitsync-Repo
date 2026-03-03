@@ -1,4 +1,5 @@
 import { Cliente, Treino, TreinoPadrao, Exercicio } from '../types';
+import { api } from '../../../shared/services/api';
 
 /**
  * Serviço para gerenciar operações relacionadas a treinos
@@ -68,16 +69,16 @@ export class TrainingService {
   }
 
   /**
-   * Busca treinos de um cliente específico
+   * Filtra treinos de um cliente específico (utilitário local)
    */
-  static getTreinosCliente(clienteId: string, treinos: Treino[]): Treino[] {
+  static filterTreinosCliente(clienteId: string, treinos: Treino[]): Treino[] {
     return treinos.filter(t => t.clienteId === clienteId);
   }
 
   /**
-   * Cria um novo treino padrão
+   * Cria um objeto de treino padrão (utilitário local)
    */
-  static createTreinoPadrao(nomeTreino: string, exercicios: Exercicio[]): TreinoPadrao {
+  static createTreinoPadraoLocal(nomeTreino: string, exercicios: Exercicio[]): TreinoPadrao {
     return {
       id: Date.now().toString(),
       nomeTreino,
@@ -115,5 +116,63 @@ export class TrainingService {
     const percentual = total > 0 ? Math.round((concluidos / total) * 100) : 0;
 
     return { total, concluidos, percentual };
+  }
+
+  // MÉTODOS DE API - Comunicação com o backend
+
+  /**
+   * Busca todos os clientes do treinador
+   */
+  static async getClientes(): Promise<Cliente[]> {
+    const response = await api.get('/clientes');
+    return response.data;
+  }
+
+  /**
+   * Cria um novo cliente
+   */
+  static async createCliente(cliente: Omit<Cliente, 'id'>): Promise<Cliente> {
+    const response = await api.post('/clientes', cliente);
+    return response.data;
+  }
+
+  /**
+   * Busca treinos de um cliente específico
+   */
+  static async getTreinosCliente(clienteId: string): Promise<Treino[]> {
+    const response = await api.get(`/clientes/${clienteId}/treinos`);
+    return response.data;
+  }
+
+  /**
+   * Cria um novo treino para um cliente
+   */
+  static async createTreino(treino: Omit<Treino, 'id'>): Promise<Treino> {
+    const response = await api.post('/treinos', treino);
+    return response.data;
+  }
+
+  /**
+   * Atualiza um treino existente
+   */
+  static async updateTreino(treinoId: string, treino: Partial<Treino>): Promise<Treino> {
+    const response = await api.put(`/treinos/${treinoId}`, treino);
+    return response.data;
+  }
+
+  /**
+   * Busca todos os treinos padrão (biblioteca)
+   */
+  static async getTreinosPadrao(): Promise<TreinoPadrao[]> {
+    const response = await api.get('/treinos-padrao');
+    return response.data;
+  }
+
+  /**
+   * Cria um novo treino padrão
+   */
+  static async createTreinoPadrao(treino: Omit<TreinoPadrao, 'id'>): Promise<TreinoPadrao> {
+    const response = await api.post('/treinos-padrao', treino);
+    return response.data;
   }
 }
