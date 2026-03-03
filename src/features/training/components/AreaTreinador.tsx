@@ -10,6 +10,8 @@ import BibliotecaTab from './BibliotecaTab';
 import BottomNavigation from './BottomNavigation';
 import { AreaTreinadorProps } from '../../../shared/types/navigation';
 import { useTheme } from '../../../shared/theme';
+import { AuthAPI } from '../../auth/services/auth';
+import { logout as localLogout } from '../../auth/services/local-auth';
 
 export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   const { theme } = useTheme();
@@ -45,8 +47,15 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     diaSemana: ''
   });
 
-  const handleLogout = () => {
-    navigation.navigate('Login', {});
+  const handleLogout = async () => {
+    try {
+      await Promise.all([
+        AuthAPI.logout(),
+        localLogout()
+      ]);
+    } finally {
+      navigation.navigate('Login', {});
+    }
   };
 
   const handleSettings = () => {

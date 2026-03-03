@@ -91,11 +91,6 @@ export default function Login({ navigation, route }: LoginProps) {
     navigation.navigate('Cadastro', { userType });
   };
 
-  const handleTrainerAccess = () => {
-    // Navega para área do treinador
-    navigation.navigate('AreaTreinador', {});
-  };
-
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

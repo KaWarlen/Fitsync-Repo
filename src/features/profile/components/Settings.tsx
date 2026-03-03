@@ -4,13 +4,22 @@ import { Ionicons } from '@expo/vector-icons';
 import getStyles from '../styles/Settings';
 import { useTheme } from '../../../shared/theme';
 import { SettingsProps } from '../../../shared/types/navigation';
+import { AuthAPI } from '../../auth/services/auth';
+import { logout as localLogout } from '../../auth/services/local-auth';
 
 export default function Settings({ navigation }: SettingsProps) {
   const { theme, isDark, toggleTheme } = useTheme();
   const styles = getStyles(theme);
 
-  const handleLogout = () => {
-    navigation.navigate('Login', {});
+  const handleLogout = async () => {
+    try {
+      await Promise.all([
+        AuthAPI.logout(),
+        localLogout()
+      ]);
+    } finally {
+      navigation.navigate('Login', {});
+    }
   };
 
   const handleNavigate = (screen: string) => {

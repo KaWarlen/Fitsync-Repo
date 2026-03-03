@@ -6,6 +6,8 @@ import { getUserData } from '../../../shared/services/storage';
 import { UserData } from '../../../shared/types';
 import { SharedComponentProps } from '../../../shared/types/navigation';
 import { useTheme } from '../../../shared/theme';
+import { AuthAPI } from '../../auth/services/auth';
+import { logout as localLogout } from '../../auth/services/local-auth';
 
 export default function Perfil({ route, navigation }: SharedComponentProps) {
   const { theme } = useTheme();
@@ -25,8 +27,15 @@ export default function Perfil({ route, navigation }: SharedComponentProps) {
     }
   };
 
-  const handleLogout = () => {
-    navigation.navigate('Login', {});
+  const handleLogout = async () => {
+    try {
+      await Promise.all([
+        AuthAPI.logout(),
+        localLogout()
+      ]);
+    } finally {
+      navigation.navigate('Login', {});
+    }
   };
   return (
     <ScrollView style={styles.container}>
