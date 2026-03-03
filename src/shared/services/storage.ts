@@ -24,3 +24,11 @@ export const getUserData = async (): Promise<UserData | null> => {
   }
 };
 
+export const removeUserData = async (): Promise<void> => {
+  try {
+    await AsyncStorage.removeItem(USER_DATA_KEY);
+  } catch (error) {
+    logger.error('Erro ao remover dados do usuário:', error);
+  }
+};
+

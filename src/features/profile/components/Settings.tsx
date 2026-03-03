@@ -7,11 +7,13 @@ import { SettingsProps } from '../../../shared/types/navigation';
 import { AuthAPI } from '../../auth/services/auth';
 import { logout as localLogout } from '../../auth/services/local-auth';
 
-export default function Settings({ navigation }: SettingsProps) {
+export default function Settings({ navigation, route }: SettingsProps) {
   const { theme, isDark, toggleTheme } = useTheme();
   const styles = getStyles(theme);
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const userData = route.params?.userData;
+  const userId = userData?.uid;
 
   const handleLogout = async () => {
     if (loggingOut || deleting) return;
@@ -32,6 +34,10 @@ export default function Settings({ navigation }: SettingsProps) {
 
   const handleDeleteAccount = () => {
     if (deleting || loggingOut) return;
+    if (!userId) {
+      Alert.alert('Erro', 'Não foi possível identificar sua conta. Faça login novamente.');
+      return;
+    }
     Alert.alert(
       'Encerrar conta',
       'Isso vai remover sua conta e vínculos. Deseja continuar?',
@@ -43,7 +49,7 @@ export default function Settings({ navigation }: SettingsProps) {
           onPress: async () => {
             setDeleting(true);
             try {
-              await AuthAPI.deleteAccount();
+              await AuthAPI.deleteAccount(userId);
               await localLogout();
               navigation.reset({
                 index: 0,

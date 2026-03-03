@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/AreaTreinador';
@@ -14,9 +14,10 @@ import { AuthAPI } from '../../auth/services/auth';
 import { logout as localLogout } from '../../auth/services/local-auth';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
+export default function AreaTreinador({ navigation, route }: AreaTreinadorProps) {
   const { theme } = useTheme();
   const styles = getStyles(theme);
+  const userData = route.params?.userData;
   const [activeTab, setActiveTab] = useState('clientes');
   const [showForm, setShowForm] = useState(false);
   const [showTreinoForm, setShowTreinoForm] = useState(false);
@@ -51,10 +52,6 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const prevClienteIds = useRef<string[]>([]);
 
-  useEffect(() => {
-    loadClientesVinculados();
-  }, []);
-
   useFocusEffect(
     useCallback(() => {
       loadClientesVinculados();
@@ -77,7 +74,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   };
 
   const handleSettings = () => {
-    navigation.navigate('Settings', {});
+    navigation.navigate('Settings', { userData });
   };
 
   const mapClienteApi = (c: any): Cliente => ({

@@ -1,29 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/Perfil';
-import { getUserData } from '../../../shared/services/storage';
+import { getUserData, saveUserData } from '../../../shared/services/storage';
 import { UserData } from '../../../shared/types';
 import { SharedComponentProps } from '../../../shared/types/navigation';
 import { useTheme } from '../../../shared/theme';
 import { AuthAPI } from '../../auth/services/auth';
 import { logout as localLogout } from '../../auth/services/local-auth';
+import { useFocusEffect } from '@react-navigation/native';
+import { api } from '../../../shared/services/api';
+import { mapProfilePayloadToUserData } from '../../../shared/services/profile';
+
+const mapRouteUserToUserData = (routeUser?: any): UserData | undefined => {
+  if (!routeUser) return undefined;
+  return {
+    uid: routeUser.uid,
+    email: routeUser.email,
+    userType: routeUser.userType,
+    primeiroNome: routeUser.name || routeUser.email?.split('@')[0] || 'Usuário',
+  };
+};
 
 export default function Perfil({ route, navigation }: SharedComponentProps) {
   const { theme } = useTheme();
   const styles = getStyles(theme);
   const [userData, setUserData] = useState<UserData>({});
+  const isAluno = userData.userType === 'aluno';
+  const isPersonal = userData.userType === 'personal';
 
   useEffect(() => {
     loadUserData();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      loadUserData();
+      return () => {};
+    }, [])
+  );
+
+  const refreshProfile = useCallback(async (baseData?: UserData) => {
+    try {
+      const response = await api.get('/users/profile');
+      const payload = response.data || {};
+      const enriched = mapProfilePayloadToUserData(baseData || userData || mapRouteUserToUserData(route?.params?.userData), payload);
+      setUserData(enriched);
+      await saveUserData(enriched);
+    } catch (error: any) {
+      console.warn('Não foi possível atualizar perfil remoto:', error?.response?.data || error?.message || error);
+    }
+  }, [route?.params?.userData, userData]);
+
   const loadUserData = async () => {
     const data = await getUserData();
     if (data) {
       setUserData(data);
-    } else if (route?.params && 'userData' in route.params && route.params.userData) {
-      setUserData(route.params.userData);
+      refreshProfile(data);
+      return;
+    }
+
+    const routeUserData = route?.params?.userData;
+    if (routeUserData) {
+      const base = mapRouteUserToUserData(routeUserData);
+      if (base) {
+        setUserData(base);
+        refreshProfile(base);
+      }
     }
   };
 
@@ -119,6 +162,61 @@ export default function Perfil({ route, navigation }: SharedComponentProps) {
             </Text>
           </View>
         </View>
+
+        {isAluno && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Status do Vínculo</Text>
+
+            <View style={styles.infoRow}>
+              <Text style={styles.infoLabel}>Situação:</Text>
+              <Text style={styles.infoValue}>{userData.linkStatus || 'Sem vínculo'}</Text>
+            </View>
+
+            {userData.personal && (
+              <>
+                <View style={styles.infoRow}>
+                  <Text style={styles.infoLabel}>Personal:</Text>
+                  <Text style={styles.infoValue}>{userData.personal.name || 'Não vinculado'}</Text>
+                </View>
+                <View style={styles.infoRow}>
+                  <Text style={styles.infoLabel}>Email do Personal:</Text>
+                  <Text style={styles.infoValue}>{userData.personal.email || 'Não informado'}</Text>
+                </View>
+                <View style={styles.infoRow}>
+                  <Text style={styles.infoLabel}>Telefone:</Text>
+                  <Text style={styles.infoValue}>{userData.personal.phone || 'Não informado'}</Text>
+                </View>
+              </>
+            )}
+          </View>
+        )}
+
+        {isPersonal && (userData.training || (userData.linkedStudents && userData.linkedStudents.length > 0)) && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Informações do Personal</Text>
+
+            {userData.training && (
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Formação/Treinamento:</Text>
+                <Text style={styles.infoValue}>{userData.training}</Text>
+              </View>
+            )}
+
+            {userData.linkedStudents && userData.linkedStudents.length > 0 && (
+              <View style={{ marginTop: 12 }}>
+                <Text style={[styles.infoLabel, { marginBottom: 6 }]}>Alunos vinculados:</Text>
+                {userData.linkedStudents.map((student, index) => (
+                  <View key={student.id || student.email || `aluno-${index}`} style={[styles.infoRow, { marginBottom: 4 }]}>
+                    <Text style={styles.infoValue}>
+                      {student.name || 'Aluno'}
+                      {student.linkStatus ? ` (${student.linkStatus})` : ''}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        )}
 
         {/* Botão de Logout */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

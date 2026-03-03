@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Treinos from '../../../shared/components/Treinos';
@@ -11,17 +11,11 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator<AlunoTabParamList>();
 
-export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
+export default function TelaPrincipal({ navigation, route }: TelaAlunoProps) {
   const { theme } = useTheme();
-  const checkedPending = useRef(false);
   const [pendingVisible, setPendingVisible] = useState(false);
   const [pendingInfo, setPendingInfo] = useState<{ personalName: string } | null>(null);
-  
-  useEffect(() => {
-    if (checkedPending.current) return;
-    checkedPending.current = true;
-    checkPendingLink();
-  }, []);
+  const userData = route.params?.userData;
 
   useFocusEffect(
     React.useCallback(() => {
@@ -46,7 +40,7 @@ export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
   };
   
   const handleSettings = () => {
-    navigation.navigate('Settings', {});
+    navigation.navigate('Settings', { userData });
   };
 
   return (
