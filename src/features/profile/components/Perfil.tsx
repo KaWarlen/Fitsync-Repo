@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/Perfil';
@@ -12,63 +12,77 @@ import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../../../shared/services/api';
 import { mapProfilePayloadToUserData } from '../../../shared/services/profile';
 
-const mapRouteUserToUserData = (routeUser?: any): UserData | undefined => {
-  if (!routeUser) return undefined;
-  return {
-    uid: routeUser.uid,
-    email: routeUser.email,
-    userType: routeUser.userType,
-    primeiroNome: routeUser.name || routeUser.email?.split('@')[0] || 'Usuário',
-  };
-};
-
 export default function Perfil({ route, navigation }: SharedComponentProps) {
   const { theme } = useTheme();
   const styles = getStyles(theme);
   const [userData, setUserData] = useState<UserData>({});
+  const userDataRef = useRef<UserData | undefined>(undefined);
   const isAluno = userData.userType === 'aluno';
   const isPersonal = userData.userType === 'personal';
 
+  const routeUser = route?.params?.userData;
+  const routeUserPayload = useMemo(() => {
+    if (!routeUser) {
+      return undefined;
+    }
+    return {
+      user: {
+        id: routeUser.uid,
+        email: routeUser.email,
+        role: routeUser.userType === 'personal' ? 'PERSONAL' : 'ALUNO',
+        name: routeUser.name || routeUser.email?.split('@')[0],
+      },
+    };
+  }, [routeUser]);
+
+  const loadUserData = useCallback(async () => {
+    const cached = await getUserData();
+    if (cached) {
+      setUserData(cached);
+      return;
+    }
+
+    if (routeUserPayload) {
+      const base = mapProfilePayloadToUserData(undefined, routeUserPayload);
+      setUserData(base);
+      await saveUserData(base);
+    }
+  }, [routeUserPayload]);
+
   useEffect(() => {
     loadUserData();
-  }, []);
+  }, [loadUserData]);
 
-  useFocusEffect(
-    useCallback(() => {
-      loadUserData();
-      return () => {};
-    }, [])
-  );
+  useEffect(() => {
+    userDataRef.current = userData;
+  }, [userData]);
 
-  const refreshProfile = useCallback(async (baseData?: UserData) => {
+  const refreshProfile = useCallback(async () => {
+    const currentData = userDataRef.current;
+    if (!currentData?.uid && !routeUserPayload) {
+      return;
+    }
+
     try {
       const response = await api.get('/users/profile');
       const payload = response.data || {};
-      const enriched = mapProfilePayloadToUserData(baseData || userData || mapRouteUserToUserData(route?.params?.userData), payload);
+      const fallbackBase = !currentData?.uid && routeUserPayload
+        ? mapProfilePayloadToUserData(undefined, routeUserPayload)
+        : undefined;
+      const enriched = mapProfilePayloadToUserData(currentData?.uid ? currentData : fallbackBase, payload);
       setUserData(enriched);
       await saveUserData(enriched);
     } catch (error: any) {
       console.warn('Não foi possível atualizar perfil remoto:', error?.response?.data || error?.message || error);
     }
-  }, [route?.params?.userData, userData]);
+  }, [routeUserPayload]);
 
-  const loadUserData = async () => {
-    const data = await getUserData();
-    if (data) {
-      setUserData(data);
-      refreshProfile(data);
-      return;
-    }
-
-    const routeUserData = route?.params?.userData;
-    if (routeUserData) {
-      const base = mapRouteUserToUserData(routeUserData);
-      if (base) {
-        setUserData(base);
-        refreshProfile(base);
-      }
-    }
-  };
+  useFocusEffect(
+    useCallback(() => {
+      refreshProfile();
+      return () => {};
+    }, [refreshProfile])
+  );
 
   const handleLogout = async () => {
     try {
