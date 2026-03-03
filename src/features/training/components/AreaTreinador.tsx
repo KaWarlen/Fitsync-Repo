@@ -258,7 +258,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
         setTreinosPadrao(treinosAtualizados);
       } else {
         // Modo criação de treino padrão
-        const novoTreinoPadrao = TrainingService.createTreinoPadrao(
+        const novoTreinoPadrao = TrainingService.createTreinoPadraoLocal(
           treinoFormData.nomeTreino,
           exerciciosAtuais
         );
