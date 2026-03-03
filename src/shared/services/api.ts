@@ -32,8 +32,12 @@ const removeToken = async (): Promise<void> => {
   }
 };
 
-// Configuração da API usando variáveis de ambiente
-const apiUrl = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000';
+// Configuração da API usando variáveis de ambiente (falha cedo se faltar env)
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
+if (!apiUrl) {
+  throw new Error('EXPO_PUBLIC_API_URL não está definida');
+}
 
 console.log('API URL configurada:', apiUrl);
 
