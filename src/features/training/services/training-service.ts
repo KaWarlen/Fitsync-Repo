@@ -205,6 +205,14 @@ export class TrainingService {
   }
 
   /**
+   * Busca um aluno específico (personal autenticado)
+   */
+  static async getAlunoById(alunoId: string): Promise<Cliente> {
+    const response = await api.get(`/users/aluno/${alunoId}`);
+    return response.data;
+  }
+
+  /**
    * Para ALUNO: obtém solicitação pendente (se existir)
    */
   static async getPendingLink(): Promise<any> {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/AreaTreinador';
@@ -12,6 +12,7 @@ import { AreaTreinadorProps } from '../../../shared/types/navigation';
 import { useTheme } from '../../../shared/theme';
 import { AuthAPI } from '../../auth/services/auth';
 import { logout as localLogout } from '../../auth/services/local-auth';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   const { theme } = useTheme();
@@ -52,6 +53,13 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   useEffect(() => {
     loadClientesVinculados();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadClientesVinculados();
+      return () => {};
+    }, [])
+  );
 
   const handleLogout = async () => {
     try {
@@ -150,8 +158,14 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     setTreinosPadrao(treinosAtualizados);
   };
 
-  const handleVerDetalhesCliente = (cliente: Cliente) => {
-    setClienteDetalhe(cliente);
+  const handleVerDetalhesCliente = async (cliente: Cliente) => {
+    try {
+      const fresh = await TrainingService.getAlunoById(cliente.id);
+      const mapped = mapClienteApi(fresh);
+      setClienteDetalhe(mapped);
+    } catch {
+      setClienteDetalhe(cliente);
+    }
     setShowStatusModal(true);
   };
 
@@ -168,6 +182,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
       setClientes(prev => prev.map(c => (c.id === cliente.id ? atualizado : c)));
       Alert.alert('Solicitação enviada', 'Vínculo pendente de aprovação do aluno.');
       setClienteDetalhe(atualizado);
+      loadClientesVinculados();
     } catch (error: any) {
       const backendMsg = error?.response?.data?.error || error?.response?.data?.message;
       const friendly = backendMsg?.includes('Já existe uma solicitação pendente')
@@ -181,10 +196,13 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
     try {
       await TrainingService.removeVinculo(cliente.id);
       setClientes(prev => prev.filter(c => c.id !== cliente.id));
+      setTreinos(prev => prev.filter(t => t.clienteId !== cliente.id));
+      loadClientesVinculados();
       Alert.alert('Vínculo removido', 'O aluno foi desvinculado.');
       if (clienteDetalhe?.id === cliente.id) {
         setShowStatusModal(false);
         setClienteDetalhe(null);
+        loadClientesVinculados();
       }
     } catch (error: any) {
       Alert.alert('Erro ao remover vínculo', error?.response?.data?.message || 'Tente novamente.');

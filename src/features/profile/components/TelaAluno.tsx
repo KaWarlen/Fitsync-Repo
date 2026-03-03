@@ -7,6 +7,7 @@ import { TelaAlunoProps, AlunoTabParamList } from '../../../shared/types/navigat
 import { useTheme } from '../../../shared/theme';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { TrainingService } from '../../training/services';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator<AlunoTabParamList>();
 
@@ -21,6 +22,13 @@ export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
     checkedPending.current = true;
     checkPendingLink();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      checkPendingLink();
+      return () => {};
+    }, [])
+  );
   
   const checkPendingLink = async () => {
     try {
@@ -119,6 +127,7 @@ export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
                   await TrainingService.respondLink(false);
                 } catch {}
                 setPendingVisible(false);
+                await checkPendingLink();
               }}
             >
               <Text style={{ color: theme.buttonText, fontWeight: '700' }}>Recusar</Text>
@@ -132,6 +141,7 @@ export default function TelaPrincipal({ navigation }: TelaAlunoProps) {
                   // Silencia erro pontual; experiência amigável
                 }
                 setPendingVisible(false);
+                await checkPendingLink();
               }}
             >
               <Text style={{ color: theme.buttonText, fontWeight: '700' }}>Aceitar</Text>
