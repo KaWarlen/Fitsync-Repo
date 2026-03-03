@@ -34,7 +34,10 @@ export default function Perfil({ route, navigation }: SharedComponentProps) {
         localLogout()
       ]);
     } finally {
-      navigation.navigate('Login', {});
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Inicio' }]
+      });
     }
   };
   return (

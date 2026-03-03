@@ -18,7 +18,10 @@ export default function Settings({ navigation }: SettingsProps) {
         localLogout()
       ]);
     } finally {
-      navigation.navigate('Login', {});
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Inicio' }]
+      });
     }
   };
 

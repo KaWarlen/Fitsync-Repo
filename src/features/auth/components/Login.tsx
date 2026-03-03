@@ -59,22 +59,38 @@ export default function Login({ navigation, route }: LoginProps) {
         return;
       }
 
-      // Navegar baseado no tipo de usuário
+      // Navegar baseado no tipo de usuário (reset para evitar voltar pro login)
       if (role === 'PERSONAL') {
-        navigation.navigate('AreaTreinador', { 
-          userData: { 
-            email: response.user.email, 
-            uid: response.user.id,
-            userType: 'personal'
-          } 
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'AreaTreinador',
+              params: {
+                userData: {
+                  email: response.user.email,
+                  uid: response.user.id,
+                  userType: 'personal'
+                }
+              }
+            }
+          ]
         });
       } else {
-        navigation.navigate('TelaAluno', { 
-          userData: { 
-            email: response.user.email, 
-            uid: response.user.id,
-            userType: 'aluno'
-          } 
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'TelaAluno',
+              params: {
+                userData: {
+                  email: response.user.email,
+                  uid: response.user.id,
+                  userType: 'aluno'
+                }
+              }
+            }
+          ]
         });
       }
       

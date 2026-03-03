@@ -99,22 +99,38 @@ export default function CadastroFluxo({ navigation, route }: CadastroProps) {
       
       console.log(' Usuário registrado:', response.user);
       
-      // Navegar para a tela apropriada
+      // Navegar para a tela apropriada (reset para evitar voltar para o fluxo de cadastro/login)
       if (response.user.role === 'PERSONAL') {
-        navigation.navigate('AreaTreinador', { 
-          userData: { 
-            email: response.user.email, 
-            uid: response.user.id,
-            userType: 'personal'
-          } 
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'AreaTreinador',
+              params: {
+                userData: {
+                  email: response.user.email,
+                  uid: response.user.id,
+                  userType: 'personal'
+                }
+              }
+            }
+          ]
         });
       } else {
-        navigation.navigate('TelaAluno', { 
-          userData: { 
-            email: response.user.email, 
-            uid: response.user.id,
-            userType: 'aluno'
-          } 
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'TelaAluno',
+              params: {
+                userData: {
+                  email: response.user.email,
+                  uid: response.user.id,
+                  userType: 'aluno'
+                }
+              }
+            }
+          ]
         });
       }
       

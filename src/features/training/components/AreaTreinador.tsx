@@ -68,7 +68,10 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
         localLogout()
       ]);
     } finally {
-      navigation.navigate('Login', {});
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Inicio' }]
+      });
     }
   };
 
