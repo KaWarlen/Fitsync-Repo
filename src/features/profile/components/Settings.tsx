@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Switch, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import getStyles from '../styles/Settings';
 import { useTheme } from '../../../shared/theme';
@@ -10,19 +10,54 @@ import { logout as localLogout } from '../../auth/services/local-auth';
 export default function Settings({ navigation }: SettingsProps) {
   const { theme, isDark, toggleTheme } = useTheme();
   const styles = getStyles(theme);
+  const [deleting, setDeleting] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    if (loggingOut || deleting) return;
+    setLoggingOut(true);
     try {
       await Promise.all([
         AuthAPI.logout(),
         localLogout()
       ]);
     } finally {
+      setLoggingOut(false);
       navigation.reset({
         index: 0,
         routes: [{ name: 'Inicio' }]
       });
     }
+  };
+
+  const handleDeleteAccount = () => {
+    if (deleting || loggingOut) return;
+    Alert.alert(
+      'Encerrar conta',
+      'Isso vai remover sua conta e vínculos. Deseja continuar?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Encerrar',
+          style: 'destructive',
+          onPress: async () => {
+            setDeleting(true);
+            try {
+              await AuthAPI.deleteAccount();
+              await localLogout();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Inicio' }]
+              });
+            } catch (error) {
+              Alert.alert('Erro', 'Não foi possível encerrar a conta. Tente novamente.');
+            } finally {
+              setDeleting(false);
+            }
+          }
+        }
+      ]
+    );
   };
 
   const handleNavigate = (screen: string) => {
@@ -158,9 +193,27 @@ export default function Settings({ navigation }: SettingsProps) {
         <TouchableOpacity 
           style={styles.logoutButton}
           onPress={handleLogout}
+          disabled={loggingOut || deleting}
         >
-          <Ionicons name="log-out" size={24} color={theme.error} />
+          {loggingOut ? (
+            <ActivityIndicator color={theme.error} />
+          ) : (
+            <Ionicons name="log-out" size={24} color={theme.error} />
+          )}
           <Text style={styles.logoutButtonText}>Sair da Conta</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.deleteButton}
+          onPress={handleDeleteAccount}
+          disabled={deleting || loggingOut}
+        >
+          {deleting ? (
+            <ActivityIndicator color={theme.buttonText} />
+          ) : (
+            <Ionicons name="trash" size={24} color={theme.buttonText} />
+          )}
+          <Text style={styles.deleteButtonText}>Encerrar Conta</Text>
         </TouchableOpacity>
 
       </ScrollView>

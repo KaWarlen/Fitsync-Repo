@@ -71,6 +71,13 @@ export const AuthAPI = {
     console.log('Logout realizado - token removido');
   },
 
+  // Encerrar conta do usuário autenticado
+  async deleteAccount(): Promise<void> {
+    await api.delete('/users/me');
+    await removeToken();
+    console.log('Conta encerrada - token removido');
+  },
+
   // Verificar se está logado (verifica se tem token válido)
   async isLoggedIn(): Promise<boolean> {
     try {

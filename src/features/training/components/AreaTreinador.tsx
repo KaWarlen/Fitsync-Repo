@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/AreaTreinador';
@@ -49,6 +49,7 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
   });
   const [clienteDetalhe, setClienteDetalhe] = useState<Cliente | null>(null);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const prevClienteIds = useRef<string[]>([]);
 
   useEffect(() => {
     loadClientesVinculados();
@@ -92,6 +93,18 @@ export default function AreaTreinador({ navigation }: AreaTreinadorProps) {
       const data = await TrainingService.getAlunosVinculados();
       const lista = Array.isArray(data) ? data : (data as any)?.alunos || [];
       const mapped = lista.map(mapClienteApi);
+      const newIds = mapped.map((c: Cliente) => c.id);
+
+      // Detecta removidos (ex.: aluno encerrou conta ou rompeu vínculo)
+      const removedIds = prevClienteIds.current.filter(id => !newIds.includes(id));
+      if (removedIds.length > 0) {
+        Alert.alert(
+          'Vínculo encerrado',
+          'Um aluno vinculado encerrou a conta ou rompeu o vínculo.',
+        );
+      }
+
+      prevClienteIds.current = newIds;
       setClientes(mapped);
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível carregar seus alunos vinculados.');

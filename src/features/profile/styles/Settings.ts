@@ -94,6 +94,24 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
     color: theme.error,
     marginLeft: 10,
   },
+  deleteButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.error,
+    padding: 16,
+    borderRadius: 12,
+    marginHorizontal: 20,
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: theme.error,
+  },
+  deleteButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: theme.buttonText,
+    marginLeft: 10,
+  },
 });
 
 export default getStyles;
