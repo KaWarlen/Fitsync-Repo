@@ -2,10 +2,10 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Chave para armazenar o token
-const TOKEN_KEY = '@fitsync_token';
+export const TOKEN_KEY = '@fitsync_token';
 
 // Função para buscar o token do AsyncStorage
-const getToken = async (): Promise<string | null> => {
+export const getToken = async (): Promise<string | null> => {
   try {
     return await AsyncStorage.getItem(TOKEN_KEY);
   } catch (error) {

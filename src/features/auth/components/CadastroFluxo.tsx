@@ -15,11 +15,12 @@ export default function CadastroFluxo({ navigation, route }: CadastroProps) {
   const userType = route?.params?.userType || 'aluno';
 
   const handleNextEtapa1 = (data: any) => {
-    setDadosCadastro({ ...dadosCadastro, ...data });
+    const mergedData = { ...dadosCadastro, ...data };
+    setDadosCadastro(mergedData);
     
     // Personal vai direto para finalização (não precisa de mais dados)
     if (userType === 'personal') {
-      handleFinish({}); // Finaliza com dados da etapa 1 apenas
+      handleFinish(mergedData); // Finaliza com dados acumulados da etapa 1
     } else {
       // Aluno continua para etapa 2
       setEtapaAtual(2);

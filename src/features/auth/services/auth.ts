@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveUserData, removeUserData } from '../../../shared/services/storage';
 import { UserData } from '../../../shared/types';
 import { mapProfilePayloadToUserData } from '../../../shared/services/profile';
+import { connectSocket, disconnectSocket } from '../../../shared/services/socket';
 
 // Tipos para a API
 interface LoginRequest {
@@ -87,6 +88,9 @@ export const AuthAPI = {
     await setToken(token);
     const profileData = await buildUserProfileData(user);
     await saveUserData(profileData);
+    if (profileData.userType === 'personal') {
+      connectSocket(token);
+    }
     console.log('Login realizado com sucesso para:', user.name);
     
     return response.data;
@@ -100,6 +104,9 @@ export const AuthAPI = {
     await setToken(token);
     const profileData = await buildUserProfileData(user);
     await saveUserData(profileData);
+    if (profileData.userType === 'personal') {
+      connectSocket(token);
+    }
     console.log('Registro realizado com sucesso para:', user.name);
     
     return response.data;
@@ -112,6 +119,7 @@ export const AuthAPI = {
       removeToken(),
       removeUserData()
     ]);
+    disconnectSocket();
     console.log('Logout realizado - token e perfil removidos');
   },
 
@@ -126,6 +134,7 @@ export const AuthAPI = {
       removeToken(),
       removeUserData()
     ]);
+    disconnectSocket();
     console.log('Conta encerrada - dados locais removidos');
   },
 
