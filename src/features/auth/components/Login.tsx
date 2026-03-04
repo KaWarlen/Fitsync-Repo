@@ -15,6 +15,7 @@ export default function Login({ navigation, route }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Recebe userType da tela Inicio ('personal' ou 'aluno')
   const userType = route?.params?.userType || 'aluno';
@@ -166,9 +167,16 @@ export default function Login({ navigation, route }: LoginProps) {
                 placeholderTextColor={theme.inputPlaceholder}
                 value={password}
                 onChangeText={setPassword}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 autoCapitalize="none"
               />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+                <Ionicons 
+                  name={showPassword ? "eye-off-outline" : "eye-outline"} 
+                  size={20} 
+                  color={theme.iconInactive} 
+                />
+              </TouchableOpacity>
             </View>
           </View>
 

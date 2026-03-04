@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/cadastro3';
 import { logger } from '../../../shared/services/logger';
 import { useTheme } from '../../../shared/theme';
@@ -48,6 +49,13 @@ export default function CadastroEtapa3({ onFinish, onBack }: CadastroEtapa3Props
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+      {/* Botão de voltar */}
+      {onBack && (
+        <TouchableOpacity style={styles.backIconButton} onPress={onBack}>
+          <Ionicons name="arrow-back" size={24} color={theme.text} />
+        </TouchableOpacity>
+      )}
+      
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.content}>
           {/* Header */}

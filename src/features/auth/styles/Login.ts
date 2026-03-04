@@ -59,6 +59,10 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   inputIcon: {
     marginRight: 10,
   },
+  eyeIcon: {
+    padding: 5,
+    marginLeft: 5,
+  },
   inputWithIcon: {
     flex: 1,
     paddingVertical: 15,

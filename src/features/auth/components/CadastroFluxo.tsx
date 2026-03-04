@@ -185,6 +185,7 @@ export default function CadastroFluxo({ navigation, route }: CadastroProps) {
       {etapaAtual === 1 && (
         <CadastroEtapa1 
           onNext={handleNextEtapa1}
+          onBack={() => navigation.goBack()}
           userType={userType}
         />
       )}
