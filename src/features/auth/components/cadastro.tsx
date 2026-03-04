@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/cadastro1';
 import { validateEmail, validatePassword, getEmailErrorMessage, getPasswordErrorMessage } from '../../../shared/utils/validation';
 import { logger } from '../../../shared/services/logger';
@@ -7,10 +8,11 @@ import { useTheme } from '../../../shared/theme';
 
 interface CadastroEtapa1Props {
   onNext?: (data: any) => void;
+  onBack?: () => void;
   userType?: string; // Adicionando userType para saber se é personal ou aluno
 }
 
-export default function CadastroEtapa1({ onNext, userType = 'aluno' }: CadastroEtapa1Props) {
+export default function CadastroEtapa1({ onNext, onBack, userType = 'aluno' }: CadastroEtapa1Props) {
   const { theme } = useTheme();
   const styles = getStyles(theme);
   const [primeiroNome, setPrimeiroNome] = useState('');
@@ -21,6 +23,7 @@ export default function CadastroEtapa1({ onNext, userType = 'aluno' }: CadastroE
   const [formacao, setFormacao] = useState(''); // Campo training para Personal
   const [idade, setIdade] = useState('');
   const [sexo, setSexo] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleNext = () => {
     // Validar campos obrigatórios
@@ -89,6 +92,13 @@ export default function CadastroEtapa1({ onNext, userType = 'aluno' }: CadastroE
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+      {/* Botão de voltar */}
+      {onBack && (
+        <TouchableOpacity style={styles.backIconButton} onPress={onBack}>
+          <Ionicons name="arrow-back" size={24} color={theme.text} />
+        </TouchableOpacity>
+      )}
+      
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.content}>
           <View style={styles.header}>
@@ -170,15 +180,24 @@ export default function CadastroEtapa1({ onNext, userType = 'aluno' }: CadastroE
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Senha</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="••••••••"
-                placeholderTextColor={theme.inputPlaceholder}
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry
-                autoCapitalize="none"
-              />
+              <View style={styles.passwordInputWrapper}>
+                <TextInput
+                  style={styles.passwordInput}
+                  placeholder="••••••••"
+                  placeholderTextColor={theme.inputPlaceholder}
+                  value={senha}
+                  onChangeText={setSenha}
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                />
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIconButton}>
+                  <Ionicons 
+                    name={showPassword ? "eye-off-outline" : "eye-outline"} 
+                    size={22} 
+                    color={theme.iconInactive} 
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* Campos específicos para Alunos */}

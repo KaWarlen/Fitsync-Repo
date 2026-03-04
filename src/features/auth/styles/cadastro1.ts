@@ -9,6 +9,26 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
   },
+  backIconButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    zIndex: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: theme.card,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
   skipButton: {
     position: 'absolute',
     top: 50,
@@ -71,6 +91,25 @@ export const getStyles = (theme: ThemeColors) => StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.inputBorder,
     color: theme.text,
+  },
+  passwordInputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.inputBackground,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: theme.inputBorder,
+  },
+  passwordInput: {
+    flex: 1,
+    paddingVertical: 15,
+    fontSize: 16,
+    color: theme.text,
+  },
+  eyeIconButton: {
+    padding: 5,
+    marginLeft: 5,
   },
   sexButtonContainer: {
     flexDirection: 'row',
