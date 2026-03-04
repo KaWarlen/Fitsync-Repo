@@ -8,6 +8,9 @@ import { TelaAluno, Settings } from '../features/profile';
 import { AreaTreinador, DetalheTreino, TreinosCliente } from '../features/training';
 import { RootStackParamList } from './types/navigation';
 import { ThemeProvider, useTheme } from './theme';
+import { VinculoProvider } from './context/VinculoContext';
+import { VinculoPersonalProvider } from './context/VinculoPersonalContext';
+import { navigationRef } from './navigation/navigationRef';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,23 +19,27 @@ function AppNavigator() {
   
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator 
-          initialRouteName="Inicio"
-          screenOptions={{
-            headerShown: false,
-            animation: 'none', // Desabilita animações
-          }}
-        >
-          <Stack.Screen name="Inicio" component={Inicio} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Cadastro" component={CadastroFluxo} />
-          <Stack.Screen name="TelaAluno" component={TelaAluno} />
-          <Stack.Screen name="DetalheTreino" component={DetalheTreino} />
-          <Stack.Screen name="AreaTreinador" component={AreaTreinador} />
-          <Stack.Screen name="TreinosCliente" component={TreinosCliente} />
-          <Stack.Screen name="Settings" component={Settings} />
-        </Stack.Navigator>
+      <NavigationContainer ref={navigationRef}>
+        <VinculoProvider>
+          <VinculoPersonalProvider>
+            <Stack.Navigator 
+              initialRouteName="Inicio"
+              screenOptions={{
+                headerShown: false,
+                animation: 'none', // Desabilita animações
+              }}
+            >
+              <Stack.Screen name="Inicio" component={Inicio} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Cadastro" component={CadastroFluxo} />
+              <Stack.Screen name="TelaAluno" component={TelaAluno} />
+              <Stack.Screen name="DetalheTreino" component={DetalheTreino} />
+              <Stack.Screen name="AreaTreinador" component={AreaTreinador} />
+              <Stack.Screen name="TreinosCliente" component={TreinosCliente} />
+              <Stack.Screen name="Settings" component={Settings} />
+            </Stack.Navigator>
+          </VinculoPersonalProvider>
+        </VinculoProvider>
       </NavigationContainer>
       <StatusBar style={isDark ? 'light' : 'dark'} />
     </>

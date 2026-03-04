@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useVinculoPersonal } from '../../../shared/context/VinculoPersonalContext';
 import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStyles } from '../styles/AreaTreinador';
@@ -30,6 +31,33 @@ export default function AreaTreinador({ navigation, route }: AreaTreinadorProps)
   const [selectedTreinosPadrao, setSelectedTreinosPadrao] = useState<string[]>([]);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [treinos, setTreinos] = useState<Treino[]>([]);
+
+  // Real-time vínculo response for personal
+  const { respostaVinculo, setRespostaVinculo } = useVinculoPersonal();
+  useEffect(() => {
+    if (respostaVinculo && respostaVinculo.alunoId) {
+      setClientes((prevClientes: Cliente[]) => prevClientes.map((cliente: Cliente) =>
+        cliente.id === respostaVinculo.alunoId
+          ? { ...cliente, linkStatus: respostaVinculo.accepted ? 'ACEITO' : 'SEM_VINCULO' }
+          : cliente
+      ));
+      Alert.alert(
+        'Resposta do aluno',
+        respostaVinculo.accepted
+          ? `O aluno ${respostaVinculo.alunoName || ''} aceitou o vínculo!`
+          : `O aluno ${respostaVinculo.alunoName || ''} recusou o vínculo.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setRespostaVinculo(null);
+            },
+          },
+        ]
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [respostaVinculo]);
   const [treinosPadrao, setTreinosPadrao] = useState<TreinoPadrao[]>([]);
   const [exerciciosAtuais, setExerciciosAtuais] = useState<Exercicio[]>([]);
   const [formData, setFormData] = useState<ClienteFormData>({

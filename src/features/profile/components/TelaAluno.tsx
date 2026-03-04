@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Treinos from '../../../shared/components/Treinos';
@@ -8,40 +8,27 @@ import { useTheme } from '../../../shared/theme';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { TrainingService } from '../../training/services';
 import { useFocusEffect } from '@react-navigation/native';
+import { useVinculo } from '../../../shared/context/VinculoContext';
 
 const Tab = createBottomTabNavigator<AlunoTabParamList>();
 
 export default function TelaPrincipal({ navigation, route }: TelaAlunoProps) {
   const { theme } = useTheme();
-  const [pendingVisible, setPendingVisible] = useState(false);
-  const [pendingInfo, setPendingInfo] = useState<{ personalName: string } | null>(null);
+  const { listaDeVinculosPendentes, modalVinculoAberto, setModalVinculoAberto, refreshVinculos } = useVinculo();
   const userData = route.params?.userData;
 
   useFocusEffect(
     React.useCallback(() => {
-      checkPendingLink();
+      refreshVinculos();
       return () => {};
-    }, [])
+    }, [refreshVinculos])
   );
-  
-  const checkPendingLink = async () => {
-    try {
-      const data = await TrainingService.getPendingLink();
-      if (!data) return;
-
-      const personalName = data.personal?.name || data.personalName || 'Personal Trainer';
-      const isPending = data.linkStatus === 'PENDENTE' || data.pending === true || data.status === 'PENDENTE';
-      if (!isPending) return;
-      setPendingInfo({ personalName });
-      setPendingVisible(true);
-    } catch (error) {
-      // Não exibe erro para o aluno se não houver solicitação
-    }
-  };
   
   const handleSettings = () => {
     navigation.navigate('Settings', { userData });
   };
+
+  const pendingInfo = listaDeVinculosPendentes[0];
 
   return (
     <>
@@ -101,12 +88,12 @@ export default function TelaPrincipal({ navigation, route }: TelaAlunoProps) {
         }}
       />
     </Tab.Navigator>
-    <Modal visible={pendingVisible} transparent animationType="fade" onRequestClose={() => setPendingVisible(false)}>
+    <Modal visible={modalVinculoAberto} transparent animationType="fade" onRequestClose={() => setModalVinculoAberto(false)}>
       <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
         <View style={{ backgroundColor: theme.card, borderRadius: 16, padding: 20, width: '100%', maxWidth: 420 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <Text style={{ fontSize: 18, fontWeight: '700', color: theme.text }}>Solicitação de vínculo</Text>
-            <TouchableOpacity onPress={() => setPendingVisible(false)}>
+            <TouchableOpacity onPress={() => setModalVinculoAberto(false)}>
               <Ionicons name="close" size={24} color={theme.icon} />
             </TouchableOpacity>
           </View>
@@ -120,8 +107,8 @@ export default function TelaPrincipal({ navigation, route }: TelaAlunoProps) {
                 try {
                   await TrainingService.respondLink(false);
                 } catch {}
-                setPendingVisible(false);
-                await checkPendingLink();
+                setModalVinculoAberto(false);
+                await refreshVinculos({ suppressModal: true });
               }}
             >
               <Text style={{ color: theme.buttonText, fontWeight: '700' }}>Recusar</Text>
@@ -134,8 +121,8 @@ export default function TelaPrincipal({ navigation, route }: TelaAlunoProps) {
                 } catch {
                   // Silencia erro pontual; experiência amigável
                 }
-                setPendingVisible(false);
-                await checkPendingLink();
+                setModalVinculoAberto(false);
+                await refreshVinculos({ suppressModal: true });
               }}
             >
               <Text style={{ color: theme.buttonText, fontWeight: '700' }}>Aceitar</Text>
